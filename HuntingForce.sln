@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HuntingForce", "HuntingForce\HuntingForce.csproj", "{5B00DA33-3E68-41DD-BB3B-0CFE621C24D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{D6199432-81AE-49A5-9AB3-2784D8600450}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{5B00DA33-3E68-41DD-BB3B-0CFE621C24D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B00DA33-3E68-41DD-BB3B-0CFE621C24D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B00DA33-3E68-41DD-BB3B-0CFE621C24D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6199432-81AE-49A5-9AB3-2784D8600450}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6199432-81AE-49A5-9AB3-2784D8600450}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6199432-81AE-49A5-9AB3-2784D8600450}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6199432-81AE-49A5-9AB3-2784D8600450}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

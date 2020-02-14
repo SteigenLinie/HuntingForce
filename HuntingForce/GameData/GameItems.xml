@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<GameItems>
+  <Weapons>
+    <Weapon ID="1001" Name="Pointy stick" MinimumDamage="1" MaximumDamage="2"/>
+    <Weapon ID="1002" Name="Rusty sword" MinimumDamage="1" MaximumDamage="3"/>
+    <Weapon ID="1501" Name="Snake fang" MinimumDamage="0" MaximumDamage="2"/>
+    <Weapon ID="1502" Name="Rat claw"  MinimumDamage="0" MaximumDamage="2"/>
+    <Weapon ID="1503" Name="Spider fang" MinimumDamage="0" MaximumDamage="4"/>
+  </Weapons>
+</GameItems>
