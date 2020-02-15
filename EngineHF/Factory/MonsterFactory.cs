@@ -13,7 +13,7 @@ namespace EngineHF.Factory
     public class MonsterFactory
     {
         private const string GAME_DATA_FILENAME = "./Data/Monsters.xml";
-        public static readonly List<Monster> _baseMonsters = new List<Monster>();
+        internal static readonly List<Monster> _baseMonsters = new List<Monster>();
 
         public MonsterFactory()
         {

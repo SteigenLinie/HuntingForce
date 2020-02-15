@@ -24,8 +24,15 @@ namespace HuntingForce
         {
             InitializeComponent();
             DataContext = new MainWindowViewModel();
+            Button button = new Button();
+            button = new Button();
+            button.Background = Brushes.Black;
+            Skills.Children.Add(button);
         }
-
+        public void SS()
+        {
+            
+        }
         private void TabItemQuestBook_Selected(object sender, RoutedEventArgs e) => QuestBookTabItem.Foreground = Brushes.White;
         private void TabItemQuestBook_Unselected(object sender, RoutedEventArgs e) => QuestBookTabItem.Foreground = Brushes.LightGray;
         private void TabItemInventory_Selected(object sender, RoutedEventArgs e) => InventoryTabItem.Foreground = Brushes.White;

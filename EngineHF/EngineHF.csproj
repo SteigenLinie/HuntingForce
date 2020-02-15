@@ -39,10 +39,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factory\ItemFactory.cs" />
+    <Compile Include="Factory\WeaponFactorycs.cs" />
     <Compile Include="Factory\WorldFactory.cs" />
     <Compile Include="Factory\MonsterFactory.cs" />
     <Compile Include="Model\CurrentPos.cs" />
     <Compile Include="Model\MainStats.cs" />
+    <Compile Include="Model\GameItem.cs" />
     <Compile Include="ViewModel\GameSession.cs" />
     <Compile Include="Model\Location.cs" />
     <Compile Include="Model\Monster.cs" />
@@ -67,6 +70,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\Skills.xml" />
+    <Content Include="Data\GameItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

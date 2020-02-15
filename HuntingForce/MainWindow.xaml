@@ -399,7 +399,7 @@
                         Margin="20 5 80 0"
                         Grid.Row="2"
                         VerticalAlignment="Stretch">
-                    <Grid>
+                    <Grid Name="Skills">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -490,9 +490,14 @@
                         Grid.Row="3"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Right">
-                    <Image Source="Resources/Icons/teleport.png"
+                    
+                    <Button Command="{Binding TeleportToHome}">
+                        <Image Source="Resources/Icons/teleport.png"
                            Height="48"
-                           Width="48"/>
+                           Width="48">
+
+                        </Image>
+                    </Button>
                 </Border>
             </Grid>
 
@@ -598,6 +603,37 @@
                 <Image Source="{Binding Enemy}"
                        VerticalAlignment="Bottom"
                        Margin="35 0"/>
+            </Grid>
+            <Grid Grid.Row="0"
+                  Grid.Column="6"
+                  Grid.ColumnSpan="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <Border VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        BorderBrush="White"
+                        BorderThickness="1"
+                        Height="50"
+                        Width="150"
+                        Grid.RowSpan="2">
+                </Border>
+                <TextBlock Text="{Binding NameOfLocation}"
+                           FontFamily="./Resources/Fonts/#Determination2"
+                           FontSize="18"
+                           Grid.RowSpan="{Binding NameOfLocationRowSpan}"
+                           VerticalAlignment="{Binding NameOfLocationVerticalAlignment}"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding HPBarOfMonster}"
+                           FontFamily="./Resources/Fonts/#Determination2"
+                           FontSize="18"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Center"
+                           Grid.Row="1"/>
             </Grid>
         </Grid>
     </Grid>

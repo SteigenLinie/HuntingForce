@@ -30,6 +30,8 @@ namespace HuntingForce
             North = new DelegateCommand(OnNorth, () => true);
             East = new DelegateCommand(OnEast, () => true);
             South = new DelegateCommand(OnSouth, () => true);
+            TeleportToHome = new DelegateCommand(OnTeleportToHome, () => true);
+
             SetVisibilityForMovement();
             HPbar = $"{_gameSession.mainStats.CurrentHP}/{_gameSession.mainStats.MaxHP}";
             MPbar = $"{_gameSession.mainStats.CurrentMP}/{_gameSession.mainStats.MaxMP}";
@@ -38,10 +40,14 @@ namespace HuntingForce
             XPbarValue = _gameSession.mainStats.CurrentXP;
             CountOfXPbar = $"{XPbarValue}/{XPbarMax}";
             Enemy = _gameSession.CurrentWorld.LocationAt(0, 0).ImageName.Remove(0, 1);
+            ToCommonLocation();
+            NameOfLocation = _gameSession.currentPos.Name;
         }
 
         public DelegateCommand Attack { get; set; }
         public DelegateCommand SecondSkillUp { get; set; }
+
+        public DelegateCommand TeleportToHome { get; set; }
 
         public DelegateCommand West { get; set; }
         public DelegateCommand North { get; set; }
@@ -137,6 +143,31 @@ namespace HuntingForce
             get => _enemy;
             set => SetProperty(ref _enemy, value);
         }
+        private string _nameOfLocation;
+        public string NameOfLocation
+        {
+            get => _nameOfLocation;
+            set => SetProperty(ref _nameOfLocation, value);
+        }
+        private string _hPBarOfMonster;
+        public string HPBarOfMonster
+        {
+            get => _hPBarOfMonster;
+            set => SetProperty(ref _hPBarOfMonster, value);
+        }
+        private string _nameOfLocationVerticalAlignment;
+        public string NameOfLocationVerticalAlignment
+        {
+            get => _nameOfLocationVerticalAlignment;
+            set => SetProperty(ref _nameOfLocationVerticalAlignment, value);
+        }
+        private int _nameOfLocationRowSpan;
+        public int NameOfLocationRowSpan
+        {
+            get => _nameOfLocationRowSpan;
+            set => SetProperty(ref _nameOfLocationRowSpan, value);
+        }
+
         public void OnAttack()
         {
             if (_gameSession.currentPos.monster == null)
@@ -145,6 +176,7 @@ namespace HuntingForce
                 return;
             }
             _gameSession.mainStats.CurrentHP -= new Random().Next(_gameSession.currentPos.monster.AttackMin, _gameSession.currentPos.monster.AttackMax);
+            _gameSession.currentPos.monster.CurrentHP -= new Random().Next(_gameSession.mainStats.CurrentWeapon.MinDamage, _gameSession.mainStats.CurrentWeapon.MaxDamage);
             inFight = true;
 
             if (_gameSession.mainStats.CurrentHP <= 0)
@@ -255,6 +287,10 @@ namespace HuntingForce
             if (Enemy != _gameSession.currentPos.ImageName.Remove(0, 1))
                 Enemy = _gameSession.currentPos.ImageName.Remove(0, 1);
             SetVisibilityForMovement();
+            if (_gameSession.currentPos.monster != null)
+                ToMonster();
+            else
+                ToCommonLocation();
             inFight = false;
         }
         private void SetVisibilityForMovement()
@@ -263,6 +299,23 @@ namespace HuntingForce
             NorthVis = _gameSession.HasLocationToNorth ? Visibility.Visible : Visibility.Hidden;
             EastVis = _gameSession.HasLocationToEast ? Visibility.Visible : Visibility.Hidden;
             SouthVis = _gameSession.HasLocationToSouth ? Visibility.Visible : Visibility.Hidden;
+        }
+        public void ToMonster()
+        {
+            NameOfLocation = _gameSession.currentPos.Name;
+            HPBarOfMonster = $"{_gameSession.currentPos.monster.CurrentHP}";
+            NameOfLocationVerticalAlignment = "Bottom";
+            NameOfLocationRowSpan = 1;
+        }
+        public void ToCommonLocation()
+        {
+            NameOfLocation = _gameSession.currentPos.Name;
+            NameOfLocationVerticalAlignment = "Center";
+            NameOfLocationRowSpan = 2;
+        }
+        public void OnTeleportToHome()
+        {
+           
         }
     }
 }

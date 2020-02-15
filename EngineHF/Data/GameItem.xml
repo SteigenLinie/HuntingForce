@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<GameItems>
+  <Weapons>
+    <Weapon ID="1001"
+            Name="Pointy stick"
+            MinimumDamage="5"
+            MaximumDamage="10"/>
+    <Weapon ID="1002"
+            Name="Rusty sword"
+            MinimumDamage="0"
+            MaximumDamage="20"/>
+  </Weapons>
+  <Potions>
+    <Potion ID="2001"
+            Name="Small potion"
+            HitPointsToHealHP="2"
+            HitPointsToHealMP="2"/>
+  </Potions>
+  <MiscellaneousItems>
+    <MiscellaneousItem ID="3001"
+                       Name="Oats"/>
+    <MiscellaneousItem ID="3002"
+                       Name="Honey"/>
+    <MiscellaneousItem ID="3003"
+                       Name="Raisins"/>
+    <MiscellaneousItem ID="9002"
+                       Name="Snakeskin"/>
+    <MiscellaneousItem ID="9003"
+                       Name="Rat tail"/>
+    <MiscellaneousItem ID="9004"
+                       Name="Rat fur"/>
+    <MiscellaneousItem ID="9006"
+                       Name="Spider silk"/>
+  </MiscellaneousItems>
+</GameItems>

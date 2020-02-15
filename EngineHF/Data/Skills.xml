@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Skills RootImagePath="Resources/Sprites/Skills/">
+  <Skill X="0" Y="0"
+            Name="Home"
+	    ImageName="Home.png">
+    <Description><![CDATA[This is your house.]]></Description>
+  </Skill>
+  <Skill X="0" Y="1"
+            Name="Rat"
+	    ImageName="RatEnemy.png">
+    <Description><![CDATA[Oh no.]]></Description>
+  </Skill>
+</Skills>
