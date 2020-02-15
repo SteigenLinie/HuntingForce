@@ -525,7 +525,8 @@
                         Grid.ColumnSpan="2"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
-                        Command="{Binding Left}"
+                        Visibility="{Binding WestVis}"
+                        Command="{Binding West}"
                         Style="{DynamicResource TriangleButtonStyle}"/>
                 <Button Grid.Row="1"
                         Grid.RowSpan="2"
@@ -533,7 +534,8 @@
                         Grid.ColumnSpan="2"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
-                        Command="{Binding Up}"
+                        Visibility="{Binding NorthVis}"
+                        Command="{Binding North}"
                         Style="{DynamicResource TriangleButtonStyle}"
                         RenderTransform="{StaticResource Rotate090}"/>
                 <Button Grid.Row="2"
@@ -542,7 +544,8 @@
                         Grid.ColumnSpan="2"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
-                        Command="{Binding Right}"
+                        Visibility="{Binding EastVis}"
+                        Command="{Binding East}"
                         Style="{DynamicResource TriangleButtonStyle}"
                         RenderTransform="{StaticResource Rotate180}"/>
                 <Button Grid.Row="3"
@@ -551,7 +554,8 @@
                         Grid.ColumnSpan="2"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
-                        Command="{Binding Down}"
+                        Visibility="{Binding SouthVis}"
+                        Command="{Binding South}"
                         Style="{DynamicResource TriangleButtonStyle}"
                         RenderTransform="{StaticResource Rotate270}"/>
 
@@ -564,7 +568,7 @@
                         Background="Black"
                         BorderBrush="White"
                         Width="45"
-                        Height="45"
+                        Height="43"
                         Command="{Binding OnUse}">
                     <Button.Template>
                         <ControlTemplate  TargetType="Button">

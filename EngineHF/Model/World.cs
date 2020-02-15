@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HuntingForce.Character
+namespace EngineHF.Model
 {
     public class World
     {
@@ -18,12 +18,8 @@ namespace HuntingForce.Character
         public Location LocationAt(int xCoordinate, int yCoordinate)
         {
             foreach (Location loc in _locations)
-            {
-                if (loc.XCoordinate == xCoordinate && loc.YCoordinate == yCoordinate)
-                {
+                if (loc.CurrentX == xCoordinate && loc.CurrentY == yCoordinate)
                     return loc;
-                }
-            }
 
             return null;
         }
