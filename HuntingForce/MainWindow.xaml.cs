@@ -24,14 +24,12 @@ namespace HuntingForce
         {
             InitializeComponent();
             DataContext = new MainWindowViewModel();
-            Button button = new Button();
-            button = new Button();
-            button.Background = Brushes.Black;
-            Skills.Children.Add(button);
         }
         public void SS()
         {
-            
+            Button button = new Button();
+            button.Background = Brushes.Black;
+            Skills.Children.Add(button);
         }
         private void TabItemQuestBook_Selected(object sender, RoutedEventArgs e) => QuestBookTabItem.Foreground = Brushes.White;
         private void TabItemQuestBook_Unselected(object sender, RoutedEventArgs e) => QuestBookTabItem.Foreground = Brushes.LightGray;
@@ -41,5 +39,23 @@ namespace HuntingForce
         private void TabItemMap_Unselected(object sender, RoutedEventArgs e) => MapTabItem.Foreground = Brushes.LightGray;
         private void TabItemSkills_Selected(object sender, RoutedEventArgs e) => SkillsTabItem.Foreground = Brushes.White;
         private void TabItemSkills_Unselected(object sender, RoutedEventArgs e) => SkillsTabItem.Foreground = Brushes.LightGray;
+
+        private void Test_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = new Button();
+            button.Background = Brushes.Black;
+            Grid.SetColumn(button, 1);
+            button.BorderThickness = new Thickness(0);
+            button.Padding = new Thickness(0);
+            button.Margin = new Thickness(1);
+            Image image = new Image();
+            image.Source = new BitmapImage(new Uri(@"\Resources\Icons\MagicGate.png"));
+            button.Content = image;
+
+            //button.Content = new BitmapImage(new Uri(@"C:\Users\Ru\source\repos\SteigenLinie\HuntingForce\HuntingForce\Resources\Icons\MagicGate.png"));
+
+            Skills.Children.Add(button);
+            
+        }
     }
 }

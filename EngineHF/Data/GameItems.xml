@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<GameItems RootImagePath="Resources/Sprites/Location/">
+  <Weapons>
+    <Weapon ID="1"
+            Name="Pointy stick"
+            ImageName="a"
+            Description="a"
+            MinDamage="5"
+            MaxDamage="10"/>
+    <Weapon ID="1002"
+            Name="Rusty sword"
+            ImageName="a"
+            Description="a"
+            MinDamage="0"
+            MaxDamage="20"/>
+  </Weapons>
+  <Potions>
+    <Potion ID="2001"
+            Name="Small potion"
+            ImageName="a"
+            Description="a"
+            HitPointsToHealHP="2"
+            HitPointsToHealMP="2"/>
+  </Potions>
+  <MiscellaneousItems>
+    <MiscellaneousItem ID="3001"
+                       Name="Oats"
+                       ImageName="a"
+            Description="a"/>
+    <MiscellaneousItem ID="3002"
+                       Name="Honey"
+                       ImageName="a"
+            Description="a"/>
+    <MiscellaneousItem ID="3003"
+                       Name="Raisins" ImageName="a"
+            Description="a"/>
+    <MiscellaneousItem ID="9002"
+                       Name="Snakeskin" ImageName="a"
+            Description="a"/>
+    <MiscellaneousItem ID="9003"
+                       Name="Rat tail" ImageName="a"
+            Description="a"/>
+    <MiscellaneousItem ID="9004"
+                       Name="Rat fur" ImageName="a"
+            Description="a"/>
+    <MiscellaneousItem ID="9006"
+                       Name="Spider silk" ImageName="a"
+            Description="a"/>
+  </MiscellaneousItems>
+</GameItems>

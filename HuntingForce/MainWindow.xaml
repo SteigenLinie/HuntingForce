@@ -491,7 +491,9 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Right">
                     
-                    <Button Command="{Binding TeleportToHome}">
+                    <Button Name="Test"
+                        Command="{Binding TeleportToHome}"
+                            Click="Test_Click">
                         <Image Source="Resources/Icons/teleport.png"
                            Height="48"
                            Width="48">
@@ -631,6 +633,7 @@
                 <TextBlock Text="{Binding HPBarOfMonster}"
                            FontFamily="./Resources/Fonts/#Determination2"
                            FontSize="18"
+                           Foreground="Red"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Center"
                            Grid.Row="1"/>

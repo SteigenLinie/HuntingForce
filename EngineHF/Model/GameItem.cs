@@ -19,17 +19,41 @@ namespace EngineHF.Model
         public string Name { get; set; }
         public string ImageName { get; set; }
         public string Descrtiption { get; set; }
-        public int MinDamage { get; set; }
         public int MaxDamage { get; set; }
-        public GameItem(ItemCategory category, int itemID, string name, string imageName, string description, int minDamage, int maxDamage)
+        public int MinDamage { get; set; }
+        public short HitPointsToHealHP { get; set; }
+        public short HitPointsToHealMP { get; set; }
+        public GameItem(ItemCategory category, int itemID, string name, string imageName, string description)
         {
             Category = category;
             ItemID = itemID;
             Name = name;
             ImageName = imageName;
             Descrtiption = description;
-            MinDamage = minDamage;
+        }
+        public GameItem(ItemCategory category, int itemID, string name, string imageName, string description, short hitPointsToHealHP, short hitPointsToHealMP)
+        {
+            Category = category;
+            ItemID = itemID;
+            Name = name;
+            ImageName = imageName;
+            Descrtiption = description;
+            HitPointsToHealHP = hitPointsToHealHP;
+            HitPointsToHealMP = hitPointsToHealMP;
+        }
+        public GameItem(ItemCategory category, int itemID, string name, string imageName, string description, int maxDamage, int minDamage)
+        {
+            Category = category;
+            ItemID = itemID;
+            Name = name;
+            ImageName = imageName;
+            Descrtiption = description;
             MaxDamage = maxDamage;
+            MinDamage = minDamage;
+        }
+        public GameItem()
+        {
+
         }
     }
 }

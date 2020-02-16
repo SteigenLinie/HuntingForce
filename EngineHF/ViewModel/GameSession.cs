@@ -15,8 +15,9 @@ namespace EngineHF
 
         public MainStats mainStats;
         public Location currentPos;
-        public MonsterFactory monsterFactory;
-
+        private MonsterFactory monsterFactory;
+        private ItemFactory itemFactory;
+        public List<GameItem> _standardGameItems = ItemFactory._standardGameItems;
         public World CurrentWorld { get; }
 
         public bool HasLocationToNorth =>
@@ -35,6 +36,7 @@ namespace EngineHF
         {
             mainStats = new MainStats(100, 100, 100, 100, 100, 100, 20, 0, 0);
             monsterFactory = new MonsterFactory();
+            itemFactory = new ItemFactory();
             CurrentWorld = WorldFactory.CreateWorld(); 
             currentPos = CurrentWorld.LocationAt(0,0);
         }

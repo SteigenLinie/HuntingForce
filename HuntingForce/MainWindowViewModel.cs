@@ -39,6 +39,7 @@ namespace HuntingForce
             XPbarMax = _gameSession.mainStats.MaxXP;
             XPbarValue = _gameSession.mainStats.CurrentXP;
             CountOfXPbar = $"{XPbarValue}/{XPbarMax}";
+            _gameSession.mainStats.CurrentWeapon = _gameSession._standardGameItems.First(x => x.ItemID == 1);
             Enemy = _gameSession.CurrentWorld.LocationAt(0, 0).ImageName.Remove(0, 1);
             ToCommonLocation();
             NameOfLocation = _gameSession.currentPos.Name;
@@ -175,25 +176,32 @@ namespace HuntingForce
                 MessageBox.Show("В городе нельзя драться!");
                 return;
             }
-            _gameSession.mainStats.CurrentHP -= new Random().Next(_gameSession.currentPos.monster.AttackMin, _gameSession.currentPos.monster.AttackMax);
             _gameSession.currentPos.monster.CurrentHP -= new Random().Next(_gameSession.mainStats.CurrentWeapon.MinDamage, _gameSession.mainStats.CurrentWeapon.MaxDamage);
+            if (_gameSession.currentPos.monster.CurrentHP <= 0)
+            {
+                _gameSession.currentPos.monster.CurrentHP = _gameSession.currentPos.monster.MaxHP;
+                HPBarOfMonster = $"{_gameSession.currentPos.monster.CurrentHP}";
+                XPPlus();
+                MessageBox.Show("Enemy died");
+                inFight = false;
+                return;
+            }
             inFight = true;
-
+            HPBarOfMonster = $"{_gameSession.currentPos.monster.CurrentHP}";
+            _gameSession.mainStats.CurrentHP -= new Random().Next(_gameSession.currentPos.monster.AttackMin, _gameSession.currentPos.monster.AttackMax);
             if (_gameSession.mainStats.CurrentHP <= 0)
             {
-                _gameSession.currentPos = _gameSession.CurrentWorld.LocationAt(0, 0);
-                if (Enemy != _gameSession.currentPos.ImageName.Remove(0, 1))
-                    Enemy = _gameSession.currentPos.ImageName.Remove(0, 1);
+                Move(0, 0);
                 _gameSession.mainStats.CurrentHP = _gameSession.mainStats.MaxHP;
                 HPbar = $"{_gameSession.mainStats.CurrentHP}/{_gameSession.mainStats.MaxHP}";
                 SetVisibilityForMovement();
-                inFight = false;
                 MessageBox.Show("You died");
+                inFight = false;
                 return;
             }
             
             HPbar = $"{_gameSession.mainStats.CurrentHP}/{_gameSession.mainStats.MaxHP}";
-            XPPlus();
+            
         }
         public void XPPlus()
         {
@@ -213,12 +221,15 @@ namespace HuntingForce
         }
         public void OnSecondSkillUp()
         {
-            if (_gameSession.mainStats.SkillPoint > 0)
-            {
-                SecondSkillPoints = "1/1";
-                SecondSkill = Visibility.Visible;
-                _gameSession.mainStats.SkillPoint -= 1;
-            }
+            var mainWindow = new MainWindow();
+            mainWindow.SS();
+            //if (_gameSession.mainStats.SkillPoint > 0)
+            //{
+            //    SecondSkillPoints = "1/1";
+                
+            //    SecondSkill = Visibility.Visible;
+            //    _gameSession.mainStats.SkillPoint -= 1;
+            //}
         }
 
         public void OnWest() //WEST

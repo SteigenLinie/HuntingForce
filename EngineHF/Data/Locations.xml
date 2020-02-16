@@ -2,12 +2,12 @@
 <Locations RootImagePath="Resources/Sprites/Location/">
   <Location X="0" Y="0"
             Name="Home"
-	    ImageName="Home.png">
+	          ImageName="Home.png">
     <Description><![CDATA[This is your house.]]></Description>
   </Location>
   <Location X="0" Y="1"
             Name="Rat"
-	    ImageName="RatEnemy.png">
+	          ImageName="RatEnemy.png">
     <Description><![CDATA[Oh no.]]></Description>
     <Monsters>
       <Monster ID="1"/>
