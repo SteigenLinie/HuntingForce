@@ -17,6 +17,8 @@ namespace EngineHF
         public Location currentPos;
         private MonsterFactory monsterFactory;
         private ItemFactory itemFactory;
+        private SkillsFactory skillsFactory;
+        public List<Skills> _standartSkills = SkillsFactory._standardSkills;
         public List<GameItem> _standardGameItems = ItemFactory._standardGameItems;
         public World CurrentWorld { get; }
 
@@ -34,9 +36,10 @@ namespace EngineHF
 
         public GameSession()
         {
-            mainStats = new MainStats(100, 100, 100, 100, 100, 100, 20, 0, 0);
+            mainStats = new MainStats("3,14door", 100, 100, 100, 100, 100, 100, 20, 0, 0, 1, 1);
             monsterFactory = new MonsterFactory();
             itemFactory = new ItemFactory();
+            skillsFactory = new SkillsFactory();
             CurrentWorld = WorldFactory.CreateWorld(); 
             currentPos = CurrentWorld.LocationAt(0,0);
         }

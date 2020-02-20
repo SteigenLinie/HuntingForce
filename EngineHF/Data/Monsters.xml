@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Monsters RootImagePath="Resources/Sprites/Enemy/">
   <Monster ID="1"
+           Name="Rat"
            ImageName="EnemyRat.png"
            MaxHP="15"
            CurrentHP="15"
@@ -8,6 +9,7 @@
            AttackMax="15"
            AttackMin="5"/>
   <Monster ID="2"
+           Name="BigRat"
            ImageName="EnemyRat.png"
            MaxHP="0"
            CurrentHP="0"
@@ -15,6 +17,7 @@
            AttackMax="0"
            AttackMin="0"/>
   <Monster ID="3"
+           Name="BiBiRat"
            ImageName="EnemyRat.png"
            MaxHP="14"
            CurrentHP="5"

@@ -8,6 +8,7 @@ namespace EngineHF.Model
 {
     public class MainStats
     {
+        public string Name { get; set; }
         public int MaxHP { get; set; }
         public int CurrentHP { get; set; } 
         public int MaxMP { get; set; } 
@@ -15,12 +16,15 @@ namespace EngineHF.Model
         public int MaxSP { get; set; } 
         public int CurrentSP { get; set; } 
         public int MaxXP { get; set; } 
+        public int CurrentLevel { get; set; }
         public int CurrentXP { get; set; }
         public int SkillPoint { get; set; }
+        public int TempSkillPoint { get; set; }
         public GameItem CurrentWeapon { get; set; }
-        public MainStats(int maxHP, int currentHP, int maxMP, int currentMP, int maxSP,
-            int currentSP, int maxXP, int currentXp, int skillPoint)
+        public MainStats(string name, int maxHP, int currentHP, int maxMP, int currentMP, int maxSP,
+            int currentSP, int maxXP, int currentLevel, int currentXp, int skillPoint, int tempSkillPoint)
         {
+            Name = name;
             MaxHP = maxHP;
             CurrentHP = currentHP;
             MaxMP = maxMP;
@@ -28,8 +32,10 @@ namespace EngineHF.Model
             MaxSP = maxSP;
             CurrentSP = currentSP;
             MaxXP = maxXP;
+            CurrentLevel = currentLevel;
             CurrentXP = currentXp;
             SkillPoint = skillPoint;
+            TempSkillPoint = tempSkillPoint;
         }
     }
 }

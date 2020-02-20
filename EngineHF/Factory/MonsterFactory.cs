@@ -45,6 +45,7 @@ namespace EngineHF.Factory
             {
                 Monster monster =
                     new Monster(node.AttributeAsInt("ID"),
+                                node.AttributeAsString("Name"),
                                 $".{rootImagePath}{node.AttributeAsString("ImageName")}",
                                 node.AttributeAsInt("MaxHP"),
                                 node.AttributeAsInt("CurrentHP"),

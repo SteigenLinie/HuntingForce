@@ -14,9 +14,10 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="MainWindow"
-        Width="1280"
-        Height="720"
-        WindowStartupLocation="CenterOwner">
+        Width="1920"
+        Height="1080"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <StreamGeometry x:Key="Geometry">M-6,24 L36,2 L36,46 Z</StreamGeometry>
         <Style x:Key="FocusVisual">
@@ -45,9 +46,9 @@
         <SolidColorBrush x:Key="Button.Pressed.Border"
                          Color="White"/>
         <SolidColorBrush x:Key="Button.Disabled.Background"
-                         Color="Black"/>
+                         Color="DarkGray"/>
         <SolidColorBrush x:Key="Button.Disabled.Border"
-                         Color="Black"/>
+                         Color="DarkGray"/>
         <Style x:Key="TriangleButtonStyle"
                TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle"
@@ -141,13 +142,15 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Column="1">
+                <Grid Grid.Column="0"
+                      Grid.ColumnSpan="2">
                     <TextBlock VerticalAlignment="Top"
+                               HorizontalAlignment="Center"
                        FontFamily="./Resources/Fonts/#Determination2"
                        Foreground="White"
                        FontSize="35"
                        Margin="5 0 0 -5"
-                       Text="Nickname"/>
+                       Text="{Binding NickName}"/>
                 </Grid>
 
                 <Grid Grid.Row="1">
@@ -204,25 +207,104 @@
                                FontSize="30"/>
                 </Grid>
             </Grid>
+            <Grid Grid.Row="0"
+                  Grid.Column="1"
+                  Grid.ColumnSpan="2">
+                <TabControl Background="Black"   
+                            BorderBrush="White"
+                            BorderThickness="1"
+                            Margin="5 0 0 50">
+                    <TabItem Background="Black"
+                                 BorderBrush="Gray"
+                                 Margin="-2 0 0 0"
+                                 Selector.Selected="TabItemMap_Selected"
+                                 Selector.Unselected="TabItemMap_Unselected">
+                        <TabItem.Header>
+                            <TextBlock Name="Stats"
+                                       Text="Stats"
+                                       Padding="2 0 0 0"
+                                       FontFamily="./Resources/Fonts/#Determination2"
+                                       Foreground="LightGray"
+                                       Background="Black"
+                                       FontSize="30"
+                                       HorizontalAlignment="Center"/>
+                        </TabItem.Header>
+                        <TabItem.Content>
+                            <Grid></Grid>
+                        </TabItem.Content>
+                    </TabItem>
 
+                    <TabItem Background="Black"
+                                 BorderBrush="Gray"
+                                 Margin="-2 0 0 0"
+                                 Selector.Selected="TabItemMap_Selected"
+                                 Selector.Unselected="TabItemMap_Unselected">
+                        <TabItem.Header>
+                            <TextBlock Name="Log"
+                                       Text="Log"
+                                       Padding="2 0 0 0"
+                                       FontFamily="./Resources/Fonts/#Determination2"
+                                       Foreground="LightGray"
+                                       Background="Black"
+                                       FontSize="30"
+                                       HorizontalAlignment="Center"/>
+                        </TabItem.Header>
+                        <TabItem.Content>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="8.5*"/>
+                                    <RowDefinition Height="1.5*"/>
+                                </Grid.RowDefinitions>
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                              VerticalScrollBarVisibility="Auto">
+                                    <TextBlock Text="{Binding Log}"
+                                                FontFamily="./Resources/Fonts/#Determination2"
+                                                FontSize="15"
+                                                Foreground="Gray"
+                                                TextWrapping="Wrap"/>
+                                </ScrollViewer>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="9*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="1"
+                                            Background="Black"
+                                            BorderBrush="Gray"
+                                            BorderThickness="1"
+                                            Height="Auto"
+                                            Margin="0 5 5 5"
+                                            Content="Clear"
+                                            Padding="0"
+                                            FontSize="12"
+                                            Foreground="Gray"
+                                            Command="{Binding ClearTheLog}"
+                                            FontFamily="./Resources/Fonts/#Determination2"/>
+                                </Grid>
+                                
+                            </Grid>
+                        </TabItem.Content>
+                    </TabItem>
+                </TabControl>
+            </Grid>
             <!-- XP bar -->
             <Grid Grid.Row="0"
                   Grid.Column="0"
-                  Grid.ColumnSpan="2">
+                  Grid.ColumnSpan="3">
                 
-                <Border Height="25"
+                <Border Height="28"
                         Margin="0 0 0 5"
                         VerticalAlignment="Bottom"
                         Background="Black"
                         BorderBrush="LimeGreen"
-                        BorderThickness="1"
-                        Width="300">
+                        BorderThickness="4"
+                        Width="425">
 
                     <ProgressBar Background="Black"
                                  BorderThickness="0"
                                  Foreground="LimeGreen"
                                  HorizontalAlignment="Stretch"
-                                 Height="23"
+                                 Height="Auto"
                                  Minimum="0"
                                  VerticalAlignment="Stretch"
                                  Value="{Binding XPbarValue}"
@@ -232,7 +314,7 @@
                 <TextBlock Foreground="White"
                            Text="{Binding CountOfXPbar}"
                            VerticalAlignment="Bottom"
-                           Margin="0 0 0 5"
+                           Margin="0 0 0 7.5"
                            HorizontalAlignment="Center"
                            FontSize="20"
                            FontFamily="./Resources/Fonts/#Determination2"/>
@@ -301,6 +383,148 @@
                                         <RowDefinition Height="3*"/>
                                         <RowDefinition Height="1*"/>
                                     </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Ring -->
+                                        <Grid Grid.Row="2"
+                                              Grid.Column="2">
+                                            <Border BorderBrush="White"
+                                                    BorderThickness="1"
+                                                    Margin="3">
+                                                <Image/>
+                                            </Border>
+                                            <TextBlock Text="Ring"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                       Margin="0 2 0 0"
+                                                       FontSize="20"
+                                                       FontFamily="./Resources/Fonts/#Determination2"/>
+                                        </Grid>
+                                        
+                                        <!-- Helmet -->
+                                        <Grid Grid.Row="1"
+                                              Grid.RowSpan="2"
+                                              Grid.Column="3"
+                                              Grid.ColumnSpan="2">
+                                            <Border BorderBrush="White"
+                                                    BorderThickness="1"
+                                                    Margin="3">
+                                                <Image/>
+                                            </Border>
+                                            <TextBlock Text="Helmet"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                       Margin="0 2 0 0"
+                                                       FontSize="25"
+                                                       FontFamily="./Resources/Fonts/#Determination2"/>
+                                        </Grid>
+                                        
+                                        <!-- Ring2 -->
+                                        <Grid Grid.Row="2"
+                                              Grid.Column="5">
+                                            <Border BorderBrush="White"
+                                                    BorderThickness="1"
+                                                    Margin="3">
+                                                <Image/>
+                                            </Border>
+                                            <TextBlock Text="Ring"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                       Margin="0 2 0 0"
+                                                       FontSize="20"
+                                                       FontFamily="./Resources/Fonts/#Determination2"/>
+                                        </Grid>
+                                        <!-- Sword -->
+                                        <Grid Grid.Row="3"
+                                              Grid.RowSpan="3"
+                                              Grid.Column="1"
+                                              Grid.ColumnSpan="2">
+                                            <Border BorderBrush="White"
+                                                    BorderThickness="1"
+                                                    Margin="3">
+                                                <Image/>
+                                            </Border>
+                                            <TextBlock Text="Sword"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                       Margin="0 2 0 0"
+                                                       FontSize="25"
+                                                       FontFamily="./Resources/Fonts/#Determination2"/>
+                                        </Grid>
+
+                                        <!-- Armor -->
+                                        <Grid Grid.Row="3"
+                                              Grid.RowSpan="3"
+                                              Grid.Column="3"
+                                              Grid.ColumnSpan="2">
+                                            <Border BorderBrush="White"
+                                                    BorderThickness="1"
+                                                    Margin="3">
+                                                <Image/>
+                                            </Border>
+                                            <TextBlock Text="Armor"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                       Margin="0 2 0 0"
+                                                       FontSize="25"
+                                                       FontFamily="./Resources/Fonts/#Determination2"/>
+                                        </Grid>
+                                        
+                                        <!-- Shield -->
+                                        <Grid Grid.Row="3"
+                                              Grid.RowSpan="3"
+                                              Grid.Column="5"
+                                              Grid.ColumnSpan="2">
+                                            <Border BorderBrush="White"
+                                                    BorderThickness="1"
+                                                    Margin="3">
+                                                <Image/>
+                                            </Border>
+                                            <TextBlock Text="Shield"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                       Margin="0 2 0 0"
+                                                       FontSize="25"
+                                                       FontFamily="./Resources/Fonts/#Determination2"/>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid Grid.Row="1"
+                                          Margin="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                    </Grid>
                                 </Grid>
                             </TabItem.Content>
                         </TabItem>
@@ -336,35 +560,47 @@
                                            HorizontalAlignment="Center"/>
                             </TabItem.Header>
                             <TabItem.Content>
-                                <Grid>
+                                <Grid Name="SkillsGrid">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="0.5*"/>
+                                        <RowDefinition Height="0.7*"/>
                                         <RowDefinition Height="1.5*"/>
-                                        <RowDefinition Height="6*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1.5*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1.5*"/>
+                                        <RowDefinition Height="1.2*"/>
                                     </Grid.RowDefinitions>
-                                    <Border Grid.Row="1"
-                                            HorizontalAlignment="Center"
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.5*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1.5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="3"
+                                            Grid.Row="6"
+                                            Width="70"
+                                            Background="Black"
                                             BorderBrush="White"
                                             BorderThickness="1"
-                                            Width="60">
-                                        <Button VerticalAlignment="Top"
-                                                Background="Black"
-                                                BorderThickness="0"
-                                                Height="60"
-                                                Margin="1"
-                                                Padding="0"
-                                                Command="{Binding SecondSkillUp}">
-                                            <Image Source="Resources/Icons/teleport.png"
-                                                   Margin="2"/>
-                                        </Button>
-                                    </Border>
-                                    <TextBlock Grid.Row="1"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Bottom"
-                                               Text="{Binding SecondSkillPoints}"
-                                               FontSize="20"
-                                               FontFamily="./Resources/Fonts/#Determination2"
-                                               Foreground="White"/>
+                                            Content="Save"
+                                            FontSize="22"
+                                            Padding="0"
+                                            FontFamily="./Resources/Fonts/#Determination2"
+                                            Click="Button_Save"/>
+                                    <Button Name="Cancel"
+                                            Grid.Column="4"
+                                            Grid.Row="6"
+                                            Width="70"
+                                            Background="Black"
+                                            BorderBrush="White"
+                                            BorderThickness="1"
+                                            Content="Cancel"
+                                            FontSize="22"
+                                            Padding="0"
+                                            IsEnabled="False"
+                                            FontFamily="./Resources/Fonts/#Determination2"
+                                            Click="Button_Cancel"/>
                                 </Grid>
                             </TabItem.Content>
                         </TabItem>
@@ -388,11 +624,25 @@
                         Grid.Row="0"
                         Grid.RowSpan="2"
                         Margin="20 0 80 5">
-                    <TextBlock Text="{Binding Dialog}"
-                               Margin="10"
+                    <ScrollViewer HorizontalScrollBarVisibility = "Disabled"
+                                  VerticalScrollBarVisibility="Auto">
+                        <TextBlock Text="{Binding Dialog}"
+                               Margin="10 10 20 10"
                                FontSize="20"
-                               FontFamily="./Resources/Fonts/#Determination2"/>
+                               TextWrapping="Wrap"
+                               FontFamily="./Resources/Fonts/#Determination2"
+                               MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
+                    </ScrollViewer>
+                    
                 </Border>
+                <Button BorderThickness="0"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Margin="22 2 82 6"
+                        Height="Auto"
+                        Visibility="Hidden"
+                        Command="{Binding SkipDialog}"/>
+                
                 <Border Background="Black"
                         BorderBrush="Gray"
                         BorderThickness="1"
@@ -431,55 +681,135 @@
                                 Grid.Column="1"
                                 Margin="0 -1 -1 -1">
                             <Button Background="Black"
+                                    Width="Auto"
+                                    Height="Auto"
                                     BorderThickness="0"
                                     Padding="0"
-                                    Height="Auto"
-                                    Margin="1"
-                                    Visibility="{Binding SecondSkill}"
-                                    Command="{Binding Attack}">
-                                <Image Source="Resources/Icons/teleport.png"
-                                       Margin="2"/>
+                                    Margin="1">
+                                <Image MouseDown="Border_MouseDown"
+                                       Margin="2"
+                                       Source="Resources\Sprites\Skills\Black.png"/>
                             </Button>
                         </Border>
                         <Border BorderBrush="Gray"
                                 BorderThickness="1"
                                 Grid.Column="2"
                                 Margin="0 -1 -1 -1">
+                            <Button Background="Black"
+                                    Width="Auto"
+                                    Height="Auto"
+                                    BorderThickness="0"
+                                    Padding="0"
+                                    Margin="1">
+                                <Image MouseDown="Border_MouseDown"
+                                       Margin="2"
+                                       Source="Resources\Sprites\Skills\Black.png"/>
+                            </Button>
                         </Border>
                         <Border BorderBrush="Gray"
                                 BorderThickness="1"
                                 Grid.Column="3"
                                 Margin="0 -1 -1 -1">
+                            <Button Background="Black"
+                                    Width="Auto"
+                                    Height="Auto"
+                                    BorderThickness="0"
+                                    Padding="0"
+                                    Margin="1">
+                                <Image MouseDown="Border_MouseDown"
+                                       Margin="2"
+                                       Source="Resources\Sprites\Skills\Black.png"/>
+                            </Button>
                         </Border>
                         <Border BorderBrush="Gray"
                                 BorderThickness="1"
                                 Grid.Column="4"
                                 Margin="0 -1 -1 -1">
+                            <Button Background="Black"
+                                    Width="Auto"
+                                    Height="Auto"
+                                    BorderThickness="0"
+                                    Padding="0"
+                                    Margin="1">
+                                <Image MouseDown="Border_MouseDown"
+                                       Margin="2"
+                                       Source="Resources\Sprites\Skills\Black.png"/>
+                            </Button>
                         </Border>
                         <Border BorderBrush="Gray"
                                 BorderThickness="1"
                                 Grid.Column="5"
                                 Margin="0 -1 -1 -1">
+                            <Button Background="Black"
+                                    Width="Auto"
+                                    Height="Auto"
+                                    BorderThickness="0"
+                                    Padding="0"
+                                    Margin="1">
+                                <Image MouseDown="Border_MouseDown"
+                                       Margin="2"
+                                       Source="Resources\Sprites\Skills\Black.png"/>
+                            </Button>
                         </Border>
                         <Border BorderBrush="Gray"
                                 BorderThickness="1"
                                 Grid.Column="6"
                                 Margin="0 -1 -1 -1">
+                            <Button Background="Black"
+                                    Width="Auto"
+                                    Height="Auto"
+                                    BorderThickness="0"
+                                    Padding="0"
+                                    Margin="1">
+                                <Image MouseDown="Border_MouseDown"
+                                       Margin="2"
+                                       Source="Resources\Sprites\Skills\Black.png"/>
+                            </Button>
                         </Border>
                         <Border BorderBrush="Gray"
                                 BorderThickness="1"
                                 Grid.Column="7"
                                 Margin="0 -1 -1 -1">
+                            <Button Background="Black"
+                                    Width="Auto"
+                                    Height="Auto"
+                                    BorderThickness="0"
+                                    Padding="0"
+                                    Margin="1">
+                                <Image MouseDown="Border_MouseDown"
+                                       Margin="2"
+                                       Source="Resources\Sprites\Skills\Black.png"/>
+                            </Button>
                         </Border>
                         <Border BorderBrush="Gray"
                                 BorderThickness="1"
                                 Grid.Column="8"
                                 Margin="0 -1 -1 -1">
+                            <Button Background="Black"
+                                    Width="Auto"
+                                    Height="Auto"
+                                    BorderThickness="0"
+                                    Padding="0"
+                                    Margin="1">
+                                <Image MouseDown="Border_MouseDown"
+                                       Margin="2"
+                                       Source="Resources\Sprites\Skills\Black.png"/>
+                            </Button>
                         </Border>
                         <Border BorderBrush="Gray"
                                 BorderThickness="1"
                                 Grid.Column="9"
                                 Margin="0 -1 -1 -1">
+                            <Button Background="Black"
+                                    Width="Auto"
+                                    Height="Auto"
+                                    BorderThickness="0"
+                                    Padding="0"
+                                    Margin="1">
+                                <Image MouseDown="Border_MouseDown"
+                                       Margin="2"
+                                       Source="Resources\Sprites\Skills\Black.png"/>
+                            </Button>
                         </Border>
                     </Grid>
                 </Border>
@@ -492,11 +822,17 @@
                         HorizontalAlignment="Right">
                     
                     <Button Name="Test"
-                        Command="{Binding TeleportToHome}"
-                            Click="Test_Click">
+                            Command="{Binding TeleportToHome}"
+                            Background="Black"
+                            BorderBrush="White"
+                            BorderThickness="1"
+                            Width="48"
+                            Height="48"
+                            Padding="0">
                         <Image Source="Resources/Icons/teleport.png"
                            Height="48"
-                           Width="48">
+                           Width="48"
+                               >
 
                         </Image>
                     </Button>
@@ -533,6 +869,7 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         Visibility="{Binding WestVis}"
+                        IsEnabled="{Binding MoveButton}"
                         Command="{Binding West}"
                         Style="{DynamicResource TriangleButtonStyle}"/>
                 <Button Grid.Row="1"
@@ -542,6 +879,7 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         Visibility="{Binding NorthVis}"
+                        IsEnabled="{Binding MoveButton}"
                         Command="{Binding North}"
                         Style="{DynamicResource TriangleButtonStyle}"
                         RenderTransform="{StaticResource Rotate090}"/>
@@ -552,6 +890,7 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         Visibility="{Binding EastVis}"
+                        IsEnabled="{Binding MoveButton}"
                         Command="{Binding East}"
                         Style="{DynamicResource TriangleButtonStyle}"
                         RenderTransform="{StaticResource Rotate180}"/>
@@ -562,6 +901,7 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         Visibility="{Binding SouthVis}"
+                        IsEnabled="{Binding MoveButton}"
                         Command="{Binding South}"
                         Style="{DynamicResource TriangleButtonStyle}"
                         RenderTransform="{StaticResource Rotate270}"/>
