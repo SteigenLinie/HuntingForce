@@ -20,9 +20,13 @@ namespace EngineHF.Model
         public int CurrentXP { get; set; }
         public int SkillPoint { get; set; }
         public int TempSkillPoint { get; set; }
+        public int CurrentGold { get; set; }
         public GameItem CurrentWeapon { get; set; }
+        public GameItem CurrentArmor { get; set; }
+        public GameItem CurrentAccessory { get; set; }
         public MainStats(string name, int maxHP, int currentHP, int maxMP, int currentMP, int maxSP,
-            int currentSP, int maxXP, int currentLevel, int currentXp, int skillPoint, int tempSkillPoint)
+            int currentSP, int maxXP, int currentLevel, int currentXp, int skillPoint, int tempSkillPoint,
+            int currentGold, GameItem currentWeapon, GameItem currentArmor = null, GameItem currentAccessory = null)
         {
             Name = name;
             MaxHP = maxHP;
@@ -36,6 +40,10 @@ namespace EngineHF.Model
             CurrentXP = currentXp;
             SkillPoint = skillPoint;
             TempSkillPoint = tempSkillPoint;
+            CurrentGold = currentGold;
+            CurrentWeapon = currentWeapon;
+            CurrentArmor = currentArmor;
+            CurrentAccessory = currentAccessory;
         }
     }
 }

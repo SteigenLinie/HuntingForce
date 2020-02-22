@@ -14,8 +14,8 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="MainWindow"
-        Width="1920"
-        Height="1080"
+        Width="1600"
+        Height="900"
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
@@ -230,7 +230,42 @@
                                        HorizontalAlignment="Center"/>
                         </TabItem.Header>
                         <TabItem.Content>
-                            <Grid></Grid>
+                            <Grid Grid.Row="5"
+                                              Grid.Column="7"
+                                              Margin="5 0 0 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="8*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                                       Grid.Row="1"
+                                                       Text="Gold:"
+                                                       Padding="0"
+                                                       FontSize="20"
+                                                       FontFamily="./Resources/Fonts/#Determination2"
+                                                       VerticalAlignment="Center"
+                                                       HorizontalAlignment="Left"
+                                                       Foreground="Yellow"/>
+                                <TextBlock Grid.Column="1"
+                                                       Grid.Row="1"
+                                                       Text="265"
+                                                       Padding="0"
+                                                       FontSize="20"
+                                                       FontFamily="./Resources/Fonts/#Determination2"
+                                                       VerticalAlignment="Center"
+                                                       HorizontalAlignment="Left"
+                                                       Foreground="Yellow"/>
+                            </Grid >
                         </TabItem.Content>
                     </TabItem>
 
@@ -383,7 +418,8 @@
                                         <RowDefinition Height="3*"/>
                                         <RowDefinition Height="1*"/>
                                     </Grid.RowDefinitions>
-                                    <Grid Grid.Row="0">
+                                    <Grid Grid.Row="0"
+                                          Margin="0 0 0 15">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
@@ -408,15 +444,15 @@
                                               Grid.Column="2">
                                             <Border BorderBrush="White"
                                                     BorderThickness="1"
-                                                    Margin="3">
-                                                <Image/>
-                                            </Border>
+                                                    Margin="3"/>
                                             <TextBlock Text="Ring"
                                                        Foreground="White"
                                                        HorizontalAlignment="Center"
                                                        Margin="0 2 0 0"
                                                        FontSize="20"
                                                        FontFamily="./Resources/Fonts/#Determination2"/>
+                                            <Image Source="Resources/Black.png"
+                                                   Margin="7 25 7 7"/>
                                         </Grid>
                                         
                                         <!-- Helmet -->
@@ -426,15 +462,15 @@
                                               Grid.ColumnSpan="2">
                                             <Border BorderBrush="White"
                                                     BorderThickness="1"
-                                                    Margin="3">
-                                                <Image/>
-                                            </Border>
+                                                    Margin="3"/>
                                             <TextBlock Text="Helmet"
                                                        Foreground="White"
                                                        HorizontalAlignment="Center"
                                                        Margin="0 2 0 0"
                                                        FontSize="25"
                                                        FontFamily="./Resources/Fonts/#Determination2"/>
+                                            <Image Source="Resources/Black.png"
+                                                   Margin="7 25 7 7"/>
                                         </Grid>
                                         
                                         <!-- Ring2 -->
@@ -442,32 +478,36 @@
                                               Grid.Column="5">
                                             <Border BorderBrush="White"
                                                     BorderThickness="1"
-                                                    Margin="3">
-                                                <Image/>
-                                            </Border>
+                                                    Margin="3"/>
                                             <TextBlock Text="Ring"
                                                        Foreground="White"
                                                        HorizontalAlignment="Center"
                                                        Margin="0 2 0 0"
                                                        FontSize="20"
                                                        FontFamily="./Resources/Fonts/#Determination2"/>
+                                            <Image Source="Resources/Black.png"
+                                                   Margin="7 25 7 7"/>
                                         </Grid>
-                                        <!-- Sword -->
-                                        <Grid Grid.Row="3"
+                                        
+                                        <!-- Weapon -->
+                                        <Grid Name="Weapon"
+                                              Grid.Row="3"
                                               Grid.RowSpan="3"
                                               Grid.Column="1"
                                               Grid.ColumnSpan="2">
-                                            <Border BorderBrush="White"
-                                                    BorderThickness="1"
-                                                    Margin="3">
-                                                <Image/>
-                                            </Border>
-                                            <TextBlock Text="Sword"
+                                            <TextBlock Text="Weapon"
                                                        Foreground="White"
                                                        HorizontalAlignment="Center"
                                                        Margin="0 2 0 0"
                                                        FontSize="25"
                                                        FontFamily="./Resources/Fonts/#Determination2"/>
+                                            <Border BorderBrush="White"
+                                                    BorderThickness="1"
+                                                    Margin="3">
+                                                <Image MouseDown="Weapon_MouseLeftButtonDown"
+                                                       Source="Resources/Black.png"
+                                                       Margin="7 25 7 7"/>
+                                            </Border>
                                         </Grid>
 
                                         <!-- Armor -->
@@ -475,17 +515,19 @@
                                               Grid.RowSpan="3"
                                               Grid.Column="3"
                                               Grid.ColumnSpan="2">
-                                            <Border BorderBrush="White"
-                                                    BorderThickness="1"
-                                                    Margin="3">
-                                                <Image/>
-                                            </Border>
                                             <TextBlock Text="Armor"
                                                        Foreground="White"
                                                        HorizontalAlignment="Center"
                                                        Margin="0 2 0 0"
                                                        FontSize="25"
                                                        FontFamily="./Resources/Fonts/#Determination2"/>
+                                            <Border BorderBrush="White"
+                                                    BorderThickness="1"
+                                                    Margin="3">
+                                                <Image MouseDown="Armor_MouseLeftButtonDown"
+                                                   Source="Resources/Black.png"
+                                                   Margin="7 25 7 7"/>
+                                            </Border>
                                         </Grid>
                                         
                                         <!-- Shield -->
@@ -495,18 +537,22 @@
                                               Grid.ColumnSpan="2">
                                             <Border BorderBrush="White"
                                                     BorderThickness="1"
-                                                    Margin="3">
-                                                <Image/>
-                                            </Border>
+                                                    Margin="3"/>
                                             <TextBlock Text="Shield"
                                                        Foreground="White"
                                                        HorizontalAlignment="Center"
                                                        Margin="0 2 0 0"
                                                        FontSize="25"
                                                        FontFamily="./Resources/Fonts/#Determination2"/>
+                                            <Image Source="Resources/Black.png"
+                                                   Margin="7 25 7 7"/>
                                         </Grid>
+
+                                        
+                                        
                                     </Grid>
-                                    <Grid Grid.Row="1"
+                                    <Grid Name="Inventory"
+                                          Grid.Row="1"
                                           Margin="2">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
@@ -523,7 +569,97 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
+                                        <Border Grid.Row="0"
+                                                Grid.Column="0"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 0 -0.5 0"/>
+                                        <Border Grid.Row="0"
+                                                Grid.Column="1"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 0 -0.5 0"/>
+                                        <Border Grid.Row="0"
+                                                Grid.Column="2"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 0 -0.5 0"/>
+                                        <Border Grid.Row="0"
+                                                Grid.Column="3"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 0 -0.5 0"/>
+                                        <Border Grid.Row="0"
+                                                Grid.Column="4"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 0 -0.5 0"/>
+                                        <Border Grid.Row="0"
+                                                Grid.Column="5"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 0 -0.5 0"/>
+                                        <Border Grid.Row="0"
+                                                Grid.Column="6"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 0 -0.5 0"/>
+                                        <Border Grid.Row="0"
+                                                Grid.Column="7"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 0 -0.5 0"/>
+                                        <Border Grid.Row="0"
+                                                Grid.Column="8"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 0 0 0"/>
                                         
+                                        <Border Grid.Row="1"
+                                                Grid.Column="0"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 -0.5 -0.5 0"/>
+                                        <Border Grid.Row="1"
+                                                Grid.Column="1"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 -0.5 -0.5 0"/>
+                                        <Border Grid.Row="1"
+                                                Grid.Column="2"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 -0.5 -0.5 0"/>
+                                        <Border Grid.Row="1"
+                                                Grid.Column="3"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 -0.5 -0.5 0"/>
+                                        <Border Grid.Row="1"
+                                                Grid.Column="4"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 -0.5 -0.5 0"/>
+                                        <Border Grid.Row="1"
+                                                Grid.Column="5"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 -0.5 -0.5 0"/>
+                                        <Border Grid.Row="1"
+                                                Grid.Column="6"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 -0.5 -0.5 0"/>
+                                        <Border Grid.Row="1"
+                                                Grid.Column="7"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 -0.5 -0.5 0"/>
+                                        <Border Grid.Row="1"
+                                                Grid.Column="8"
+                                                BorderBrush="White"
+                                                BorderThickness="1"
+                                                Margin="0 -0.5 0 0"/>
                                     </Grid>
                                 </Grid>
                             </TabItem.Content>
@@ -672,7 +808,9 @@
                                     Margin="1"
                                     Command="{Binding Attack}">
                                 <Image Source="Resources/Icons/SaberSlash.png"
-                                   Margin="2"/>
+                                   Margin="2"
+                                      >
+                                </Image>
                             </Button>
                             
                         </Border>
@@ -688,7 +826,7 @@
                                     Margin="1">
                                 <Image MouseDown="Border_MouseDown"
                                        Margin="2"
-                                       Source="Resources\Sprites\Skills\Black.png"/>
+                                       Source="Resources\Black.png"/>
                             </Button>
                         </Border>
                         <Border BorderBrush="Gray"
@@ -703,7 +841,7 @@
                                     Margin="1">
                                 <Image MouseDown="Border_MouseDown"
                                        Margin="2"
-                                       Source="Resources\Sprites\Skills\Black.png"/>
+                                       Source="Resources\Black.png"/>
                             </Button>
                         </Border>
                         <Border BorderBrush="Gray"
@@ -718,7 +856,7 @@
                                     Margin="1">
                                 <Image MouseDown="Border_MouseDown"
                                        Margin="2"
-                                       Source="Resources\Sprites\Skills\Black.png"/>
+                                       Source="Resources\Black.png"/>
                             </Button>
                         </Border>
                         <Border BorderBrush="Gray"
@@ -733,7 +871,7 @@
                                     Margin="1">
                                 <Image MouseDown="Border_MouseDown"
                                        Margin="2"
-                                       Source="Resources\Sprites\Skills\Black.png"/>
+                                       Source="Resources\Black.png"/>
                             </Button>
                         </Border>
                         <Border BorderBrush="Gray"
@@ -748,7 +886,7 @@
                                     Margin="1">
                                 <Image MouseDown="Border_MouseDown"
                                        Margin="2"
-                                       Source="Resources\Sprites\Skills\Black.png"/>
+                                       Source="Resources\Black.png"/>
                             </Button>
                         </Border>
                         <Border BorderBrush="Gray"
@@ -763,7 +901,7 @@
                                     Margin="1">
                                 <Image MouseDown="Border_MouseDown"
                                        Margin="2"
-                                       Source="Resources\Sprites\Skills\Black.png"/>
+                                       Source="Resources\Black.png"/>
                             </Button>
                         </Border>
                         <Border BorderBrush="Gray"
@@ -778,7 +916,7 @@
                                     Margin="1">
                                 <Image MouseDown="Border_MouseDown"
                                        Margin="2"
-                                       Source="Resources\Sprites\Skills\Black.png"/>
+                                       Source="Resources\Black.png"/>
                             </Button>
                         </Border>
                         <Border BorderBrush="Gray"
@@ -793,7 +931,7 @@
                                     Margin="1">
                                 <Image MouseDown="Border_MouseDown"
                                        Margin="2"
-                                       Source="Resources\Sprites\Skills\Black.png"/>
+                                       Source="Resources\Black.png"/>
                             </Button>
                         </Border>
                         <Border BorderBrush="Gray"
@@ -808,7 +946,7 @@
                                     Margin="1">
                                 <Image MouseDown="Border_MouseDown"
                                        Margin="2"
-                                       Source="Resources\Sprites\Skills\Black.png"/>
+                                       Source="Resources\Black.png"/>
                             </Button>
                         </Border>
                     </Grid>

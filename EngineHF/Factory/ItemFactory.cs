@@ -1,4 +1,5 @@
 ﻿using EngineHF.Model;
+using EngineHF.Model.ItemCategory;
 using EngineHF.Shared;
 using System;
 using System.Collections.Generic;
@@ -27,9 +28,8 @@ namespace EngineHF.Factory
                     data.SelectSingleNode("/GameItems")
                         .AttributeAsString("RootImagePath");
 
-                LoadItemsFromNodes(data.SelectNodes("/GameItems/Weapons/Weapon"), rootImagePath);
-                LoadItemsFromNodes(data.SelectNodes("/GameItems/Potions/Potion"), rootImagePath);
-                LoadItemsFromNodes(data.SelectNodes("/GameItems/MiscellaneousItems/MiscellaneousItem"), rootImagePath);
+                LoadItemsFromNodes(data.SelectNodes("/GameItems/GameItem"), rootImagePath);
+
             }
             else
             {
@@ -45,7 +45,7 @@ namespace EngineHF.Factory
 
             foreach (XmlNode node in nodes)
             {
-                GameItem.ItemCategory itemCategory = DetermineItemCategory(node.Name);
+                GameItem.ItemCategory itemCategory = DetermineItemCategory(node.AttributeAsString("Type"));
                 GameItem gameItem = new GameItem();
                 switch(itemCategory)
                 {
@@ -55,8 +55,26 @@ namespace EngineHF.Factory
                                                 node.AttributeAsString("Name"),
                                                 $".{rootImagePath}{node.AttributeAsString("ImageName")}",
                                                 node.AttributeAsString("Description"),
-                                                node.AttributeAsInt("MaxDamage"),
-                                                node.AttributeAsInt("MinDamage"));
+                                                Weapon(node.SelectSingleNode("./Weapon")));
+                        break;
+                    case GameItem.ItemCategory.Armor:
+                        gameItem = new GameItem(itemCategory,
+                                                node.AttributeAsInt("ID"),
+                                                node.AttributeAsString("Name"),
+                                                $".{rootImagePath}{node.AttributeAsString("ImageName")}",
+                                                node.AttributeAsString("Description"),
+                                                null,
+                                                Armor(node.SelectSingleNode("./Armor")));
+                        break;
+                    case GameItem.ItemCategory.Accessory:
+                        gameItem = new GameItem(itemCategory,
+                                                node.AttributeAsInt("ID"),
+                                                node.AttributeAsString("Name"),
+                                                $".{rootImagePath}{node.AttributeAsString("ImageName")}",
+                                                node.AttributeAsString("Description"),
+                                                null,
+                                                null,
+                                                Accessory(node.SelectSingleNode("./Accessory")));
                         break;
                     case GameItem.ItemCategory.Potion:
                         gameItem = new GameItem(itemCategory,
@@ -64,8 +82,10 @@ namespace EngineHF.Factory
                                                 node.AttributeAsString("Name"),
                                                 $".{rootImagePath}{node.AttributeAsString("ImageName")}",
                                                 node.AttributeAsString("Description"),
-                                                node.AttributeAsInt("HitPointsToHealHP"),
-                                                node.AttributeAsInt("HitPointsToHealMP"));
+                                                null,
+                                                null,
+                                                null,
+                                                Potion(node.SelectSingleNode("./Potion")));
                         break;
                     case GameItem.ItemCategory.Miscellaneous:
                         gameItem = new GameItem(itemCategory,
@@ -90,9 +110,20 @@ namespace EngineHF.Factory
                     return GameItem.ItemCategory.Weapon;
                 case "Potion":
                     return GameItem.ItemCategory.Potion;
+                case "Armor":
+                    return GameItem.ItemCategory.Armor;
+                case "Accessory":
+                    return GameItem.ItemCategory.Accessory;
                 default:
                     return GameItem.ItemCategory.Miscellaneous;
             }
         }
+        public static Weapon Weapon(XmlNode node) => new Weapon(node.AttributeAsInt("MinDamage"),
+                                                                node.AttributeAsInt("MaxDamage"));
+        public static Armor Armor(XmlNode node) => new Armor(node.AttributeAsInt("PlusArmor"));
+        public static Potion Potion(XmlNode node) => new Potion(node.AttributeAsInt("HitPointsToHealHP"),
+                                                                node.AttributeAsInt("HitPointsToHealMP"));
+        public static Accessory Accessory(XmlNode node) => new Accessory(node.AttributeAsInt("PlusHP"),
+                                                                         node.AttributeAsInt("PlusMP"));
     }
 }

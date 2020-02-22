@@ -3,25 +3,46 @@
   <Monster ID="1"
            Name="Rat"
            ImageName="EnemyRat.png"
-           MaxHP="15"
-           CurrentHP="15"
-           GiveXP="10"
+           MaxHP="1"
+           CurrentHP="1"
            AttackMax="15"
-           AttackMin="5"/>
+           AttackMin="5">
+    <Drops GiveXP="10" 
+           Gold="10">
+      <Drop ID="2"
+            Chance="100"/>
+      <Drop ID="3"
+            Chance="100"/>
+    </Drops>
+  </Monster>
   <Monster ID="2"
            Name="BigRat"
            ImageName="EnemyRat.png"
            MaxHP="0"
            CurrentHP="0"
-           GiveXP="0"
            AttackMax="0"
-           AttackMin="0"/>
+           AttackMin="0">
+    <Drops GiveXP="10"
+           Gold="10">
+      <Drop ID="1"
+            Chance="100"/>
+      <Drop ID="2"
+            Chance="100"/>
+    </Drops>
+  </Monster>
   <Monster ID="3"
            Name="BiBiRat"
            ImageName="EnemyRat.png"
            MaxHP="14"
            CurrentHP="5"
-           GiveXP="20"
            AttackMax="151"
-           AttackMin="53"/>
+           AttackMin="53">
+    <Drops GiveXP="10"
+           Gold="10">
+      <Drop ID="1"
+            Chance="100"/>
+      <Drop ID="2"
+            Chance="100"/>
+    </Drops>
+  </Monster>
 </Monsters>

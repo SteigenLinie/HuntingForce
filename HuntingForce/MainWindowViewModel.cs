@@ -17,13 +17,15 @@ namespace HuntingForce
 {
     public class MainWindowViewModel: BindableBase
     {
-        public readonly GameSession _gameSession; 
+        public readonly GameSession _gameSession;
+        MainWindow _mainWindow;
         private bool inFight;
         //private readonly Dictionary<Key, Action> _userInputActions =
         //    new Dictionary<Key, Action>();
-        public MainWindowViewModel(GameSession gameSession)
+        public MainWindowViewModel(GameSession gameSession, MainWindow mainWindow)
         {
             _gameSession = gameSession;
+            _mainWindow = mainWindow;
             Attack = new DelegateCommand(OnAttack, () => true);
             West = new DelegateCommand(OnWest, () => true);
             North = new DelegateCommand(OnNorth, () => true);
@@ -41,7 +43,6 @@ namespace HuntingForce
             XPbarMax = _gameSession.mainStats.MaxXP;
             XPbarValue = _gameSession.mainStats.CurrentXP;
             CountOfXPbar = $"{XPbarValue}/{XPbarMax}";
-            _gameSession.mainStats.CurrentWeapon = _gameSession._standardGameItems.First(x => x.ItemID == 1);
             Enemy = _gameSession.CurrentWorld.LocationAt(0, 0).ImageName.Remove(0, 1);
             ToCommonLocation();
             NameOfLocation = _gameSession.currentPos.Name;
@@ -220,7 +221,7 @@ namespace HuntingForce
         #region Attack Methods
         public void OnAttack()
         {
-            Attacking(_gameSession.mainStats.CurrentWeapon.MinDamage, _gameSession.mainStats.CurrentWeapon.MaxDamage);
+            Attacking(_gameSession.mainStats.CurrentWeapon.Weapon.MinDamage, _gameSession.mainStats.CurrentWeapon.Weapon.MaxDamage);
         }
         public void Attacking(int minDamage, int maxDamage)
         {
@@ -241,6 +242,11 @@ namespace HuntingForce
             if (_gameSession.currentPos.monster.CurrentHP <= 0)
             {
                 Logging("dead",new string[] {_gameSession.currentPos.monster.Name});
+                foreach(Drop drop in _gameSession.currentPos.monster.DropList)
+                {
+                    if (new Random().Next(0, 100) <= drop.Chance)
+                        _mainWindow.AddNewItemInInventory(drop);
+                }
                 _gameSession.currentPos.monster.CurrentHP = _gameSession.currentPos.monster.MaxHP;
                 XPPlus();
                 inFight = false;

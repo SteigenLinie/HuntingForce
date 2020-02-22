@@ -49,12 +49,22 @@ namespace EngineHF.Factory
                                 $".{rootImagePath}{node.AttributeAsString("ImageName")}",
                                 node.AttributeAsInt("MaxHP"),
                                 node.AttributeAsInt("CurrentHP"),
-                                node.AttributeAsInt("GiveXP"),
+                                node.SelectSingleNode("./Drops").AttributeAsInt("GiveXP"),
+                                node.SelectSingleNode("./Drops").AttributeAsInt("Gold"),
                                 node.AttributeAsInt("AttackMax"),
-                                node.AttributeAsInt("AttackMin"));
+                                node.AttributeAsInt("AttackMin"),
+                                Drops(node.SelectNodes("./Drops/Drop")));
 
                 _baseMonsters.Add(monster);
             }
+        }
+        private static List<Drop> Drops(XmlNodeList nodes)
+        {
+            List<Drop> drop = new List<Drop>();
+            foreach(XmlNode node in nodes)
+                drop.Add(new Drop(node.AttributeAsInt("ID"),
+                                  node.AttributeAsInt("Chance")));
+            return drop;
         }
     }
 }

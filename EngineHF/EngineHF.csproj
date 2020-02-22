@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -44,6 +46,12 @@
     <Compile Include="Factory\WorldFactory.cs" />
     <Compile Include="Factory\MonsterFactory.cs" />
     <Compile Include="Model\CurrentPos.cs" />
+    <Compile Include="Model\Drop.cs" />
+    <Compile Include="Model\ItemCategory\Accessory.cs" />
+    <Compile Include="Model\ItemCategory\Armor.cs" />
+    <Compile Include="Model\ItemCategory\Potion.cs" />
+    <Compile Include="Model\ItemCategory\Weapon.cs" />
+    <Compile Include="Model\ItemInInventory.cs" />
     <Compile Include="Model\MainStats.cs" />
     <Compile Include="Model\GameItem.cs" />
     <Compile Include="Model\Skills.cs" />

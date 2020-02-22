@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EngineHF.Model.ItemCategory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ namespace EngineHF.Model
         {
             Miscellaneous,
             Weapon,
+            Armor,
+            Accessory,
             Potion
         }
         public ItemCategory Category { get; set; }
@@ -19,37 +22,24 @@ namespace EngineHF.Model
         public string Name { get; set; }
         public string ImageName { get; set; }
         public string Descrtiption { get; set; }
-        public int MaxDamage { get; set; }
-        public int MinDamage { get; set; }
-        public short HitPointsToHealHP { get; set; }
-        public short HitPointsToHealMP { get; set; }
-        public GameItem(ItemCategory category, int itemID, string name, string imageName, string description)
+        public Weapon Weapon { get; set; }
+        public Armor Armor { get; set; }
+        public Accessory Accessory { get; set; }
+        public Potion Potion { get; set; }
+      
+
+        public GameItem(ItemCategory category, int itemID, string name, string imageName, string description,
+            Weapon weapon = null, Armor armor = null, Accessory accessory = null, Potion potion = null)
         {
             Category = category;
             ItemID = itemID;
             Name = name;
             ImageName = imageName;
             Descrtiption = description;
-        }
-        public GameItem(ItemCategory category, int itemID, string name, string imageName, string description, short hitPointsToHealHP, short hitPointsToHealMP)
-        {
-            Category = category;
-            ItemID = itemID;
-            Name = name;
-            ImageName = imageName;
-            Descrtiption = description;
-            HitPointsToHealHP = hitPointsToHealHP;
-            HitPointsToHealMP = hitPointsToHealMP;
-        }
-        public GameItem(ItemCategory category, int itemID, string name, string imageName, string description, int maxDamage, int minDamage)
-        {
-            Category = category;
-            ItemID = itemID;
-            Name = name;
-            ImageName = imageName;
-            Descrtiption = description;
-            MaxDamage = maxDamage;
-            MinDamage = minDamage;
+            Weapon = weapon;
+            Armor = armor;
+            Accessory = accessory;
+            Potion = potion;
         }
         public GameItem()
         {
