@@ -1,20 +1,13 @@
 ﻿using EngineHF;
 using EngineHF.Model;
-using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace HuntingForce
 {
@@ -23,6 +16,14 @@ namespace HuntingForce
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool _isItemSelected;
+        private int? _indexOfLastSelectedBorder = null;
+        private Border lastBorder;
+        int indnt = 0;
+
+
+
+
         int gay = 0;
         private bool skillSelected;
         private Button lastButton;
@@ -45,9 +46,137 @@ namespace HuntingForce
             InitializeComponent();
             DataContext = new MainWindowViewModel(_gameSession, this);
             AddingNewSkills();
+            AddingInventory();
+            AddFirstWeapon();
         }
         #region - Inventory -
+        private List<ItemInInventory> _inventoryItems = new List<ItemInInventory>();
+        private Border GenerateInventoryItem(string imageName, string text, int gridRow, int gridColumn)
+        {
+            Border border = new Border()
+            {
+                BorderBrush = Brushes.White,
+                BorderThickness = new Thickness(1)
+            };
 
+            Grid grid = new Grid();
+
+            Image image = new Image()
+            {
+                Margin = new Thickness(3),
+                Source = new BitmapImage(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\" + imageName.Remove(0,1)))
+            };
+            image.MouseLeftButtonDown += Image_MouseLeftButtonDown;
+
+            TextBlock textBlock = new TextBlock()
+            {
+                Text = text,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Bottom
+            };
+
+            grid.Children.Add(image);
+            grid.Children.Add(textBlock);
+
+            border.Child = grid;
+            Grid.SetRow(border, gridRow);
+            Grid.SetColumn(border, gridColumn);
+            return border;
+        }
+
+        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (_isItemSelected)
+                SwapItems((Image)sender);
+            else
+                OnItemInInventorySelecting((Image)sender);
+        }
+
+        private void AddingInventory()
+        {
+            for (int i = 0; i < 2; i++)
+                for (int j = 0; j < 9; j++)
+                    _inventoryItems.Add(new ItemInInventory(GenerateInventoryItem(@".\Resources\Black.png", null, i, j), null, i, j));
+
+            foreach (var item in _inventoryItems)
+                Inventory.Children.Add(item.Item);
+        }
+        private void AddFirstWeapon()
+        {
+            var firstWeapon = _gameSession.mainStats.CurrentWeapon;
+            var border = (Border)Weapon.Children[1];
+            var image = (Image)border.Child;
+            image.Source = new BitmapImage(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\" + firstWeapon.ImageName.Remove(0, 1)));
+        }
+        public void AddNewItemInInventory(Drop drop)
+        {
+            var newAddItem = _gameSession._standardGameItems.First(x => x.ItemID == drop.DropID);
+            if(newAddItem.Category == GameItem.ItemCategory.Miscellaneous && _inventoryItems.(x => x.Name == ""))
+            {
+                var item = _inventoryItems.First(x => x.Name.Split('_')[0] + "_" + x.Name.Split('_')[1] == $"{newAddItem.Name}_{newAddItem.Category}");
+                var grid = (Grid)item.Item.Child;
+                var textBlock = (TextBlock)grid.Children[1];
+                textBlock.Text = "2";
+            }
+            foreach(var item in _inventoryItems)
+            {
+                if(item.IsEmpty)
+                {
+                    var grid = (Grid)item.Item.Child;
+                    var image = (Image)grid.Children[0];
+                    image.MouseLeftButtonDown -= Image_MouseLeftButtonDown;
+
+                    var border = GenerateInventoryItem(newAddItem.ImageName, null, item.GridRow, item.GridColumn);
+                    Inventory.Children.Remove(item.Item);
+                    item.Item = border;
+                    item.Name = $"{newAddItem.Name}_{newAddItem.Category}_{indnt++}";
+                    item.IsEmpty = false;
+                    Inventory.Children.Add(item.Item);
+                    break;
+                }
+            }
+        }
+
+        private void OnItemInInventorySelecting(Image image)
+        {
+            var grid = (Grid)image.Parent;
+            var border = (Border)grid.Parent;
+            border.BorderThickness = new Thickness(3);
+            _indexOfLastSelectedBorder = Grid.GetRow(border)*9 + Grid.GetColumn(border);
+            lastBorder = border;
+            _isItemSelected = true;
+        }
+
+        private void SwapItems(Image image)
+        {
+            lastBorder.BorderThickness = new Thickness(1);
+            _isItemSelected = false;
+
+            var grid = (Grid)image.Parent;
+            var border = (Border)grid.Parent;
+            var _indexOfNewSelectedBorder = Grid.GetRow(border) * 9 + Grid.GetColumn(border);
+
+
+
+            var lastItem = _inventoryItems[_indexOfLastSelectedBorder.Value];
+            var newItem = _inventoryItems[_indexOfNewSelectedBorder];
+
+            Grid.SetRow(lastItem.Item, newItem.GridRow);
+            Grid.SetColumn(lastItem.Item, newItem.GridColumn);
+            Grid.SetRow(newItem.Item, lastItem.GridRow);
+            Grid.SetColumn(newItem.Item, lastItem.GridColumn);
+
+            (lastItem.GridRow, newItem.GridRow) = (newItem.GridRow, lastItem.GridRow);
+            (lastItem.GridColumn, newItem.GridColumn) = (newItem.GridColumn, lastItem.GridColumn);
+
+            _inventoryItems[_indexOfNewSelectedBorder] = lastItem;
+            _inventoryItems[_indexOfLastSelectedBorder.Value] = newItem;
+
+            _inventoryItems = _inventoryItems.OrderBy(x => x.GridRow).ThenBy(y => y.GridColumn).ToList();
+
+            lastBorder = null;
+            _indexOfLastSelectedBorder = null;
+        }
         #endregion
 
         #region - TabItemSelecter -
@@ -248,6 +377,15 @@ namespace HuntingForce
         {
             MainWindowViewModel main = (MainWindowViewModel)DataContext;
             main.DialogAddAll();
+        }
+
+        private void Weapon_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        private void Armor_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

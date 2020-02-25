@@ -504,7 +504,7 @@
                                             <Border BorderBrush="White"
                                                     BorderThickness="1"
                                                     Margin="3">
-                                                <Image MouseDown="Weapon_MouseLeftButtonDown"
+                                                <Image MouseDown="Weapon_MouseDown"
                                                        Source="Resources/Black.png"
                                                        Margin="7 25 7 7"/>
                                             </Border>
@@ -525,7 +525,7 @@
                                                     BorderThickness="1"
                                                     Margin="3">
                                                 <Image Name="Armor"
-                                                        MouseDown="Armor_MouseLeftButtonDown"
+                                                        MouseDown="Armor_MouseDown"
                                                    Source="Resources/Black.png"
                                                    Margin="7 25 7 7"/>
                                             </Border>
@@ -570,104 +570,7 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Border Grid.Row="0"
-                                                Grid.Column="0"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 0 -0.5 0">
-                                            <Image ></Image>
-                                        </Border>
-                                        <Border Grid.Row="0"
-                                                Grid.Column="1"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 0 -0.5 0"/>
-                                        <Border Grid.Row="0"
-                                                Grid.Column="2"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 0 -0.5 0"/>
-                                        <Border Grid.Row="0"
-                                                Grid.Column="3"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 0 -0.5 0"/>
-                                        <Border Grid.Row="0"
-                                                Grid.Column="4"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 0 -0.5 0"/>
-                                        <Border Grid.Row="0"
-                                                Grid.Column="5"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 0 -0.5 0"/>
-                                        <Border Grid.Row="0"
-                                                Grid.Column="6"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 0 -0.5 0"/>
-                                        <Border Grid.Row="0"
-                                                Grid.Column="7"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 0 -0.5 0"/>
-                                        <Border Grid.Row="0"
-                                                Grid.Column="8"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 0 0 0"/>
-                                        
-                                        <Border Grid.Row="1"
-                                                Grid.Column="0"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 -0.5 -0.5 0"/>
-                                        <Border Grid.Row="1"
-                                                Grid.Column="1"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 -0.5 -0.5 0"/>
-                                        <Border Grid.Row="1"
-                                                Grid.Column="2"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 -0.5 -0.5 0"/>
-                                        <Border Grid.Row="1"
-                                                Grid.Column="3"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 -0.5 -0.5 0"/>
-                                        <Border Grid.Row="1"
-                                                Grid.Column="4"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 -0.5 -0.5 0"/>
-                                        <Border Grid.Row="1"
-                                                Grid.Column="5"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 -0.5 -0.5 0"/>
-                                        <Border Grid.Row="1"
-                                                Grid.Column="6"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 -0.5 -0.5 0"/>
-                                        <Border Grid.Row="1"
-                                                Grid.Column="7"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 -0.5 -0.5 0"/>
-                                        <Border Grid.Row="1"
-                                                Grid.Column="8"
-                                                BorderBrush="White"
-                                                BorderThickness="1"
-                                                Margin="0 -0.5 0 0"/>
                                     </Grid>
-                                    <!--<StackPanel Name="Inventory"
-                                                Orientation="Horizontal"
-                                                Grid.Row="1">
-                                    </StackPanel>-->
                                 </Grid>
                             </TabItem.Content>
                         </TabItem>

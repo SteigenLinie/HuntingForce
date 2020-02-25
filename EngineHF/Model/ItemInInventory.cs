@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace EngineHF.Model
 {
@@ -12,13 +7,15 @@ namespace EngineHF.Model
         public string Name { get; set; }
         public int GridColumn { get; set; }
         public int GridRow { get; set; }
+        public bool IsEmpty { get; set; }
         public Border Item { get; set; } 
-        public ItemInInventory(Border item, string name, int gridColumn, int gridRow)
+        public ItemInInventory(Border item, string name, int gridRow, int gridColumn, bool isEmpty = true)
         {
             Item = item;
             Name = name;
             GridColumn = gridColumn;
             GridRow = gridRow;
+            IsEmpty = isEmpty;
         }
     }
 }
