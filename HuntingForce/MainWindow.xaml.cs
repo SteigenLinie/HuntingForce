@@ -23,10 +23,8 @@ namespace HuntingForce
     /// </summary>
     public partial class MainWindow : Window
     {
-        private int GridColumnForInventory = -1;
-        private int GridRowForInventory = -1;
+        int gay = 0;
         private bool skillSelected;
-        private bool isSelectedItem;
         private Button lastButton;
         private Image lastImage;
         private static readonly GameSession _gameSession = new GameSession();
@@ -41,52 +39,29 @@ namespace HuntingForce
         private TextBlock[] _arrayOfSkillTextBlock1 = new TextBlock[_gameSession._standartSkills.Count];
         private Border[] _arrayOfBorder1 = new Border[_gameSession._standartSkills.Count];
 
-        private Dictionary<string, TextBlock> inventoryItem = new Dictionary<string, TextBlock>();
-        private List<Image> images = new List<Image>();
-        
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = new MainWindowViewModel(_gameSession, this);
             AddingNewSkills();
-            AddingFirstItem();
-            VoidInventory();
         }
-        private void VoidInventory()
-        {
-            for(int i = 0; i < 2; i++)
-                for(int j = 0; j < 9; j++)
-                {
-                    Border border = new Border
-                    {
-                        BorderBrush = Brushes.White,
-                        BorderThickness = new Thickness(0),
-                        Padding = new Thickness(0)
-                    };
-                    TextBlock textBlock = new TextBlock
-                    {
-                        VerticalAlignment = VerticalAlignment.Bottom,
-                        HorizontalAlignment = HorizontalAlignment.Right,
-                        Foreground = Brushes.White
-                    };
-                    Grid.SetRow(border, i);
-                    Grid.SetRow(textBlock, i);
-                    Grid.SetColumn(border, j);
-                    Grid.SetColumn(textBlock, j);
-                    Image image = new Image
-                    {
-                        Source = new BitmapImage(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Black.png")),
-                        Margin = new Thickness(2)
-                    };
+        #region - Inventory -
 
-                    image.MouseLeftButtonDown += Image_MouseLeftButtonDown;
-                    border.Child = image;
-                    inventoryItem.Add($"{i}.{j}", textBlock);
-                    Inventory.Children.Add(border);
-                    Inventory.Children.Add(textBlock);
-                }
-        }
+        #endregion
+
+        #region - TabItemSelecter -
+        private void TabItemQuestBook_Selected(object sender, RoutedEventArgs e) => QuestBookTabItem.Foreground = Brushes.White;
+        private void TabItemQuestBook_Unselected(object sender, RoutedEventArgs e) => QuestBookTabItem.Foreground = Brushes.LightGray;
+        private void TabItemInventory_Selected(object sender, RoutedEventArgs e) => InventoryTabItem.Foreground = Brushes.White;
+        private void TabItemInventory_Unselected(object sender, RoutedEventArgs e) => InventoryTabItem.Foreground = Brushes.LightGray;
+        private void TabItemMap_Selected(object sender, RoutedEventArgs e) => MapTabItem.Foreground = Brushes.White;
+        private void TabItemMap_Unselected(object sender, RoutedEventArgs e) => MapTabItem.Foreground = Brushes.LightGray;
+        private void TabItemSkills_Selected(object sender, RoutedEventArgs e) => SkillsTabItem.Foreground = Brushes.White;
+        private void TabItemSkills_Unselected(object sender, RoutedEventArgs e) => SkillsTabItem.Foreground = Brushes.LightGray;
+        #endregion
+
+        #region - Skills -
         public void AddingNewSkills()
         {
             foreach (var skill in _gameSession._standartSkills)
@@ -148,94 +123,6 @@ namespace HuntingForce
                 SkillsGrid.Children.Add(textBlock);
             }
         }
-        public void AddingFirstItem()
-        {
-            var currentWeapon = _gameSession.mainStats.CurrentWeapon;
-            var border = (Border)Weapon.Children[1];
-            var image = (Image)border.Child;
-            image.Source = new BitmapImage(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\" + currentWeapon.ImageName.Remove(0, 1)));
-            image.Name = currentWeapon.Name + "_" + currentWeapon.Category.ToString();
-        }
-        public void AddNewItemInInventory(Drop drop)
-        {
-            var newItemInInventory = _gameSession._standardGameItems.First(x => x.ItemID == drop.DropID);
-           
-            Border border = new Border
-            {
-                BorderBrush = Brushes.White,
-                BorderThickness = new Thickness(0),
-                Padding = new Thickness(0)
-            };
-            TextBlock textBlock = new TextBlock
-            {
-                VerticalAlignment = VerticalAlignment.Bottom,
-                HorizontalAlignment = HorizontalAlignment.Right,
-                Foreground = Brushes.White
-            };
-            
-            Image image = new Image
-            {
-                Source = new BitmapImage(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\" + newItemInInventory.ImageName.Remove(0, 1))),
-                Name = newItemInInventory.Name + "_" + newItemInInventory.Category.ToString(),
-                Margin = new Thickness(2)
-            };
-
-            if (!inventoryItem.ContainsKey(image.Name))
-            {
-                if (GridColumnForInventory >= 9)
-                {
-
-                    Grid.SetRow(border, ++GridRowForInventory);
-                    Grid.SetRow(textBlock, GridRowForInventory);
-                    GridColumnForInventory = 0;
-                }
-                Grid.SetColumn(border, ++GridColumnForInventory);
-                Grid.SetColumn(textBlock, GridColumnForInventory);
-                var ss = Grid.GetRow(border);
-                var sss = Grid.GetColumn(textBlock);
-            }
-
-            image.MouseLeftButtonDown += Image_MouseLeftButtonDown;
-            border.Child = image;
-            if (inventoryItem.ContainsKey(image.Name) && image.Name != "")
-            {
-                var a = inventoryItem.First(x => x.Key == image.Name);
-                if (a.Value.Text == "")
-                    a.Value.Text = "2";
-                else
-                    a.Value.Text = $"{Convert.ToInt32(a.Value.Text) + 1}";
-            }
-            else
-            {
-                inventoryItem.Add(image.Name, textBlock);
-                Inventory.Children.Add(border);
-                Inventory.Children.Add(textBlock);
-            }
-        }
-
-        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Image image = (Image)sender;
-            if (isSelectedItem)
-                SwapImage(image);      
-            else
-                SelectItemInInventory(image);
-        }
-
-        private void TabItemQuestBook_Selected(object sender, RoutedEventArgs e) => QuestBookTabItem.Foreground = Brushes.White;
-        private void TabItemQuestBook_Unselected(object sender, RoutedEventArgs e) => QuestBookTabItem.Foreground = Brushes.LightGray;
-        private void TabItemInventory_Selected(object sender, RoutedEventArgs e) => InventoryTabItem.Foreground = Brushes.White;
-        private void TabItemInventory_Unselected(object sender, RoutedEventArgs e) => InventoryTabItem.Foreground = Brushes.LightGray;
-        private void TabItemMap_Selected(object sender, RoutedEventArgs e) => MapTabItem.Foreground = Brushes.White;
-        private void TabItemMap_Unselected(object sender, RoutedEventArgs e) => MapTabItem.Foreground = Brushes.LightGray;
-        private void TabItemSkills_Selected(object sender, RoutedEventArgs e) => SkillsTabItem.Foreground = Brushes.White;
-        private void TabItemSkills_Unselected(object sender, RoutedEventArgs e) => SkillsTabItem.Foreground = Brushes.LightGray;
-
-        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            MainWindowViewModel main = (MainWindowViewModel)DataContext;
-            main.DialogAddAll();
-        }
         private void DesignOfSkillUpdate(int i)
         {
             arrayOfBorder[i].BorderBrush = Brushes.White;
@@ -290,7 +177,7 @@ namespace HuntingForce
                 }
             }
         }
-        
+
         private void Button_Cancel(object sender, RoutedEventArgs e)
         {
             foreach (var a in _arrayOfBorder1)
@@ -320,7 +207,7 @@ namespace HuntingForce
             _arrayOfTextBlock.CopyTo(_arrayOfTextBlock1);
             Cancel.IsEnabled = false;
         }
-        
+
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (skillSelected)
@@ -342,95 +229,25 @@ namespace HuntingForce
             Button button = (Button)sender;
             var _gm = (MainWindowViewModel)DataContext;
             var skillUse = _gameSession._standartSkills.First(x => x.Name == button.Name);
-            switch(skillUse.Type)
+            switch (skillUse.Type)
             {
                 case EngineHF.Model.Skills.TypeOfSkill.Attack:
                     if (_gameSession.currentPos.monster != null)
-                        _gm.Logging("useSkill", new string[] {_gameSession.mainStats.Name, skillUse.Name, _gameSession.currentPos.monster.Name });
-                    for(int i = 0; i < skillUse.Attack.CountOfSlash; i++)
+                        _gm.Logging("useSkill", new string[] { _gameSession.mainStats.Name, skillUse.Name, _gameSession.currentPos.monster.Name });
+                    for (int i = 0; i < skillUse.Attack.CountOfSlash; i++)
                         _gm.Attacking(_gameSession.mainStats.CurrentWeapon.Weapon.MinDamage + skillUse.Attack.MinBonusDamage, _gameSession.mainStats.CurrentWeapon.Weapon.MaxDamage + skillUse.Attack.MaxBonusDamage);
                     break;
                 case EngineHF.Model.Skills.TypeOfSkill.Heal:
                     break;
-            }          
+            }
         }
+        #endregion
 
-        private void SwapImage(Image newImage)
-        {
-            (newImage.Name, lastImage.Name) = (lastImage.Name, newImage.Name);
-            (newImage.Source, lastImage.Source) = (lastImage.Source, newImage.Source);
-            var lastBorder = (Border)lastImage.Parent;
-            lastBorder.BorderThickness = new Thickness(1);
 
-            GridColumnForInventory -= Grid.GetColumn(lastBorder);
-            GridRowForInventory -= Grid.GetRow(lastBorder);
-            inventoryItem.Remove(newImage.Name);
-            isSelectedItem = false;
-        }
-        private void SelectItemInInventory(Image image)
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (image.Name == "")
-                return;
-            var border = (Border)image.Parent;
-            border.BorderThickness = new Thickness(3);
-
-            if (lastImage != null && isSelectedItem)
-                UnselectItemInInventory();
-            lastImage = image;
-            isSelectedItem = true;
-        }
-        private void UnselectItemInInventory()
-        {
-            var clear = (Border)lastImage.Parent;
-            clear.BorderThickness = new Thickness(1);
-            isSelectedItem = false;
-            return;
-        }
-        private void Weapon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                Image newimage = (Image)sender;
-                if (isSelectedItem)
-                {
-                    if (lastImage.Name != newimage.Name && lastImage.Name.Split('_')[1] == GameItem.ItemCategory.Weapon.ToString())
-                    {
-                        SwapImage(newimage);
-                        _gameSession.mainStats.CurrentWeapon = _gameSession._standardGameItems.First(x => x.Name == newimage.Name.Split('_')[0]);
-                    }
-                    else
-                        UnselectItemInInventory();
-                }
-                else
-                    SelectItemInInventory(newimage);
-            }
-            catch
-            {
-                MessageBox.Show("gay");
-            }
-        }
-        private void Armor_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                Image newimage = (Image)sender;
-                if (isSelectedItem)
-                {
-                    if (lastImage.Name.Split('_')[1] == GameItem.ItemCategory.Armor.ToString())
-                    {
-                        SwapImage(newimage);
-                        _gameSession.mainStats.CurrentArmor = _gameSession._standardGameItems.First(x => x.Name == newimage.Name.Split('_')[0]);
-                    }
-                    else
-                        UnselectItemInInventory();
-                }
-                else
-                    SelectItemInInventory(newimage);
-            }
-            catch
-            {
-                MessageBox.Show("gay");
-            }
+            MainWindowViewModel main = (MainWindowViewModel)DataContext;
+            main.DialogAddAll();
         }
     }
 }

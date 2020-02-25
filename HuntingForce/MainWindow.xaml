@@ -524,7 +524,8 @@
                                             <Border BorderBrush="White"
                                                     BorderThickness="1"
                                                     Margin="3">
-                                                <Image MouseDown="Armor_MouseLeftButtonDown"
+                                                <Image Name="Armor"
+                                                        MouseDown="Armor_MouseLeftButtonDown"
                                                    Source="Resources/Black.png"
                                                    Margin="7 25 7 7"/>
                                             </Border>
@@ -551,7 +552,7 @@
                                         
                                         
                                     </Grid>
-                                    <Grid Name="Inventory"
+                                    <Grid Name="Inventory" 
                                           Grid.Row="1"
                                           Margin="2">
                                         <Grid.RowDefinitions>
@@ -573,7 +574,9 @@
                                                 Grid.Column="0"
                                                 BorderBrush="White"
                                                 BorderThickness="1"
-                                                Margin="0 0 -0.5 0"/>
+                                                Margin="0 0 -0.5 0">
+                                            <Image ></Image>
+                                        </Border>
                                         <Border Grid.Row="0"
                                                 Grid.Column="1"
                                                 BorderBrush="White"
@@ -661,6 +664,10 @@
                                                 BorderThickness="1"
                                                 Margin="0 -0.5 0 0"/>
                                     </Grid>
+                                    <!--<StackPanel Name="Inventory"
+                                                Orientation="Horizontal"
+                                                Grid.Row="1">
+                                    </StackPanel>-->
                                 </Grid>
                             </TabItem.Content>
                         </TabItem>

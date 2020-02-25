@@ -25,7 +25,12 @@
     <Weapon MinDamage="0"
             MaxDamage="20"/>
   </GameItem>
-  
+  <GameItem ID="5"
+            Type="Miscellaneous"
+            Name="mussel"
+            ImageName="mussel.png"
+            Description="a">
+  </GameItem>
   <GameItem ID="4"
             Type="Potion"
             Name="broadsword"

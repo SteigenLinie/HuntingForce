@@ -13,6 +13,8 @@
             Chance="100"/>
       <Drop ID="3"
             Chance="100"/>
+      <Drop ID="5"
+            Chance="100"/>
     </Drops>
   </Monster>
   <Monster ID="2"
