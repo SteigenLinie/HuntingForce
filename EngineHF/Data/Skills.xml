@@ -16,8 +16,8 @@
          GridColumn="1"
          Name="Rat"
          ImageName="all-for-one.png">
-    <Attack MinBonusDamage="7"
-            MaxBonusDamage="0"
+    <Attack MinBonusDamage="3"
+            MaxBonusDamage="3"
             CountOfSlash="3"/>
   </Skill>
   <Skill Type="Heal"

@@ -39,7 +39,7 @@ namespace EngineHF
             monsterFactory = new MonsterFactory();
             itemFactory = new ItemFactory();
             //TODO parce xml to mainstats
-            mainStats = new MainStats("3,14door", 100, 100, 100, 100, 100, 100, 20, 0, 0, 1, 1, 0, _standardGameItems[0], _standardGameItems[1]);
+            mainStats = new MainStats("3,14door", 100, 100, 100, 100, 100, 100, Convert.ToInt32(50 * Math.Pow(1.337, 2)), 1, 0, 1, 1, 0, _standardGameItems[0], _standardGameItems[1]);
             skillsFactory = new SkillsFactory();
             CurrentWorld = WorldFactory.CreateWorld(); 
             currentPos = CurrentWorld.LocationAt(0,0);

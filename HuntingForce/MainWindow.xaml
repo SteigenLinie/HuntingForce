@@ -109,7 +109,7 @@
         <RotateTransform x:Key="Rotate270" CenterX="24" CenterY="24" Angle="270"/>
     </Window.Resources>
     <Grid>
-
+        
         <Border Background="Black"/>
 
         <Grid Margin="5">
@@ -128,7 +128,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
+            
             <!-- Stats -->
             <Grid Grid.Row="0"
                   Grid.Column="0">
@@ -217,10 +217,10 @@
                     <TabItem Background="Black"
                                  BorderBrush="Gray"
                                  Margin="-2 0 0 0"
-                                 Selector.Selected="TabItemMap_Selected"
-                                 Selector.Unselected="TabItemMap_Unselected">
+                                 Selector.Selected="TabItemStats_Selected"
+                                 Selector.Unselected="TabItemStats_Unselected">
                         <TabItem.Header>
-                            <TextBlock Name="Stats"
+                            <TextBlock Name="StatsTabItem"
                                        Text="Stats"
                                        Padding="2 0 0 0"
                                        FontFamily="./Resources/Fonts/#Determination2"
@@ -233,38 +233,207 @@
                             <Grid Grid.Row="5"
                                               Grid.Column="7"
                                               Margin="5 0 0 0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="1*"/>
-                                </Grid.RowDefinitions>
+                                
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="8*"/>
+                                    <ColumnDefinition Width="1*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0"
-                                                       Grid.Row="1"
-                                                       Text="Gold:"
-                                                       Padding="0"
-                                                       FontSize="20"
-                                                       FontFamily="./Resources/Fonts/#Determination2"
-                                                       VerticalAlignment="Center"
-                                                       HorizontalAlignment="Left"
-                                                       Foreground="Yellow"/>
-                                <TextBlock Grid.Column="1"
-                                                       Grid.Row="1"
-                                                       Text="265"
-                                                       Padding="0"
-                                                       FontSize="20"
-                                                       FontFamily="./Resources/Fonts/#Determination2"
-                                                       VerticalAlignment="Center"
-                                                       HorizontalAlignment="Left"
-                                                       Foreground="Yellow"/>
+                                <Border Width="2"
+                                        Background="White"
+                                        VerticalAlignment="Stretch"
+                                        BorderBrush="White"
+                                        BorderThickness="2"
+                                        HorizontalAlignment="Right"/>
+                                <Grid Margin="0 0 5 0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="1"
+                                           Text="Level"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Foreground="White"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="1"
+                                           Text="{Binding CurrentLvl}"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Foreground="White"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="2"
+                                           Text="Attack"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Foreground="White"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="2"
+                                           Text="{Binding CurrentAttack}"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Foreground="White"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="3"
+                                           Text="Armor"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Foreground="White"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="3"
+                                           Text="{Binding CurrentArmor}"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Foreground="White"/>
+                                </Grid>
+                                
+                                <Grid Grid.Column="1"
+                                      Margin="7 0 0 0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="1"
+                                           Text="Attack:"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Foreground="White"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="1"
+                                           Text="{Binding CurrentAttack}"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Foreground="White"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="2"
+                                           Text="Gold:"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Foreground="Yellow"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="2"
+                                           Text="{Binding CurrentGoldTextBlock}"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Foreground="Yellow"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="3"
+                                           Text="Gold:"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Foreground="Yellow"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="3"
+                                           Text="{Binding CurrentGoldTextBlock}"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Foreground="Yellow"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="4"
+                                           Text="Gold:"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Foreground="Yellow"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="4"
+                                           Text="{Binding CurrentGoldTextBlock}"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Foreground="Yellow"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="5"
+                                           Text="Gold:"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Foreground="Yellow"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="5"
+                                           Text="{Binding CurrentGoldTextBlock}"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Foreground="Yellow"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="6"
+                                           Text="Gold:"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Foreground="Yellow"/>
+                                    <TextBlock Grid.Column="0"
+                                           Grid.Row="6"
+                                           Text="{Binding CurrentGoldTextBlock}"
+                                           Padding="0"
+                                           FontSize="20"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Foreground="Yellow"/>
+                                    
+                                </Grid>
                             </Grid >
                         </TabItem.Content>
                     </TabItem>
@@ -272,10 +441,10 @@
                     <TabItem Background="Black"
                                  BorderBrush="Gray"
                                  Margin="-2 0 0 0"
-                                 Selector.Selected="TabItemMap_Selected"
-                                 Selector.Unselected="TabItemMap_Unselected">
+                                 Selector.Selected="TabItemLog_Selected"
+                                 Selector.Unselected="TabItemLog_Unselected">
                         <TabItem.Header>
-                            <TextBlock Name="Log"
+                            <TextBlock Name="LogTabItem"
                                        Text="Log"
                                        Padding="2 0 0 0"
                                        FontFamily="./Resources/Fonts/#Determination2"
@@ -495,39 +664,48 @@
                                               Grid.RowSpan="3"
                                               Grid.Column="1"
                                               Grid.ColumnSpan="2">
-                                            <TextBlock Text="Weapon"
-                                                       Foreground="White"
-                                                       HorizontalAlignment="Center"
-                                                       Margin="0 2 0 0"
-                                                       FontSize="25"
-                                                       FontFamily="./Resources/Fonts/#Determination2"/>
+                                            
                                             <Border BorderBrush="White"
                                                     BorderThickness="1"
                                                     Margin="3">
-                                                <Image MouseDown="Weapon_MouseDown"
+                                                <Grid>
+                                                    <Image MouseDown="Weapon_MouseDown"
                                                        Source="Resources/Black.png"
-                                                       Margin="7 25 7 7"/>
+                                                       Margin="7 30 7 7"/>
+                                                
+                                                    <TextBlock Text="Weapon"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                               VerticalAlignment="Top"
+                                                       Margin="0 2 0 0"
+                                                       FontSize="25"
+                                                       FontFamily="./Resources/Fonts/#Determination2"/>
+
+                                                </Grid>
                                             </Border>
                                         </Grid>
 
                                         <!-- Armor -->
-                                        <Grid Grid.Row="3"
+                                        <Grid x:Name="Armor"
+                                              Grid.Row="3"
                                               Grid.RowSpan="3"
                                               Grid.Column="3"
                                               Grid.ColumnSpan="2">
-                                            <TextBlock Text="Armor"
+                                            <Border BorderBrush="White"
+                                                    BorderThickness="1"
+                                                    Margin="3">
+                                                <Grid>
+                                                    <Image MouseDown="Armor_MouseDown"
+                                                           Source="Resources/Black.png"
+                                                           Margin="7 30 7 7"/>
+                                                    <TextBlock Text="Armor"
                                                        Foreground="White"
+                                                       VerticalAlignment="Top"
                                                        HorizontalAlignment="Center"
                                                        Margin="0 2 0 0"
                                                        FontSize="25"
                                                        FontFamily="./Resources/Fonts/#Determination2"/>
-                                            <Border BorderBrush="White"
-                                                    BorderThickness="1"
-                                                    Margin="3">
-                                                <Image Name="Armor"
-                                                        MouseDown="Armor_MouseDown"
-                                                   Source="Resources/Black.png"
-                                                   Margin="7 25 7 7"/>
+                                                </Grid>
                                             </Border>
                                         </Grid>
                                         
@@ -549,7 +727,12 @@
                                                    Margin="7 25 7 7"/>
                                         </Grid>
 
-                                        
+                                        <Grid Grid.Row="5"
+                                              Grid.Column="7">
+                                            <Image MouseLeftButtonDown="Trash_MouseLeftButtonDown"
+                                                   Source="Resources/Icons/trash-can.png"
+                                                   Margin="-5 -5 -5 0"/> 
+                                        </Grid>
                                         
                                     </Grid>
                                     <Grid Name="Inventory" 
@@ -594,7 +777,8 @@
                                  BorderBrush="Gray"
                                  Margin="-2 0 0 0"
                                  Selector.Selected="TabItemSkills_Selected"
-                                 Selector.Unselected="TabItemSkills_Unselected">
+                                 Selector.Unselected="TabItemSkills_Unselected"
+                                 Selector.IsSelected="False">
                             <TabItem.Header>
                                 <TextBlock Name="SkillsTabItem"
                                            Text="Skills"
@@ -868,7 +1052,7 @@
                         Grid.Row="3"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Right">
-                    
+
                     <Button Name="Test"
                             Command="{Binding TeleportToHome}"
                             Background="Black"
@@ -877,13 +1061,14 @@
                             Width="48"
                             Height="48"
                             Padding="0">
-                        <Image Source="Resources/Icons/teleport.png"
+                        <Image Name="penis"
+                            Source="Resources/Icons/teleport.png"
                            Height="48"
-                           Width="48"
-                               >
+                           Width="48">
 
                         </Image>
                     </Button>
+
                 </Border>
             </Grid>
 
@@ -974,7 +1159,21 @@
                             </Grid>
                         </ControlTemplate>
                     </Button.Template>
+                    <Canvas Width="200" Height="200" Background="Red"
+>
+                        <Rectangle Canvas.Top="50" Canvas.Left="50" 
+             Width="50" Height="100"
+             Stroke="White" StrokeThickness="3"/>
+                        <Popup Name="popup1" PlacementRectangle="50,50,50,100">
+                            <TextBlock FontSize="14" Background="Yellow"
+               Width="140" TextWrapping="Wrap">
+      This is a popup with a PlacementRectangle.
+                            </TextBlock>
+                        </Popup>
+                    </Canvas>
                 </Button>
+
+               
             </Grid> 
             
             <!-- Character -->
@@ -990,8 +1189,13 @@
                   Grid.RowSpan="2"
                   Grid.Column="5"
                   Grid.ColumnSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.3*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
                 <Image Source="{Binding Enemy}"
                        VerticalAlignment="Bottom"
+                       Grid.Row="1"
                        Margin="35 0"/>
             </Grid>
             <Grid Grid.Row="0"
@@ -1001,30 +1205,39 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
-                
-                <Border VerticalAlignment="Center"
+
+                <Border Grid.Row="1"
+                        VerticalAlignment="Stretch"
                         HorizontalAlignment="Center"
                         BorderBrush="White"
                         BorderThickness="1"
-                        Height="50"
-                        Width="150"
-                        Grid.RowSpan="2">
+                        Width="150">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.5*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="0.5*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{Binding NameOfLocation}"
+                                   FontFamily="./Resources/Fonts/#Determination2"
+                                   Grid.RowSpan="{Binding NameOfLocationRowSpan}"
+                                   VerticalAlignment="{Binding NameOfLocationVerticalAlignment}"
+                                   FontSize="20"
+                                   Margin="0 0 0 0"
+                                   Grid.Row="1"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding HPBarOfMonster}"
+                                   Grid.Row="2"
+                                   FontFamily="./Resources/Fonts/#Determination2"
+                                   Foreground="Red"
+                                   FontSize="20"
+                                   VerticalAlignment="Stretch"
+                                   HorizontalAlignment="Center"/>
+                    </Grid>
                 </Border>
-                <TextBlock Text="{Binding NameOfLocation}"
-                           FontFamily="./Resources/Fonts/#Determination2"
-                           FontSize="18"
-                           Grid.RowSpan="{Binding NameOfLocationRowSpan}"
-                           VerticalAlignment="{Binding NameOfLocationVerticalAlignment}"
-                           HorizontalAlignment="Center"/>
-                <TextBlock Text="{Binding HPBarOfMonster}"
-                           FontFamily="./Resources/Fonts/#Determination2"
-                           FontSize="18"
-                           Foreground="Red"
-                           VerticalAlignment="Top"
-                           HorizontalAlignment="Center"
-                           Grid.Row="1"/>
             </Grid>
         </Grid>
     </Grid>

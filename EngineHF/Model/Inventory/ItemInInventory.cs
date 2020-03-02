@@ -1,18 +1,17 @@
-﻿using System.Windows.Controls;
+﻿using EngineHF.Model.Inventory;
+using System.Windows.Controls;
 
 namespace EngineHF.Model
 {
-    public class ItemInInventory
+    public class ItemInInventory: BaseItem
     {
-        public string Name { get; set; }
-        public int GridColumn { get; set; }
         public int GridRow { get; set; }
+        public int GridColumn { get; set; }
         public bool IsEmpty { get; set; }
         public Border Item { get; set; } 
-        public ItemInInventory(Border item, string name, int gridRow, int gridColumn, bool isEmpty = true)
+        public ItemInInventory(Border item, int gridRow, int gridColumn, bool isEmpty = true)
         {
             Item = item;
-            Name = name;
             GridColumn = gridColumn;
             GridRow = gridRow;
             IsEmpty = isEmpty;

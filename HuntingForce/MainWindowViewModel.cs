@@ -18,10 +18,9 @@ namespace HuntingForce
     public class MainWindowViewModel: BindableBase
     {
         public readonly GameSession _gameSession;
-        MainWindow _mainWindow;
+        readonly MainWindow _mainWindow;
         private bool inFight;
-        //private readonly Dictionary<Key, Action> _userInputActions =
-        //    new Dictionary<Key, Action>();
+
         public MainWindowViewModel(GameSession gameSession, MainWindow mainWindow)
         {
             _gameSession = gameSession;
@@ -43,8 +42,14 @@ namespace HuntingForce
             XPbarMax = _gameSession.mainStats.MaxXP;
             XPbarValue = _gameSession.mainStats.CurrentXP;
             CountOfXPbar = $"{XPbarValue}/{XPbarMax}";
+
+            CurrentAttack = $"{_gameSession.mainStats.CurrentWeapon.Weapon.MinDamage}-{_gameSession.mainStats.CurrentWeapon.Weapon.MaxDamage}";
+            CurrentArmor = Convert.ToString(Convert.ToInt32(CurrentArmor) + _gameSession.mainStats.CurrentArmor.Armor.PlusArmor);
+            CurrentLvl = $"{_gameSession.mainStats.CurrentLevel}";
+
             Enemy = _gameSession.CurrentWorld.LocationAt(0, 0).ImageName.Remove(0, 1);
             ToCommonLocation();
+            DialogAdd();
             NameOfLocation = _gameSession.currentPos.Name;
 
         }
@@ -217,7 +222,38 @@ namespace HuntingForce
             set => SetProperty(ref _log, value);
         }
         #endregion
+        #region - Stats -
+        private string _currentGoldTextBlock = "0";
+        public string CurrentGoldTextBlock
+        {
+            get => _currentGoldTextBlock;
+            set => SetProperty(ref _currentGoldTextBlock, value);
+        }
+        private string _currentAttack;
+        public string CurrentAttack
+        {
+            get => _currentAttack;
+            set
+            { 
+                SetProperty(ref _currentAttack, value);
 
+                _mainWindow.popup1.IsOpen = true;
+
+            }
+        }
+        private string _currentArmor = "2";
+        public string CurrentArmor
+        {
+            get => _currentArmor;
+            set => SetProperty(ref _currentArmor, value);
+        }
+        private string _currentLvl;
+        public string CurrentLvl
+        {
+            get => _currentLvl;
+            set => SetProperty(ref _currentLvl, value);
+        }
+        #endregion
         #region Attack Methods
         public void OnAttack()
         {
@@ -225,7 +261,7 @@ namespace HuntingForce
         }
         public void Attacking(int minDamage, int maxDamage)
         {
-            if (_gameSession.currentPos.monster == null)
+            if (_gameSession.currentPos.Monster == null)
             {
                 MessageBox.Show("В городе нельзя драться!");
                 return;
@@ -236,31 +272,36 @@ namespace HuntingForce
         private void HeroAttacks(int minDamage, int maxDamage)
         {
             var damage = new Random().Next(minDamage, maxDamage);
-            _gameSession.currentPos.monster.CurrentHP -= damage;
+            _gameSession.currentPos.Monster.CurrentHP -= damage;
             inFight = true;
-            Logging("takeDamage", new string[] {_gameSession.currentPos.monster.Name, Convert.ToString(damage) ,_gameSession.mainStats.Name});
-            if (_gameSession.currentPos.monster.CurrentHP <= 0)
+            Logging("takeDamage", new string[] {_gameSession.currentPos.Monster.Name, Convert.ToString(damage) ,_gameSession.mainStats.Name});
+            if (_gameSession.currentPos.Monster.CurrentHP <= 0)
             {
-                Logging("dead",new string[] {_gameSession.currentPos.monster.Name});
-                foreach(Drop drop in _gameSession.currentPos.monster.DropList)
+                Logging("dead",new string[] {_gameSession.currentPos.Monster.Name});
+                foreach(Drop drop in _gameSession.currentPos.Monster.DropList)
                 {
                     if (new Random().Next(0, 100) <= drop.Chance)
                         _mainWindow.AddNewItemInInventory(drop);
                 }
-                _gameSession.currentPos.monster.CurrentHP = _gameSession.currentPos.monster.MaxHP;
+                var giveGold = _gameSession.currentPos.Monster.Gold + 5 * (_gameSession.currentPos.Monster.Level - _gameSession.mainStats.CurrentLevel);
+                if(giveGold > 0)
+                    CurrentGoldTextBlock = Convert.ToString(giveGold + Convert.ToInt32(CurrentGoldTextBlock));
+                _gameSession.currentPos.Monster.CurrentHP = _gameSession.currentPos.Monster.MaxHP;
                 XPPlus();
                 inFight = false;
             }
-            HPBarOfMonster = $"{_gameSession.currentPos.monster.CurrentHP}";
+            HPBarOfMonster = $"{_gameSession.currentPos.Monster.CurrentHP}";
 
         }
         private void MonsterAttacks()
         {
             if (inFight)
             {
-                var damage = new Random().Next(_gameSession.currentPos.monster.AttackMin, _gameSession.currentPos.monster.AttackMax);
-                _gameSession.mainStats.CurrentHP -= damage;
-                Logging("takeDamage", new string[] { _gameSession.mainStats.Name, Convert.ToString(damage), _gameSession.currentPos.monster.Name });
+                var damage = new Random().Next(_gameSession.currentPos.Monster.AttackMin, _gameSession.currentPos.Monster.AttackMax);
+                var a = (0.06 * _gameSession.mainStats.CurrentArmor.Armor.PlusArmor) / (1 + 0.06 * _gameSession.mainStats.CurrentArmor.Armor.PlusArmor);
+                if (a == 0) a = 1;
+                _gameSession.mainStats.CurrentHP -= Convert.ToInt32(damage*a);
+                Logging("takeDamage", new string[] { _gameSession.mainStats.Name, Convert.ToString(damage), _gameSession.currentPos.Monster.Name });
                 if (_gameSession.mainStats.CurrentHP <= 0)
                 {
                     Move(0, 0);
@@ -278,22 +319,24 @@ namespace HuntingForce
         #endregion
         public void XPPlus()
         {
-            _gameSession.mainStats.CurrentXP += _gameSession.currentPos.monster.GiveXP;
-            Logging("addXP", new string[] { _gameSession.mainStats.Name, Convert.ToString(_gameSession.currentPos.monster.GiveXP)});
+            var plusXP = 25 * (10 + _gameSession.currentPos.Monster.Level - _gameSession.mainStats.CurrentLevel) / (10 + _gameSession.mainStats.CurrentLevel);
+            _gameSession.mainStats.CurrentXP += plusXP;
+            Logging("addXP", new string[] { _gameSession.mainStats.Name, Convert.ToString(plusXP) });
             XPbarValue = _gameSession.mainStats.CurrentXP;
             if (_gameSession.mainStats.CurrentXP < _gameSession.mainStats.MaxXP)
                 CountOfXPbar = $"{_gameSession.mainStats.CurrentXP}/{_gameSession.mainStats.MaxXP}";
             else
             {
                 _gameSession.mainStats.CurrentXP -= _gameSession.mainStats.MaxXP;
-                _gameSession.mainStats.MaxXP *= 2;
+                _gameSession.mainStats.MaxXP = Convert.ToInt32(50 * Math.Pow(1.337, _gameSession.mainStats.CurrentLevel + 2));
                 XPbarMax = _gameSession.mainStats.MaxXP;
                 XPbarValue = _gameSession.mainStats.CurrentXP;
                 CountOfXPbar = $"{_gameSession.mainStats.CurrentXP}/{_gameSession.mainStats.MaxXP}";
                 _gameSession.mainStats.CurrentLevel++;
-                Logging("lvlUp", new string[] { _gameSession.mainStats.Name, Convert.ToString(_gameSession.mainStats.CurrentLevel)});
+                CurrentLvl = $"{_gameSession.mainStats.CurrentLevel}";
                 _gameSession.mainStats.SkillPoint++;
                 _gameSession.mainStats.TempSkillPoint++;
+                Logging("lvlUp", new string[] { _gameSession.mainStats.Name, Convert.ToString(_gameSession.mainStats.CurrentLevel)});
             }
         }
 
@@ -328,7 +371,6 @@ namespace HuntingForce
                         MonsterAttacks();
                 }
             }
-            DialogAdd();
         }
         public void OnEast() //EAST
         {
@@ -343,7 +385,7 @@ namespace HuntingForce
                     else
                         MonsterAttacks();
                 }
-            }
+            }           
         }
         public void OnSouth() //SOUTH
         {
@@ -359,19 +401,17 @@ namespace HuntingForce
                         MonsterAttacks();
                 }   
             }
-            DialogAdd();
-            
         }
         private void Move(int X, int Y)
         {
             _gameSession.currentPos = _gameSession.CurrentWorld.LocationAt(X, Y);
-            if (Enemy != _gameSession.currentPos.ImageName.Remove(0, 1))
-                Enemy = _gameSession.currentPos.ImageName.Remove(0, 1);
+                
             SetVisibilityForMovement();
-            if (_gameSession.currentPos.monster != null)
+            if (_gameSession.currentPos.Monster != null)
                 ToMonster();
             else
                 ToCommonLocation();
+            DialogAdd();
             inFight = false;
         }
         private void SetVisibilityForMovement()
@@ -383,13 +423,15 @@ namespace HuntingForce
         }
         public void ToMonster()
         {
-            NameOfLocation = _gameSession.currentPos.Name;
-            HPBarOfMonster = $"{_gameSession.currentPos.monster.CurrentHP}";
+            Enemy = _gameSession.currentPos.Monster.ImageName.Remove(0, 1);
+            NameOfLocation = _gameSession.currentPos.Monster.Name;
+            HPBarOfMonster = $"{_gameSession.currentPos.Monster.CurrentHP}";
             NameOfLocationVerticalAlignment = "Bottom";
             NameOfLocationRowSpan = 1;
         }
         public void ToCommonLocation()
         {
+            Enemy = _gameSession.currentPos.ImageName.Remove(0, 1);
             NameOfLocation = _gameSession.currentPos.Name;
             HPBarOfMonster = "";
             NameOfLocationVerticalAlignment = "Center";
@@ -399,7 +441,7 @@ namespace HuntingForce
 
         public void OnTeleportToHome()
         {
-           
+            Move(0, 0);
         }
         public void OnSkipDialog()
         {

@@ -47,11 +47,13 @@
     <Compile Include="Factory\MonsterFactory.cs" />
     <Compile Include="Model\CurrentPos.cs" />
     <Compile Include="Model\Drop.cs" />
+    <Compile Include="Model\Inventory\BaseItem.cs" />
+    <Compile Include="Model\Inventory\InfoForItemInInventory.cs" />
     <Compile Include="Model\ItemCategory\Accessory.cs" />
     <Compile Include="Model\ItemCategory\Armor.cs" />
     <Compile Include="Model\ItemCategory\Potion.cs" />
     <Compile Include="Model\ItemCategory\Weapon.cs" />
-    <Compile Include="Model\ItemInInventory.cs" />
+    <Compile Include="Model\Inventory\ItemInInventory.cs" />
     <Compile Include="Model\MainStats.cs" />
     <Compile Include="Model\GameItem.cs" />
     <Compile Include="Model\Skills.cs" />
@@ -80,6 +82,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />

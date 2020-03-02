@@ -14,15 +14,15 @@ namespace EngineHF.Model
         public int CurrentY { get; set; }
         public string ImageName { get; set; }
         public string Description { get; set; }
-        public Monster monster { get; set; }
-        public Location(string name, int currentX, int currentY, string imageName, string description = null, Monster _monster = null)
+        public Monster Monster { get; set; }
+        public Location(string name, int currentX, int currentY, string imageName, string description = null, Monster monster = null)
         {
             Name = name;
             CurrentX = currentX;
             CurrentY = currentY;
             ImageName = imageName;
             Description = description;
-            monster = _monster;
+            Monster = monster;
         }
     }
 }

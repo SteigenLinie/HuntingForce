@@ -6,8 +6,8 @@
     <Description><![CDATA[This is your house. And them all has been defeated]]></Description>
   </Location>
   <Location X="0" Y="1"
-            Name="Rat"
-	          ImageName="RatEnemy.png">
+            Name="Поле"
+	          ImageName="grass.png">
     <Description><![CDATA[ Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста.]]></Description>
     <Monsters>
       <Monster ID="1"/>

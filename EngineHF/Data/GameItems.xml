@@ -1,5 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <GameItems RootImagePath="Resources/Sprites/Items/">
+  <GameItem ID="-1"
+            Type="Weapon"
+            Name="hand"
+            ImageName="Black.png"
+            Description="a">
+    <Weapon MinDamage="0"
+            MaxDamage="3"/>
+  </GameItem>
+  <GameItem ID="-2"
+            Type="Armor"
+            Name="standartArmor"
+            ImageName="Black.png"
+            Description="a">
+    <Armor PlusArmor="0"/>
+  </GameItem>
   <GameItem ID="1"
             Type="Weapon"
             Name="woodStick"
