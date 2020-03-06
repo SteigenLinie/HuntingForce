@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Quests>
+  <Quest ID="1"
+         Name="Adventure of Jo-Jo"
+         Description="So-so-so, you need take the money and give the fucking shirt"
+         Mission="Kill the 5 enemy"
+         IsDone="0/5"/>
+  <Quest ID="2"
+         Name="Ratatata"
+         Description="So given ratatata"
+         Mission="Kill the 10 enemy"
+         IsDone="0/10"/>
+  <Quest ID="3"
+         Name="More like that have a money shiiiit"
+         Description="Gripodripo op ca ca"
+         Mission="Give me the 10 operation"
+         IsDone="0/10"/>
+</Quests>

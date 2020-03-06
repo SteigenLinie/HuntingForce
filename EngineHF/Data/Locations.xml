@@ -7,10 +7,33 @@
   </Location>
   <Location X="0" Y="1"
             Name="Поле"
-	          ImageName="grass.png">
+	          ImageName="">
     <Description><![CDATA[ Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста. Очень много текста.]]></Description>
     <Monsters>
       <Monster ID="1"/>
     </Monsters>
+  </Location>
+  <Location X="1" Y="0"
+            Name="Home"
+	          ImageName="grass.png">
+    <Description><![CDATA[]]></Description>
+    <Quests>
+      <Quest ID="1"/>
+    </Quests>
+  </Location>
+  <Location X="1" Y="1"
+           Name="Home"
+           ImageName="grass.png">
+    <Description><![CDATA[]]></Description>
+  </Location>
+  <Location X="0" Y="-1"
+            Name="Home"
+	          ImageName="grass.png">
+    <Description><![CDATA[]]></Description>
+  </Location>
+  <Location X="-1" Y="0"
+            Name="Home"
+	          ImageName="grass.png">
+    <Description><![CDATA[]]></Description>
   </Location>
 </Locations>

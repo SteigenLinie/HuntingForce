@@ -18,8 +18,10 @@ namespace EngineHF
         private MonsterFactory monsterFactory;
         private ItemFactory itemFactory;
         private SkillsFactory skillsFactory;
+        private QuestFactory questFactory;
         public List<Skills> _standartSkills = SkillsFactory._standardSkills;
         public List<GameItem> _standardGameItems = ItemFactory._standardGameItems;
+        public List<Quest> _allQuest = QuestFactory._allQuests;
         public World CurrentWorld { get; }
 
         public bool HasLocationToNorth =>
@@ -38,6 +40,7 @@ namespace EngineHF
         {
             monsterFactory = new MonsterFactory();
             itemFactory = new ItemFactory();
+            questFactory = new QuestFactory();
             //TODO parce xml to mainstats
             mainStats = new MainStats("3,14door", 100, 100, 100, 100, 100, 100, Convert.ToInt32(50 * Math.Pow(1.337, 2)), 1, 0, 1, 1, 0, _standardGameItems[0], _standardGameItems[1]);
             skillsFactory = new SkillsFactory();

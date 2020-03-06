@@ -53,7 +53,8 @@ namespace EngineHF.Factory
                                 node.SelectSingleNode("./Drops").AttributeAsInt("Gold"),
                                 node.AttributeAsInt("AttackMax"),
                                 node.AttributeAsInt("AttackMin"),
-                                Drops(node.SelectNodes("./Drops/Drop")));
+                                Drops(node.SelectNodes("./Drops/Drop")),
+                                Quests(node.SelectNodes("./Quests/Quest")));
 
                 _baseMonsters.Add(monster);
             }
@@ -65,6 +66,13 @@ namespace EngineHF.Factory
                 drop.Add(new Drop(node.AttributeAsInt("ID"),
                                   node.AttributeAsInt("Chance")));
             return drop;
+        }
+        private static List<int> Quests(XmlNodeList nodes)
+        {
+            List<int> quests = new List<int>();
+            foreach (XmlNode node in nodes)
+                quests.Add(node.AttributeAsInt("ID"));
+            return quests;
         }
     }
 }

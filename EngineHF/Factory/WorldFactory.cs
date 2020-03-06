@@ -48,18 +48,19 @@ namespace EngineHF.Factory
             foreach (XmlNode node in nodes)
             {
                 Monster monster = null;
+                Quest quest = null;
                 if (node.SelectSingleNode("./Monsters/Monster") != null)
                     monster = MonsterFactory._baseMonsters.First(x => x.ID == node.SelectSingleNode("./Monsters/Monster").AttributeAsInt("ID"));
-
+                if (node.SelectSingleNode("./Quests/Quest") != null)
+                    quest = QuestFactory._allQuests.First(x => x.ID == node.SelectSingleNode("./Quests/Quest").AttributeAsInt("ID"));
                 Location location =
                     new Location(node.AttributeAsString("Name"),
                             node.AttributeAsInt("X"),
                             node.AttributeAsInt("Y"),
                             $".{rootImagePath}{node.AttributeAsString("ImageName")}",
                             node.SelectSingleNode("./Description")?.InnerText ?? "",
-                            monster);
-
-
+                            monster,
+                            quest);
 
                 world.AddLocation(location);
             }

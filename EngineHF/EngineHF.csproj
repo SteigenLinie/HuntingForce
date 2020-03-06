@@ -39,9 +39,11 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Factory\ItemFactory.cs" />
+    <Compile Include="Factory\QuestFactory.cs" />
     <Compile Include="Factory\SkillsFactory.cs" />
     <Compile Include="Factory\WorldFactory.cs" />
     <Compile Include="Factory\MonsterFactory.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="Model\Inventory\ItemInInventory.cs" />
     <Compile Include="Model\MainStats.cs" />
     <Compile Include="Model\GameItem.cs" />
+    <Compile Include="Model\Quest.cs" />
     <Compile Include="Model\Skills.cs" />
     <Compile Include="Model\TypesOfSkills\Attack.cs" />
     <Compile Include="Model\TypesOfSkills\Heal.cs" />
@@ -84,7 +87,13 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Prism, Version=7.2.0.1422, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.2.0.1422\lib\net45\Prism.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +101,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\GameItems.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Quests.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

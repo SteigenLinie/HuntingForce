@@ -24,6 +24,7 @@ namespace EngineHF.Model
         public GameItem CurrentWeapon { get; set; }
         public GameItem CurrentArmor { get; set; }
         public GameItem CurrentAccessory { get; set; }
+        public List<Quest> QuestOnPlayer { get; set; } = new List<Quest>();
         public MainStats(string name, int maxHP, int currentHP, int maxMP, int currentMP, int maxSP,
             int currentSP, int maxXP, int currentLevel, int currentXp, int skillPoint, int tempSkillPoint,
             int currentGold, GameItem currentWeapon, GameItem currentArmor = null, GameItem currentAccessory = null)

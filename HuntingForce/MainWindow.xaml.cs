@@ -3,6 +3,7 @@ using EngineHF.Model;
 using EngineHF.Model.Inventory;
 using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -94,12 +95,21 @@ namespace HuntingForce
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var image = (Image)sender;
+            var grid = (Grid)image.Parent;
+            var border = (Border)grid.Parent;
+            if(border == _lastBorder)
+            {
+                _lastBorder = null;
+                _isSelectedInInventory = false;
+                border.BorderThickness = new Thickness(1);
+                return;
+            }
             if (_isSelectedInInventory)
                 SwapItems(image);
             else if (_isSelectedInAmmo)
             {
-                var grid = (Grid)_lastBorderInAmmo.Child;
-                var image2 = (Image)grid.Children[0];
+                var grid2 = (Grid)_lastBorderInAmmo.Child;
+                var image2 = (Image)grid2.Children[0];
                 if (image.Name != null && _gameSession._standardGameItems.First(x => x.Name == image.Name).Category.ToString() != _gameSession._standardGameItems.First(x => x.Name == image2.Name).Category.ToString())
                 { }
                 else
@@ -361,7 +371,7 @@ namespace HuntingForce
             _inventoryItems[_indexOfLastSelectedBorder.Value]= newItem;
 
             _inventoryItems = _inventoryItems.OrderBy(x => x.ItemInInventory.GridRow).ThenBy(y => y.ItemInInventory.GridColumn).ToList();
-
+            _lastBorder = null;
             _indexOfLastSelectedBorder = null;
         }
         #endregion
@@ -555,21 +565,25 @@ namespace HuntingForce
             {
                 var imagee = (Image)button.Content;
                 button.PreviewMouseDown -= SkillDetected;
+                button.Name = "";
                 imagee.Source = new BitmapImage(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Black.png"));
                 return;
             }
             var _gm = (MainWindowViewModel)DataContext;
-            var skillUse = _gameSession._standartSkills.First(x => x.Name == button.Name);
-            switch (skillUse.Type)
+            if (_gm.MoveButton)
             {
-                case EngineHF.Model.Skills.TypeOfSkill.Attack:
-                    if (_gameSession.currentPos.Monster != null)
-                        _gm.Logging("useSkill", new string[] { _gameSession.mainStats.Name, skillUse.Name, _gameSession.currentPos.Monster.Name });
-                    for (int i = 0; i < skillUse.Attack.CountOfSlash; i++)
-                        _gm.Attacking(_gameSession.mainStats.CurrentWeapon.Weapon.MinDamage + skillUse.Attack.MinBonusDamage, _gameSession.mainStats.CurrentWeapon.Weapon.MaxDamage + skillUse.Attack.MaxBonusDamage);
-                    break;
-                case EngineHF.Model.Skills.TypeOfSkill.Heal:
-                    break;
+                var skillUse = _gameSession._standartSkills.First(x => x.Name == button.Name);
+                switch (skillUse.Type)
+                {
+                    case EngineHF.Model.Skills.TypeOfSkill.Attack:
+                        if (_gameSession.currentPos.Monster != null)
+                            _gm.Logging("useSkill", new string[] { _gameSession.mainStats.Name, skillUse.Name, _gameSession.currentPos.Monster.Name });
+                        for (int i = 0; i < skillUse.Attack.CountOfSlash; i++)
+                            _gm.Attacking(_gameSession.mainStats.CurrentWeapon.Weapon.MinDamage + skillUse.Attack.MinBonusDamage, _gameSession.mainStats.CurrentWeapon.Weapon.MaxDamage + skillUse.Attack.MaxBonusDamage);
+                        break;
+                    case EngineHF.Model.Skills.TypeOfSkill.Heal:
+                        break;
+                }
             }
         }
         #endregion
@@ -599,6 +613,7 @@ namespace HuntingForce
                 _lastBorder.BorderThickness = new Thickness(1);
                 _isSelectedInInventory = false;
                 var clear = _inventoryItems.First(x => x.ItemInInventory.Item == _lastBorder);
+                int index = _inventoryItems.IndexOf(clear);
                 var grid = (Grid)_lastBorder.Child;
                 var image = (Image)grid.Children[0];
                 var textBlock = (TextBlock)grid.Children[1];
@@ -608,13 +623,30 @@ namespace HuntingForce
                 textBlock.Text = null;
 
                 _inventoryItems.Remove(clear);
-                _inventoryItems.Insert(clear.ID - 1, new InfoForItemInInventory(null, null, 1, clear.ID,
+                _inventoryItems.Insert(index, new InfoForItemInInventory(null, null, 1, clear.ID,
                         new ItemInInventory(_lastBorder,
                         clear.ItemInInventory.GridRow, clear.ItemInInventory.GridColumn)));
 
                 _lastBorder = null;
                 _inventoryItems = _inventoryItems.OrderBy(x => x.ItemInInventory.GridRow).ThenBy(y => y.ItemInInventory.GridColumn).ToList();
                 dict.Remove(clear.ID);
+            }
+        }
+        public void AddNewQuest(Quest questItem)
+        {
+            questItem.IsDone = true;
+            questsGrid.Items.Add(questItem);
+            _gameSession.mainStats.QuestOnPlayer.Add(_gameSession.currentPos.Quest);
+        }
+
+        private void bToCorrect_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            Quest quest = (Quest)button.DataContext;
+            if (quest.Progress == "done")
+            {
+                questsGrid.Items.Remove(quest);
+                _gameSession.mainStats.QuestOnPlayer.Remove(quest);
             }
         }
     }

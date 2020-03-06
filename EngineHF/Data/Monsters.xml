@@ -3,8 +3,8 @@
   <Monster ID="1"
            Name="Rat"
            ImageName="RatEnemy.png"
-           MaxHP="25"
-           AttackMax="15"
+           MaxHP="10"
+           AttackMax="5"
            AttackMin="5"
            Level="1">
     <Drops Gold="10">
@@ -15,6 +15,9 @@
       <Drop ID="5"
             Chance="100"/>
     </Drops>
+    <Quests>
+      <Quest ID="1"/>
+    </Quests>
   </Monster>
   <Monster ID="2"
            Name="BigRat"

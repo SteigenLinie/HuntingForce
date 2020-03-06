@@ -15,7 +15,8 @@ namespace EngineHF.Model
         public string ImageName { get; set; }
         public string Description { get; set; }
         public Monster Monster { get; set; }
-        public Location(string name, int currentX, int currentY, string imageName, string description = null, Monster monster = null)
+        public Quest Quest { get; set; } 
+        public Location(string name, int currentX, int currentY, string imageName, string description = null, Monster monster = null, Quest quest = null)
         {
             Name = name;
             CurrentX = currentX;
@@ -23,6 +24,7 @@ namespace EngineHF.Model
             ImageName = imageName;
             Description = description;
             Monster = monster;
+            Quest = quest;
         }
     }
 }

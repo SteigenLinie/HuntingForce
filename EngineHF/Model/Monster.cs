@@ -18,7 +18,9 @@ namespace EngineHF.Model
         public int AttackMax { get; set; }
         public int AttackMin { get; set; }
         public List<Drop> DropList { get; set; }
-        public Monster(int id, string name, string imageName, int maxHP, int currentHP, int level, int gold, int attackMax, int attackMin, List<Drop> dropList = null)
+        public List<int> QuestProgress { get; set; }
+        public Monster(int id, string name, string imageName, int maxHP, int currentHP, int level, int gold,
+            int attackMax, int attackMin, List<Drop> dropList = null, List<int> questProgress = null)
         {
             ID = id;
             Name = name;
@@ -30,6 +32,7 @@ namespace EngineHF.Model
             AttackMax = attackMax;
             AttackMin = attackMin;
             DropList = dropList;
+            QuestProgress = questProgress;
         }
         public Monster()
         {

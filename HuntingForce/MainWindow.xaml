@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HuntingForce"
+        xmlns:local="clr-namespace:EngineHF.Model;assembly=EngineHF"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -562,7 +562,159 @@
                             </TabItem.Header>
                             <TabItem.Content>
                                 <Grid>
-
+                                    <DataGrid x:Name="questsGrid"
+                                              Foreground="White"
+                                              FontSize="15"
+                                              AutoGenerateColumns="False"
+                                              Background="Black"
+                                              FontFamily="./Resources/Fonts/#Determination2"
+                                              CanUserAddRows="True"
+                                              RowBackground="Black"
+                                              Padding="0">
+                                        <DataGrid.ColumnHeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader">
+                                                <Setter Property="FontSize" Value="20"/>
+                                                <Setter Property="Background" Value="Black"/>
+                                            </Style>
+                                        </DataGrid.ColumnHeaderStyle>
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn IsReadOnly="True"
+                                                                    CanUserReorder="False"
+                                                                    CanUserResize="False"
+                                                                    Width="25">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button x:Name="bToCorrect"
+                                                                HorizontalContentAlignment="Center"
+                                                                VerticalContentAlignment="Center"
+                                                                Width="20"
+                                                                Height="20"
+                                                                Background="Black"
+                                                                BorderThickness="1"
+                                                                BorderBrush="White"
+                                                                Padding="0"
+                                                                Margin="0"
+                                                                Click="bToCorrect_Click"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                                <DataGridTemplateColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="Padding" Value="2 0 0 0"/>
+                                                    </Style>
+                                                </DataGridTemplateColumn.CellStyle>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Header=""
+                                                                Binding="{Binding Path=ID}"
+                                                                Width="30"
+                                                                IsReadOnly="True"
+                                                                CanUserReorder="False"
+                                                                CanUserResize="False">
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="TextAlignment" Value="Center"/>
+                                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Name"
+                                                                Binding="{Binding Path=Name}"
+                                                                Width="140"
+                                                                MinWidth="140"
+                                                                IsReadOnly="True"
+                                                                CanUserReorder="False"
+                                                                CanUserSort="False">
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+                                                        <Setter Property="TextAlignment" Value="Center"/>
+                                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                                <DataGridTextColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="FontSize" Value="20"/>
+                                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                                        <Setter Property="Background" Value="Black"/>
+                                                        <Setter Property="Padding" Value="10"/>
+                                                    </Style>
+                                                </DataGridTextColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Description"
+                                                                Binding="{Binding Path=Description}"
+                                                                Width="180"
+                                                                MinWidth="180"                                                            
+                                                                IsReadOnly="True"
+                                                                CanUserReorder="False"
+                                                                CanUserSort="False">
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+                                                        <Setter Property="TextAlignment" Value="Center"/>
+                                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                                <DataGridTextColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="FontSize" Value="20"/>
+                                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                                        <Setter Property="Background" Value="Black"/>
+                                                        <Setter Property="Padding" Value="10"/>
+                                                    </Style>
+                                                </DataGridTextColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Mission"
+                                                                Binding="{Binding Path=Mission}"
+                                                                Width="120"
+                                                                MinWidth="120"
+                                                                IsReadOnly="True"
+                                                                CanUserReorder="False"
+                                                                CanUserSort="False">
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+                                                        <Setter Property="TextAlignment" Value="Center"/>
+                                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                                <DataGridTextColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="FontSize" Value="20"/>
+                                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                                        <Setter Property="Background" Value="Black"/>
+                                                        <Setter Property="Padding" Value="10"/>
+                                                    </Style>
+                                                </DataGridTextColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Prog."
+                                                                Binding="{Binding Path=Progress}"
+                                                                Width="65"
+                                                                MinWidth="65"
+                                                                IsReadOnly="True"
+                                                                CanUserReorder="False"
+                                                                CanUserSort="False">
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+                                                        <Setter Property="TextAlignment" Value="Center"/>
+                                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                                <DataGridTextColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="FontSize" Value="20"/>
+                                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                                        <Setter Property="Background" Value="Black"/>
+                                                        <Setter Property="Padding" Value="10"/>
+                                                    </Style>
+                                                </DataGridTextColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
                                 </Grid>
                             </TabItem.Content>
                         </TabItem>
@@ -865,13 +1017,13 @@
                     </ScrollViewer>
                     
                 </Border>
-                <Button BorderThickness="0"
+                <!--<Button BorderThickness="0"
                         Grid.Row="0"
                         Grid.RowSpan="2"
                         Margin="22 2 82 6"
                         Height="Auto"
                         Visibility="Hidden"
-                        Command="{Binding SkipDialog}"/>
+                        Command="{Binding SkipDialog}"/>-->
                 
                 <Border Background="Black"
                         BorderBrush="Gray"
