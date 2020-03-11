@@ -1,5 +1,6 @@
 ﻿using EngineHF;
 using EngineHF.Model;
+using HuntingForce.DialogWindows;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -17,10 +18,21 @@ namespace HuntingForce
 {
     public class MainWindowViewModel: BindableBase
     {
+        private bool _animationIsPlaying;
         public readonly GameSession _gameSession;
         readonly MainWindow _mainWindow;
         private bool inFight;
-
+        private List<Logging> _logs = new List<Logging>();
+        public List<string> _currentTypesOfLogs = new List<string>()
+        {
+            "takeDamage",
+            "dead",
+            "giveDamage",
+            "addXP",
+            "lvlUp",
+            "useSkill"
+        };
+        string[] str = new string[22];
         public MainWindowViewModel(GameSession gameSession, MainWindow mainWindow)
         {
             _gameSession = gameSession;
@@ -33,6 +45,7 @@ namespace HuntingForce
             TeleportToHome = new DelegateCommand(OnTeleportToHome, () => true);
             SkipDialog = new DelegateCommand(OnSkipDialog, () => true);
             ClearTheLog = new DelegateCommand(OnClearTheLog, () => true);
+            TypeOfLogsMenu = new DelegateCommand(OnTypeOfLogsMenu, () => true);
 
             SetVisibilityForMovement();
             HPbar = $"{_gameSession.mainStats.CurrentHP}/{_gameSession.mainStats.MaxHP}";
@@ -51,7 +64,13 @@ namespace HuntingForce
             ToCommonLocation();
             DialogAdd(_gameSession.currentPos.Description);
             NameOfLocation = _gameSession.currentPos.Name;
-
+            for (int i = 1; i <= 22; i++)
+            {
+                if (i < 10)
+                    str[i - 1] = $"Resources/Sprites/Enemy/Wolf/darksaber_attack000{i}.png";
+                else
+                    str[i - 1] = $"Resources/Sprites/Enemy/Wolf/darksaber_attack00{i}.png";
+            }
         }
         public async void DialogAdd(string text)
         {
@@ -70,12 +89,56 @@ namespace HuntingForce
             }
             ));
         }
-        public void DialogAddAll()
+        public async Task PlayAnimation(string[] arrOfPng)
         {
-            MoveButton = true;
-            Dialog = _gameSession.currentPos.Description;
+            //await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
+            //{
+            while (_animationIsPlaying)
+                await Task.Delay(100);
+            
+            if (!_animationIsPlaying)
+                {
+                    _animationIsPlaying = true;
+                    foreach (var Png in arrOfPng)
+                    {
+                        MainPlayerPng = Png;
+                        await Task.Delay(50);
+                    }
+                    _animationIsPlaying = false;
+                }
+            //}
+            //));
+        }
+        public async Task PlayAnimationForEnemy(string[] arrOfPng)
+        {
+            //await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
+            //{
+                while (_animationIsPlaying)
+                    await Task.Delay(100);
+
+                if (!_animationIsPlaying)
+                {
+                    _animationIsPlaying = true;
+                    foreach (var Png in arrOfPng)
+                    {
+                        Enemy = Png;
+                        await Task.Delay(50);
+                    }
+                    _animationIsPlaying = false;
+                }
+            //}
+            //));
+        }
+        public void DialogAddAll(string text)
+        {
+            if (!inFight)
+            {
+                MoveButton = true;
+                Dialog = text;
+            }
         }
         public DelegateCommand ClearTheLog { get; set; }
+        public DelegateCommand TypeOfLogsMenu { get; set; }
 
         public DelegateCommand SkipDialog { get; set; }
         public DelegateCommand Attack { get; set; }
@@ -222,6 +285,7 @@ namespace HuntingForce
             set => SetProperty(ref _log, value);
         }
         #endregion
+
         #region - Stats -
         private string _currentGoldTextBlock = "0";
         public string CurrentGoldTextBlock
@@ -254,27 +318,35 @@ namespace HuntingForce
             set => SetProperty(ref _currentLvl, value);
         }
         #endregion
+        private string _mainPlayerPng = $"Resources/Sprites/Player/attack (1).png";
+        public string MainPlayerPng
+        {
+            get => _mainPlayerPng;
+            set => SetProperty(ref _mainPlayerPng, value);
+        }
         #region Attack Methods
         public void OnAttack()
         {
-            if(MoveButton)
+            if(MoveButton && !_animationIsPlaying)
                 Attacking(_gameSession.mainStats.CurrentWeapon.Weapon.MinDamage, _gameSession.mainStats.CurrentWeapon.Weapon.MaxDamage);
         }
-        public void Attacking(int minDamage, int maxDamage)
+        public async void Attacking(int minDamage, int maxDamage, int countOfSlash = 1)
         {
             if (_gameSession.currentPos.Monster == null)
             {
                 MessageBox.Show("В городе нельзя драться!");
                 return;
             }
-            var random = new Random().Next(0, 100);
-            if(random >= 50)
-                HeroAttacks(minDamage, maxDamage);
-            else
-                MonsterAttacks();
+            for (int i = 0; i < countOfSlash; i++)
+                await HeroAttacks(minDamage, maxDamage);
+            MonsterAttacks();
         }
-        private void HeroAttacks(int minDamage, int maxDamage)
+        private async Task HeroAttacks(int minDamage, int maxDamage)
         {
+            string[] arrOfPng = new string[10];
+            for (int i = 1; i <= 10; i++)
+                arrOfPng[i-1] = $"Resources/Sprites/Player/attack ({i}).png";
+            await PlayAnimation(arrOfPng);
             var damage = new Random().Next(minDamage, maxDamage);
             _gameSession.currentPos.Monster.CurrentHP -= damage;
             inFight = true;
@@ -288,7 +360,6 @@ namespace HuntingForce
         private void MonsterDead()
         {
             Logging("dead", new string[] { _gameSession.currentPos.Monster.Name });
-
             foreach (Drop drop in _gameSession.currentPos.Monster.DropList)
                 if (new Random().Next(0, 100) <= drop.Chance)
                     _mainWindow.AddNewItemInInventory(drop);
@@ -307,17 +378,19 @@ namespace HuntingForce
 
             inFight = false;
         }
-        private void MonsterAttacks()
+        private async void MonsterAttacks()
         {
             if (inFight)
             {
+                await PlayAnimationForEnemy(str);
+
                 var damage = new Random().Next(_gameSession.currentPos.Monster.AttackMin, _gameSession.currentPos.Monster.AttackMax);
                 var a = (0.06 * _gameSession.mainStats.CurrentArmor.Armor.PlusArmor) / (1 + 0.06 * _gameSession.mainStats.CurrentArmor.Armor.PlusArmor);
                 if (a == 0) a = 1;
-                _gameSession.mainStats.CurrentHP -= Convert.ToInt32(damage*a);
+                _gameSession.mainStats.CurrentHP -= Convert.ToInt32(damage * a);
                 Logging("takeDamage", new string[] { _gameSession.mainStats.Name, Convert.ToString(damage), _gameSession.currentPos.Monster.Name });
 
-                DialogAdd($"\"{_gameSession.mainStats.Name}\" take {Convert.ToString(damage)} damage from \"{_gameSession.currentPos.Monster.Name}\"");
+                DialogAddAll($"\"{_gameSession.mainStats.Name}\" take {Convert.ToString(damage)} damage from \"{_gameSession.currentPos.Monster.Name}\"");
 
                 if (_gameSession.mainStats.CurrentHP <= 0)
                 {
@@ -338,7 +411,7 @@ namespace HuntingForce
             Logging("dead", new string[] { _gameSession.mainStats.Name });
             inFight = false;
 
-            DialogAddAll();
+            DialogAddAll(_gameSession.currentPos.Description);
         }
         #endregion
         public void XPPlus()
@@ -437,6 +510,7 @@ namespace HuntingForce
                 ToCommonLocation();
             DialogAdd(_gameSession.currentPos.Description);
             inFight = false;
+            _mainWindow.AddNewBorderForMap(_gameSession.currentPos);
         }
         private void SetVisibilityForMovement()
         {
@@ -471,32 +545,57 @@ namespace HuntingForce
         }
         public void OnSkipDialog()
         {
-            DialogAddAll();
+            DialogAddAll(_gameSession.currentPos.Description);
         }
         public void Logging(string type, string[] _desc)
         {
             switch (type)
             {
                 case "takeDamage":
-                    Log += $"\"{_desc[0]}\" take {_desc[1]} damage from \"{_desc[2]}\"\r\n";
+                    if(_currentTypesOfLogs.Contains(type))
+                        Log += $"\"{_desc[0]}\" take {_desc[1]} damage from \"{_desc[2]}\"\r\n";
+                    _logs.Add(new Logging("takeDamage", $"\"{_desc[0]}\" take {_desc[1]} damage from \"{_desc[2]}\"\r\n"));
                     break;
                 case "dead":
-                    Log += $"\"{_desc[0]}\" is deadinside\r\n";
+                    if (_currentTypesOfLogs.Contains(type))
+                        Log += $"\"{_desc[0]}\" is deadinside\r\n";
+                    _logs.Add(new Logging("dead", $"\"{_desc[0]}\" is deadinside\r\n"));
                     break;
                 case "giveDamage":
-                    Log += $"\"{_desc[0]}\" hit the \"{_desc[1]}\" with {_desc[2]} damage\r\n";
+                    if (_currentTypesOfLogs.Contains(type))
+                        Log += $"\"{_desc[0]}\" hit the \"{_desc[1]}\" with {_desc[2]} damage\r\n";
+                    _logs.Add(new Logging("giveDamage", $"\"{_desc[0]}\" hit the \"{_desc[1]}\" with {_desc[2]} damage\r\n"));
                     break;
                 case "addXP":
-                    Log += $"\"{_desc[0]}\" got {_desc[1]} experience point\r\n";
+                    if (_currentTypesOfLogs.Contains(type))
+                        Log += $"\"{_desc[0]}\" got {_desc[1]} experience point\r\n";
+                    _logs.Add(new Logging("addXP", $"\"{_desc[0]}\" got {_desc[1]} experience point\r\n"));
                     break;
                 case "lvlUp":
-                    Log += $"\"{_desc[0]}\" raised the level to {_desc[1]}\r\n";
+                    if (_currentTypesOfLogs.Contains(type))
+                        Log += $"\"{_desc[0]}\" raised the level to {_desc[1]}\r\n";
+                    _logs.Add(new Logging("lvlUp", $"\"{_desc[0]}\" raised the level to {_desc[1]}\r\n"));
                     break;
                 case "useSkill":
-                    Log += $"\"{_desc[0]}\" use \"{_desc[1]}\" on \"{_desc[2]}\"\r\n";
+                    if (_currentTypesOfLogs.Contains(type))
+                        Log += $"\"{_desc[0]}\" use \"{_desc[1]}\" on \"{_desc[2]}\"\r\n";
+                    _logs.Add(new Logging("useSkill", $"\"{_desc[0]}\" use \"{_desc[1]}\" on \"{_desc[2]}\"\r\n"));
                     break;
             }
         }
         public void OnClearTheLog() => Log = "";
+        public void OnTypeOfLogsMenu()
+        {
+            TypeOfLoggingSelectionWindow typeOfLoggingSelectionWindow = new TypeOfLoggingSelectionWindow(_currentTypesOfLogs);
+            typeOfLoggingSelectionWindow.ShowDialog();
+            _currentTypesOfLogs.Clear();
+
+            foreach (var elm in typeOfLoggingSelectionWindow.Result)
+                _currentTypesOfLogs.Add(elm);
+
+            Log = "";
+            foreach(var elm in _logs.Where(x => _currentTypesOfLogs.Contains(x.Type)))
+                Log += elm.Message;
+        }
     }
 }

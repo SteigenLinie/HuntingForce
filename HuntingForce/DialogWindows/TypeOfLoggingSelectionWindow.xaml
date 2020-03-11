@@ -1,0 +1,104 @@
+﻿<Window x:Class="HuntingForce.DialogWindows.TypeOfLoggingSelectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HuntingForce.DialogWindows"
+        mc:Ignorable="d"
+        Background="Black"
+        Title="TypeOfLoggingSelectionWindow" Height="200" Width="250">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"
+                       Text="TakeDamage"
+                       Foreground="White"
+                       FontFamily="/Resources/Fonts/#Determination2"
+                       VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="1"
+                       Text="GiveDamage"
+                       Foreground="White"
+                       FontFamily="/Resources/Fonts/#Determination2"
+                       VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="2"
+                       Text="Dead"
+                       Foreground="White"
+                       FontFamily="/Resources/Fonts/#Determination2"
+                       VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="3"
+                       Text="AddXP"
+                       Foreground="White"
+                       FontFamily="/Resources/Fonts/#Determination2"
+                       VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="4"
+                       Text="LvlUp"
+                       Foreground="White"
+                       FontFamily="/Resources/Fonts/#Determination2"
+                       VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="5"
+                       Text="UseSkill"
+                       Foreground="White"
+                       FontFamily="/Resources/Fonts/#Determination2"
+                       VerticalAlignment="Center"/>
+        </Grid>
+        <Grid x:Name="MainGrid"
+              Grid.Column="1"
+              HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <CheckBox Name="takeDamage"/>
+            <CheckBox Name="giveDamage" Grid.Row="1"/>
+            <CheckBox Name="dead" Grid.Row="2"/>
+            <CheckBox Name="addXP" Grid.Row="3"/>
+            <CheckBox Name="lvlUp" Grid.Row="4"/>
+            <CheckBox Name="useSkill" Grid.Row="5"/>
+            <!--<CheckBox Name="giveDamage" Grid.Row="6"/>
+            <CheckBox Name="giveDamage" Grid.Row="7"/>
+            <CheckBox Name="giveDamage" Grid.Row="8"/>-->
+        </Grid>
+        <Button Grid.Row="1"
+                VerticalAlignment="Stretch"
+                Click="Button_Click"
+                Height="Auto"
+                Background="Black"
+                BorderThickness="1"
+                BorderBrush="White"
+                Padding="0"
+                Margin="2"
+                Content="Save"
+                Foreground="White"
+                FontFamily="/Resources/Fonts/#Determination2"
+                FontSize="10">
+
+        </Button>
+    </Grid>
+</Window>

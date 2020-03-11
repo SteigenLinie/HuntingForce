@@ -30,7 +30,7 @@ namespace HuntingForce
         private Border _lastBorderInAmmo;
         #endregion
 
-        private bool skillSelected;
+        private bool _skillSelected;
         private Button lastButton;
         private static readonly GameSession _gameSession = new GameSession();
         private List<TextBlock> arrayOfTextBlock = new List<TextBlock>();
@@ -49,6 +49,7 @@ namespace HuntingForce
         {
             InitializeComponent();
             DataContext = new MainWindowViewModel(_gameSession, this);
+            AddNewBorderForMap(_gameSession.currentPos);
             AddingNewSkills();
             AddFirstWeapon();
             AddingInventory();
@@ -244,11 +245,6 @@ namespace HuntingForce
             var border = (Border)grid.Parent;
             border.BorderThickness = new Thickness(3);
             _isSelectedInAmmo = true;
-        }
-        private void OnItemInAmmoUnselecting(Border border)
-        {
-            border.BorderThickness = new Thickness(1);
-            _isSelectedInAmmo = false;
         }
         #endregion
 
@@ -501,12 +497,22 @@ namespace HuntingForce
             }
             else
             {
-                if (Keyboard.IsKeyDown(Key.LeftShift) && !Cancel.IsEnabled)
+                if (Keyboard.IsKeyDown(Key.LeftShift) && !Cancel.IsEnabled && arrayOfTextBlock[sr - 1].Text == "1/1")
                 {
                     var a = (Border)button.Parent;
-                    a.BorderThickness = new Thickness(3);
-                    skillSelected = true;
-                    lastButton = button;
+                    if (lastButton == null)
+                    {
+                        a.BorderThickness = new Thickness(3);
+                        _skillSelected = true;
+                        lastButton = button;
+                    }
+                    else
+                    {
+                        
+                        a.BorderThickness = new Thickness(1);
+                        _skillSelected = false;
+                        lastButton = null;
+                    }
                 }
             }
         }
@@ -544,7 +550,7 @@ namespace HuntingForce
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             
-            if (skillSelected)
+            if (_skillSelected)
             {
                 Image image = (Image)sender;
                 Button button = (Button)image.Parent;
@@ -554,7 +560,8 @@ namespace HuntingForce
                 image.Source = bimage.Source;
                 Border border = (Border)lastButton.Parent;
                 border.BorderThickness = new Thickness(1);
-                skillSelected = false;
+                lastButton = null;
+                _skillSelected = false;
             }
         }
 
@@ -577,9 +584,10 @@ namespace HuntingForce
                 {
                     case EngineHF.Model.Skills.TypeOfSkill.Attack:
                         if (_gameSession.currentPos.Monster != null)
+                        {
                             _gm.Logging("useSkill", new string[] { _gameSession.mainStats.Name, skillUse.Name, _gameSession.currentPos.Monster.Name });
-                        for (int i = 0; i < skillUse.Attack.CountOfSlash; i++)
-                            _gm.Attacking(_gameSession.mainStats.CurrentWeapon.Weapon.MinDamage + skillUse.Attack.MinBonusDamage, _gameSession.mainStats.CurrentWeapon.Weapon.MaxDamage + skillUse.Attack.MaxBonusDamage);
+                            _gm.Attacking(_gameSession.mainStats.CurrentWeapon.Weapon.MinDamage + skillUse.Attack.MinBonusDamage, _gameSession.mainStats.CurrentWeapon.Weapon.MaxDamage + skillUse.Attack.MaxBonusDamage, skillUse.Attack.CountOfSlash);
+                        }
                         break;
                     case EngineHF.Model.Skills.TypeOfSkill.Heal:
                         break;
@@ -591,7 +599,7 @@ namespace HuntingForce
         private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             MainWindowViewModel main = (MainWindowViewModel)DataContext;
-            main.DialogAddAll();
+            main.DialogAddAll(_gameSession.currentPos.Description);
         }
 
         private void popup1_Opened(object sender, EventArgs e)
@@ -647,6 +655,40 @@ namespace HuntingForce
             {
                 questsGrid.Items.Remove(quest);
                 _gameSession.mainStats.QuestOnPlayer.Remove(quest);
+            }
+        }
+
+        public void AddNewBorderForMap(Location location)
+        {
+            Border border = new Border
+            {
+                Background = Brushes.Black,
+                BorderBrush = Brushes.White,
+                BorderThickness = new Thickness(1)
+            };
+            Grid.SetColumn(border, 4 + location.CurrentX);
+            Grid.SetRow(border, 4 - location.CurrentY);
+            Image image = new Image();
+            if (location.Monster == null)
+                image.Source = new BitmapImage(new Uri($@"C:/Users/SteigenLinie/source/repos/HuntingForce/HuntingForce/{location.ImageName.Remove(0, 1)}"));
+            else
+                image.Source = new BitmapImage(new Uri($@"C:/Users/SteigenLinie/source/repos/HuntingForce/HuntingForce/{location.Monster.ImageName.Remove(0, 1)}"));
+
+            border.Child = image;
+            Map.Children.Add(border);
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch(e.Key)
+            {
+                case Key.Escape:
+
+                    break;
+                case Key.Space:
+                    MainWindowViewModel main = (MainWindowViewModel)DataContext;
+                    main.DialogAddAll(_gameSession.currentPos.Description);
+                    break;
             }
         }
     }

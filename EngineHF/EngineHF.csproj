@@ -56,6 +56,7 @@
     <Compile Include="Model\ItemCategory\Potion.cs" />
     <Compile Include="Model\ItemCategory\Weapon.cs" />
     <Compile Include="Model\Inventory\ItemInInventory.cs" />
+    <Compile Include="Model\Logging.cs" />
     <Compile Include="Model\MainStats.cs" />
     <Compile Include="Model\GameItem.cs" />
     <Compile Include="Model\Quest.cs" />
