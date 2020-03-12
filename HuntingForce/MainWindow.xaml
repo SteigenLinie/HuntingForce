@@ -11,13 +11,16 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
+        IsEnabled="True"
         Title="MainWindow"
-        Width="1600"
-        Height="900"
+        Width="1900"
+        Height="1080"
+        Background="Black"
+        ResizeMode="NoResize"
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing"
         KeyDown="Window_KeyDown">
     <Window.Resources>
         <StreamGeometry x:Key="Geometry">M-6,24 L36,2 L36,46 Z</StreamGeometry>
@@ -110,10 +113,8 @@
         <RotateTransform x:Key="Rotate270" CenterX="24" CenterY="24" Angle="270"/>
     </Window.Resources>
     <Grid>
-        
-        <Border Background="Black"/>
 
-        <Grid Margin="5">
+        <Grid Margin="15">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>

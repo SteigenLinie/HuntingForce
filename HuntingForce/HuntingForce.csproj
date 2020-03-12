@@ -83,11 +83,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DialogWindows\TypeOfLoggingSelectionWindow.xaml.cs">
+    <Compile Include="DialogWindows\ViewModels\SettingsViewModel.cs" />
+    <Compile Include="DialogWindows\Views\EscMenu.xaml.cs">
+      <DependentUpon>EscMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DialogWindows\ViewModels\EscMenuViewModel.cs" />
+    <Compile Include="DialogWindows\Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DialogWindows\Views\TypeOfLoggingSelectionWindow.xaml.cs">
       <DependentUpon>TypeOfLoggingSelectionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindowViewModel.cs" />
-    <Page Include="DialogWindows\TypeOfLoggingSelectionWindow.xaml">
+    <Compile Include="Settings.cs" />
+    <Page Include="DialogWindows\Views\EscMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DialogWindows\Views\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DialogWindows\Views\TypeOfLoggingSelectionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,6 +1,7 @@
 ﻿using EngineHF;
 using EngineHF.Model;
 using EngineHF.Model.Inventory;
+using HuntingForce.DialogWindows;
 using System;
 using System.Collections.Generic;
 using System.Data.Linq;
@@ -683,13 +684,23 @@ namespace HuntingForce
             switch(e.Key)
             {
                 case Key.Escape:
-
+                    var mainWindow = (MainWindow)sender;
+                    EscMenu escMenu = new EscMenu(mainWindow);
+                    mainWindow.IsEnabled = false;
+                    escMenu.Show();
                     break;
                 case Key.Space:
                     MainWindowViewModel main = (MainWindowViewModel)DataContext;
                     main.DialogAddAll(_gameSession.currentPos.Description);
                     break;
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            foreach (Window elm in Application.Current.Windows)
+                if (elm != (Window)sender)
+                    elm.Close();
         }
     }
 }
