@@ -4,8 +4,8 @@
            Name="Rat"
            ImageName="RatEnemy.png"
            MaxHP="10"
-           AttackMax="5"
-           AttackMin="5"
+           AttackMax="50"
+           AttackMin="50"
            Level="1">
     <Drops Gold="10">
       <Drop ID="2"

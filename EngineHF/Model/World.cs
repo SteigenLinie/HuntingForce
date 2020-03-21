@@ -18,7 +18,7 @@ namespace EngineHF.Model
         public Location LocationAt(int xCoordinate, int yCoordinate)
         {
             foreach (Location loc in _locations)
-                if (loc.CurrentX == xCoordinate && loc.CurrentY == yCoordinate)
+                if (loc.CurrentCoordinate.CurrentX == xCoordinate && loc.CurrentCoordinate.CurrentY == yCoordinate)
                     return loc;
 
             return null;

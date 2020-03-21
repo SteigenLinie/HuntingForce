@@ -42,12 +42,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factory\DialogFactory.cs" />
     <Compile Include="Factory\ItemFactory.cs" />
+    <Compile Include="Factory\NPCFactory.cs" />
     <Compile Include="Factory\QuestFactory.cs" />
     <Compile Include="Factory\SkillsFactory.cs" />
     <Compile Include="Factory\WorldFactory.cs" />
     <Compile Include="Factory\MonsterFactory.cs" />
+    <Compile Include="Model\Book.cs" />
     <Compile Include="Model\CurrentPos.cs" />
+    <Compile Include="Model\Dialog.cs" />
     <Compile Include="Model\Drop.cs" />
     <Compile Include="Model\Inventory\BaseItem.cs" />
     <Compile Include="Model\Inventory\InfoForItemInInventory.cs" />
@@ -59,8 +63,10 @@
     <Compile Include="Model\Logging.cs" />
     <Compile Include="Model\MainStats.cs" />
     <Compile Include="Model\GameItem.cs" />
+    <Compile Include="Model\NPC.cs" />
     <Compile Include="Model\Quest.cs" />
     <Compile Include="Model\Skills.cs" />
+    <Compile Include="Model\TypeNPC\NPCForStory.cs" />
     <Compile Include="Model\TypesOfSkills\Attack.cs" />
     <Compile Include="Model\TypesOfSkills\Heal.cs" />
     <Compile Include="Model\TypesOfSkills\Passiv.cs" />
@@ -78,12 +84,6 @@
     <EmbeddedResource Include="Data\Monsters.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="Images\Sprites\Enemy\RatEnemy.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Images\Sprites\Location\ToHome.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -107,6 +107,16 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\Quests.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\NPC.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Dialogs.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

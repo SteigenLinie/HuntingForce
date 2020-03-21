@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<NPCs RootImagePath="Resources/Sprites/NPC/">
+  <NPC ID="1"
+       Name="GayLord"
+       Type="Quest"
+       ImageName="RatEnemy.png"
+       Description="У меня есть Бу">
+    <Quests>
+      <Quest ID="1"/>
+    </Quests>
+  </NPC>
+  <NPC ID="2"
+       Name="Вояка"
+       Type="Story"
+       ImageName="RatEnemy.png"
+       Description="Крым наш!">
+    <Storys>
+      <Story Story="Blablakar"/>
+    </Storys>
+  </NPC>
+</NPCs>

@@ -60,5 +60,15 @@ namespace HuntingForce.DialogWindows.Views
             _escMenu.Visibility = Visibility.Visible;
             this.Close();
         }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Escape:
+                    this.Close();
+                    break;
+            }
+        }
     }
 }

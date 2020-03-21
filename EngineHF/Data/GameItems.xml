@@ -2,15 +2,15 @@
 <GameItems RootImagePath="Resources/Sprites/Items/">
   <GameItem ID="-1"
             Type="Weapon"
-            Name="hand"
+            Name=""
             ImageName="Black.png"
-            Description="a">
+            Description="ыasd">
     <Weapon MinDamage="0"
             MaxDamage="3"/>
   </GameItem>
   <GameItem ID="-2"
             Type="Armor"
-            Name="standartArmor"
+            Name=""
             ImageName="Black.png"
             Description="a">
     <Armor PlusArmor="0"/>
@@ -37,14 +37,14 @@
             Name="katana"
             ImageName="katana.png"
             Description="a">
-    <Weapon MinDamage="0"
-            MaxDamage="20"/>
+    <Weapon MinDamage="1"
+            MaxDamage="12"/>
   </GameItem>
   <GameItem ID="5"
             Type="Miscellaneous"
             Name="mussel"
             ImageName="mussel.png"
-            Description="a">
+            Description="Lorem ipsum dolor sit amet, alii aliquid repudiandae in nam, cum ad malis dicam nostro. Cum veri erant melius ut. Duo id dicat soluta. Ea suas lucilius sit, impetus similique voluptaria an his, ne nec graecis indoctum. Magna nemore cu sit, mei et purto legendos theophrastus. Eam recteque adipiscing ut, eos urbanitas intellegat expetendis et, ne est admodum placerat contentiones. Nostrum recusabo in has, ad lorem quaerendum pro. Errem persius quaestio has ne, movet offendit platonem mei eu. Vel ad minim error invenire, nam te primis timeam discere, ad idque solet accusam per.">
   </GameItem>
   <GameItem ID="4"
             Type="Potion"

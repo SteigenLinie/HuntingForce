@@ -49,18 +49,26 @@ namespace EngineHF.Factory
             {
                 Monster monster = null;
                 Quest quest = null;
+                NPC npc = null;
                 if (node.SelectSingleNode("./Monsters/Monster") != null)
                     monster = MonsterFactory._baseMonsters.First(x => x.ID == node.SelectSingleNode("./Monsters/Monster").AttributeAsInt("ID"));
                 if (node.SelectSingleNode("./Quests/Quest") != null)
                     quest = QuestFactory._allQuests.First(x => x.ID == node.SelectSingleNode("./Quests/Quest").AttributeAsInt("ID"));
+                if (node.SelectSingleNode("./NPC") != null)
+                    npc = NPCFactory._npc.First(x => x.NpcID == node.SelectSingleNode("./NPC").AttributeAsInt("ID"));
                 Location location =
                     new Location(node.AttributeAsString("Name"),
-                            node.AttributeAsInt("X"),
-                            node.AttributeAsInt("Y"),
-                            $".{rootImagePath}{node.AttributeAsString("ImageName")}",
-                            node.SelectSingleNode("./Description")?.InnerText ?? "",
-                            monster,
-                            quest);
+                                 new CurrentPos(node.AttributeAsInt("X"),
+                                                node.AttributeAsInt("Y")),
+                                 $".{rootImagePath}{node.AttributeAsString("ImageName")}",
+                                 node.SelectSingleNode("./Description")?.InnerText ?? "",
+                                 monster,
+                                 quest,
+                                 npc);
+
+                //1
+                location.Dialogs = DialogFactory.dialogDict.FirstOrDefault(x => x.Key.CurrentX == location.CurrentCoordinate.CurrentX &&
+                                                                                x.Key.CurrentY == location.CurrentCoordinate.CurrentY).Value;
 
                 world.AddLocation(location);
             }

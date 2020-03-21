@@ -55,6 +55,7 @@ namespace EngineHF.Factory
                                             node.AttributeAsInt("GridRow"),
                                             node.AttributeAsInt("GridColumn"),
                                             node.AttributeAsString("Name"),
+                                            node.AttributeAsInt("CostSkillPoint"),
                                             $".{rootImagePath}{node.AttributeAsString("ImageName")}",
                                             NewAttackSkill(node.SelectSingleNode("./Attack")),
                                             null,
@@ -66,6 +67,7 @@ namespace EngineHF.Factory
                                             node.AttributeAsInt("GridRow"),
                                             node.AttributeAsInt("GridColumn"),
                                             node.AttributeAsString("Name"),
+                                            node.AttributeAsInt("CostSkillPoint"),
                                             $".{rootImagePath}{node.AttributeAsString("ImageName")}");
                         break;
                    

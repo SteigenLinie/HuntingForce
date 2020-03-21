@@ -17,13 +17,11 @@
             Name="Home"
 	          ImageName="grass.png">
     <Description><![CDATA[]]></Description>
-    <Quests>
-      <Quest ID="1"/>
-    </Quests>
+    <NPC ID="1"/>
   </Location>
   <Location X="1" Y="1"
            Name="Home"
-           ImageName="grass.png">
+           ImageName="UIHere.png">
     <Description><![CDATA[]]></Description>
   </Location>
   <Location X="0" Y="-1"

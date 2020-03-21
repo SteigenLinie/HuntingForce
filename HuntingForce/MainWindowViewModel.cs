@@ -23,6 +23,7 @@ namespace HuntingForce
         readonly MainWindow _mainWindow;
         private bool inFight;
         private List<Logging> _logs = new List<Logging>();
+        private List<Location> _map = new List<Location>();
         public List<string> _currentTypesOfLogs = new List<string>()
         {
             "takeDamage",
@@ -62,8 +63,6 @@ namespace HuntingForce
 
             Enemy = _gameSession.CurrentWorld.LocationAt(0, 0).ImageName.Remove(0, 1);
             ToCommonLocation();
-            DialogAdd(_gameSession.currentPos.Description);
-            NameOfLocation = _gameSession.currentPos.Name;
             for (int i = 1; i <= 22; i++)
             {
                 if (i < 10)
@@ -72,7 +71,25 @@ namespace HuntingForce
                     str[i - 1] = $"Resources/Sprites/Enemy/Wolf/darksaber_attack00{i}.png";
             }
         }
-        public async void DialogAdd(string text)
+        public async Task DialogAdd(string text, bool isSkill = false)
+        {
+            MoveButton = false;
+            if(!isSkill)
+                Dialog = "";
+            //await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
+            //{
+                foreach (var _char in text)
+                {
+                    if (MoveButton)
+                        return;
+                    Dialog += _char;
+                    await Task.Delay(30);
+                }
+                MoveButton = true;
+            //}
+            //));
+        }
+        public async void DialogAddAsync(string text, bool isSkill = false)
         {
             MoveButton = false;
             Dialog = "";
@@ -83,7 +100,7 @@ namespace HuntingForce
                     if (MoveButton)
                         return;
                     Dialog += _char;
-                    await Task.Delay(50);
+                    await Task.Delay(30);
                 }
                 MoveButton = true;
             }
@@ -91,12 +108,12 @@ namespace HuntingForce
         }
         public async Task PlayAnimation(string[] arrOfPng)
         {
-            //await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
-            //{
-            while (_animationIsPlaying)
-                await Task.Delay(100);
+            await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
+            {
+                while (_animationIsPlaying)
+                    await Task.Delay(100);
             
-            if (!_animationIsPlaying)
+                if (!_animationIsPlaying)
                 {
                     _animationIsPlaying = true;
                     foreach (var Png in arrOfPng)
@@ -106,13 +123,13 @@ namespace HuntingForce
                     }
                     _animationIsPlaying = false;
                 }
-            //}
-            //));
+            }
+            ));
         }
         public async Task PlayAnimationForEnemy(string[] arrOfPng)
         {
-            //await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
-            //{
+            await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
+            {
                 while (_animationIsPlaying)
                     await Task.Delay(100);
 
@@ -126,8 +143,8 @@ namespace HuntingForce
                     }
                     _animationIsPlaying = false;
                 }
-            //}
-            //));
+            }
+            ));
         }
         public void DialogAddAll(string text)
         {
@@ -191,6 +208,12 @@ namespace HuntingForce
         {
             get => _dialog;
             set => SetProperty(ref _dialog, value);
+        }
+        private string _nameOfDialog;
+        public string NameForDialog
+        {
+            get => _nameOfDialog;
+            set => SetProperty(ref _nameOfDialog, value);
         }
         #endregion
 
@@ -301,7 +324,6 @@ namespace HuntingForce
             { 
                 SetProperty(ref _currentAttack, value);
 
-                _mainWindow.popup1.IsOpen = true;
 
             }
         }
@@ -330,7 +352,7 @@ namespace HuntingForce
             if(MoveButton && !_animationIsPlaying)
                 Attacking(_gameSession.mainStats.CurrentWeapon.Weapon.MinDamage, _gameSession.mainStats.CurrentWeapon.Weapon.MaxDamage);
         }
-        public async void Attacking(int minDamage, int maxDamage, int countOfSlash = 1)
+        public async void Attacking(int minDamage, int maxDamage, int countOfSlash = 1, string nameOfSkill = null)
         {
             if (_gameSession.currentPos.Monster == null)
             {
@@ -338,45 +360,63 @@ namespace HuntingForce
                 return;
             }
             for (int i = 0; i < countOfSlash; i++)
-                await HeroAttacks(minDamage, maxDamage);
+                await HeroAttacks(minDamage, maxDamage, i, countOfSlash, nameOfSkill);
             MonsterAttacks();
         }
-        private async Task HeroAttacks(int minDamage, int maxDamage)
+        private async Task HeroAttacks(int minDamage, int maxDamage, int countOfUseSlash, int countOfSlash, string nameOfSkill = null)
         {
             string[] arrOfPng = new string[10];
             for (int i = 1; i <= 10; i++)
-                arrOfPng[i-1] = $"Resources/Sprites/Player/attack ({i}).png";
+                arrOfPng[i - 1] = $"Resources/Sprites/Player/attack ({i}).png";
+
+            if (countOfUseSlash == 0 && countOfSlash > 1)
+                await DialogAdd($"\"{_gameSession.mainStats.Name}\" use {nameOfSkill} and made a combo of {countOfSlash} attacks\r\n");
+
             await PlayAnimation(arrOfPng);
             var damage = new Random().Next(minDamage, maxDamage);
             _gameSession.currentPos.Monster.CurrentHP -= damage;
             inFight = true;
-            Logging("takeDamage", new string[] {_gameSession.currentPos.Monster.Name, Convert.ToString(damage) ,_gameSession.mainStats.Name});
+            Logging("giveDamage", new string[] { _gameSession.currentPos.Monster.Name, Convert.ToString(damage), _gameSession.mainStats.Name });
+            
+            if (nameOfSkill != null )
+            {
+                if (countOfSlash > 1)
+                    await DialogAdd($"\"{_gameSession.mainStats.Name}\" use {nameOfSkill} and give {Convert.ToString(damage)} damage to \"{_gameSession.currentPos.Monster.Name}\"\r\n", true);
+                else
+                    await DialogAdd($"\"{_gameSession.mainStats.Name}\" use {nameOfSkill} and give {Convert.ToString(damage)} damage to \"{_gameSession.currentPos.Monster.Name}\"");
+            }
+            else
+                await DialogAdd($"\"{_gameSession.mainStats.Name}\" give {Convert.ToString(damage)} damage to \"{_gameSession.currentPos.Monster.Name}\"");
 
             if (_gameSession.currentPos.Monster.CurrentHP <= 0)
-                MonsterDead();
+                await MonsterDead();
             HPBarOfMonster = $"{_gameSession.currentPos.Monster.CurrentHP}";
-
+            Thread.Sleep(250);
         }
-        private void MonsterDead()
+        private async Task MonsterDead()
         {
-            Logging("dead", new string[] { _gameSession.currentPos.Monster.Name });
-            foreach (Drop drop in _gameSession.currentPos.Monster.DropList)
-                if (new Random().Next(0, 100) <= drop.Chance)
-                    _mainWindow.AddNewItemInInventory(drop);
+            //await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
+            //{
+                Logging("dead", new string[] { _gameSession.currentPos.Monster.Name });
+                await DialogAdd($"\r\n   \"{_gameSession.currentPos.Monster.Name}\" is deadinside\"", true);
+                foreach (Drop drop in _gameSession.currentPos.Monster.DropList)
+                    if (new Random().Next(0, 100) <= drop.Chance)
+                        _mainWindow.AddNewItemInInventory(drop);
 
-            var giveGold = _gameSession.currentPos.Monster.Gold + 5 * (_gameSession.currentPos.Monster.Level - _gameSession.mainStats.CurrentLevel);
-            if (giveGold > 0)
-                CurrentGoldTextBlock = Convert.ToString(giveGold + Convert.ToInt32(CurrentGoldTextBlock));
+                var giveGold = _gameSession.currentPos.Monster.Gold + 5 * (_gameSession.currentPos.Monster.Level - _gameSession.mainStats.CurrentLevel);
+                if (giveGold > 0)
+                    CurrentGoldTextBlock = Convert.ToString(giveGold + Convert.ToInt32(CurrentGoldTextBlock));
 
-            _gameSession.currentPos.Monster.CurrentHP = _gameSession.currentPos.Monster.MaxHP;
+                _gameSession.currentPos.Monster.CurrentHP = _gameSession.currentPos.Monster.MaxHP;
 
-            XPPlus();
+                XPPlus();
 
-            foreach (var quest in _gameSession.mainStats.QuestOnPlayer)
-                if (_gameSession.currentPos.Monster.QuestProgress.Contains(quest.ID) && quest.Progress != "done")
-                    quest.Progress = $"{Convert.ToInt32(quest.Progress.Split('/')[0]) + 1}/{quest.Progress.Split('/')[1]}";
+                foreach (var quest in _gameSession.mainStats.QuestOnPlayer)
+                    if (_gameSession.currentPos.Monster.QuestProgress.Contains(quest.ID) && quest.Progress != "done")
+                        quest.Progress = $"{Convert.ToInt32(quest.Progress.Split('/')[0]) + 1}/{quest.Progress.Split('/')[1]}";
 
-            inFight = false;
+                inFight = false;
+            //}));
         }
         private async void MonsterAttacks()
         {
@@ -388,27 +428,29 @@ namespace HuntingForce
                 var a = (0.06 * _gameSession.mainStats.CurrentArmor.Armor.PlusArmor) / (1 + 0.06 * _gameSession.mainStats.CurrentArmor.Armor.PlusArmor);
                 if (a == 0) a = 1;
                 _gameSession.mainStats.CurrentHP -= Convert.ToInt32(damage * a);
-                Logging("takeDamage", new string[] { _gameSession.mainStats.Name, Convert.ToString(damage), _gameSession.currentPos.Monster.Name });
+                Logging("takeDamage", new string[] { _gameSession.mainStats.Name, Convert.ToString(Math.Round(damage * a)), _gameSession.currentPos.Monster.Name });
 
-                DialogAddAll($"\"{_gameSession.mainStats.Name}\" take {Convert.ToString(damage)} damage from \"{_gameSession.currentPos.Monster.Name}\"");
+                await DialogAdd($"\"{_gameSession.mainStats.Name}\" take {Convert.ToString(Math.Round(damage * a))} damage from \"{_gameSession.currentPos.Monster.Name}\"");
 
                 if (_gameSession.mainStats.CurrentHP <= 0)
-                {
-                    PlayerDead();
-                    return;
-                }
+                    await PlayerDead();
                 HPbar = $"{_gameSession.mainStats.CurrentHP}/{_gameSession.mainStats.MaxHP}";
             }
         }
-        private void PlayerDead()
+        private async Task PlayerDead()
         {
+            _gameSession.currentPos.Monster.CurrentHP = _gameSession.currentPos.Monster.MaxHP;
+            MessageBox.Show("YOU ARE DEAD");
+            while (_animationIsPlaying)
+                await Task.Delay(100);
+            Logging("dead", new string[] { _gameSession.mainStats.Name });
+            Thread.Sleep(250);
             Move(0, 0);
 
             _gameSession.mainStats.CurrentHP = _gameSession.mainStats.MaxHP;
-            HPbar = $"{_gameSession.mainStats.CurrentHP}/{_gameSession.mainStats.MaxHP}";
 
             SetVisibilityForMovement();
-            Logging("dead", new string[] { _gameSession.mainStats.Name });
+            
             inFight = false;
 
             DialogAddAll(_gameSession.currentPos.Description);
@@ -443,11 +485,11 @@ namespace HuntingForce
             if (_gameSession.HasLocationToWest)
             {
                 if (!inFight)
-                    Move(_gameSession.currentPos.CurrentX - 1, _gameSession.currentPos.CurrentY);
+                    Move(_gameSession.currentPos.CurrentCoordinate.CurrentX - 1, _gameSession.currentPos.CurrentCoordinate.CurrentY);
                 else
                 {
                     if (new Random().Next(0, 100) < 25)
-                        Move(_gameSession.currentPos.CurrentX - 1, _gameSession.currentPos.CurrentY);
+                        Move(_gameSession.currentPos.CurrentCoordinate.CurrentX - 1, _gameSession.currentPos.CurrentCoordinate.CurrentY);
                     else
                         MonsterAttacks();
                 }
@@ -459,11 +501,11 @@ namespace HuntingForce
             if (_gameSession.HasLocationToNorth)
             {
                 if (!inFight)
-                    Move(_gameSession.currentPos.CurrentX, _gameSession.currentPos.CurrentY + 1);
+                    Move(_gameSession.currentPos.CurrentCoordinate.CurrentX, _gameSession.currentPos.CurrentCoordinate.CurrentY + 1);
                 else
                 {
                     if (new Random().Next(0, 100) < 25)
-                        Move(_gameSession.currentPos.CurrentX, _gameSession.currentPos.CurrentY + 1);
+                        Move(_gameSession.currentPos.CurrentCoordinate.CurrentX, _gameSession.currentPos.CurrentCoordinate.CurrentY + 1);
                     else
                         MonsterAttacks();
                 }
@@ -474,11 +516,11 @@ namespace HuntingForce
             if (_gameSession.HasLocationToEast)
             {
                 if (!inFight)
-                    Move(_gameSession.currentPos.CurrentX + 1, _gameSession.currentPos.CurrentY);
+                    Move(_gameSession.currentPos.CurrentCoordinate.CurrentX + 1, _gameSession.currentPos.CurrentCoordinate.CurrentY);
                 else
                 {
                     if (new Random().Next(0, 100) < 25)
-                        Move(_gameSession.currentPos.CurrentX + 1, _gameSession.currentPos.CurrentY);
+                        Move(_gameSession.currentPos.CurrentCoordinate.CurrentX + 1, _gameSession.currentPos.CurrentCoordinate.CurrentY);
                     else
                         MonsterAttacks();
                 }
@@ -489,11 +531,11 @@ namespace HuntingForce
             if (_gameSession.HasLocationToSouth)
             {
                 if (!inFight)
-                    Move(_gameSession.currentPos.CurrentX, _gameSession.currentPos.CurrentY - 1);
+                    Move(_gameSession.currentPos.CurrentCoordinate.CurrentX, _gameSession.currentPos.CurrentCoordinate.CurrentY - 1);
                 else
                 {
                     if (new Random().Next(0, 100) < 25)
-                        Move(_gameSession.currentPos.CurrentX, _gameSession.currentPos.CurrentY - 1);
+                        Move(_gameSession.currentPos.CurrentCoordinate.CurrentX, _gameSession.currentPos.CurrentCoordinate.CurrentY - 1);
                     else
                         MonsterAttacks();
                 }   
@@ -508,7 +550,6 @@ namespace HuntingForce
                 ToMonster();
             else
                 ToCommonLocation();
-            DialogAdd(_gameSession.currentPos.Description);
             inFight = false;
             _mainWindow.AddNewBorderForMap(_gameSession.currentPos);
         }
@@ -521,6 +562,7 @@ namespace HuntingForce
         }
         public void ToMonster()
         {
+            AddingTextToDialogTextBlock(_gameSession.currentPos);
             Enemy = _gameSession.currentPos.Monster.ImageName.Remove(0, 1);
             NameOfLocation = _gameSession.currentPos.Monster.Name;
             HPBarOfMonster = $"{_gameSession.currentPos.Monster.CurrentHP}";
@@ -529,23 +571,64 @@ namespace HuntingForce
         }
         public void ToCommonLocation()
         {
-            if (_gameSession.currentPos.Quest != null && !_gameSession.currentPos.Quest.IsDone)
-                _mainWindow.AddNewQuest(_gameSession.currentPos.Quest);
-            Enemy = _gameSession.currentPos.ImageName.Remove(0, 1);
-            NameOfLocation = _gameSession.currentPos.Name;
-            HPBarOfMonster = "";
-            NameOfLocationVerticalAlignment = "Center";
-            NameOfLocationRowSpan = 2;
+            if (_gameSession.currentPos.NPC != null)
+            {
+                _mainWindow.AddNewQuest(_gameSession.currentPos.NPC.Quest);
+                Enemy = _gameSession.currentPos.NPC.ImageName.Remove(0, 1);
+                NameOfLocation = _gameSession.currentPos.NPC.Name;
+                AddingTextToDialogTextBlock(_gameSession.currentPos);
+            }
+            else
+            {
+                AddingTextToDialogTextBlock(_gameSession.currentPos);
+                Enemy = _gameSession.currentPos.ImageName.Remove(0, 1);
+                NameOfLocation = _gameSession.currentPos.Name;
+            }
+                HPBarOfMonster = "";
+                NameOfLocationVerticalAlignment = "Center";
+                NameOfLocationRowSpan = 2;
+        }
+        private void AddingTextToDialogTextBlock(Location currentPos)
+        {
+            if (_mainWindow._map.ContainsKey(_gameSession.currentPos))
+            {
+                if (_gameSession.currentPos.Dialogs != null)
+                {
+                    var currDialog = _gameSession.currentPos.Dialogs[0];
+                    DialogAddAll(currDialog.Text);
+                    currDialog.WasRead = true;
+                    NameForDialog = currDialog.Name;
+                }
+                else
+                    DialogAddAll(_gameSession.currentPos.Description);
+            }
+            else
+            {
+                if (_gameSession.currentPos.Dialogs != null)
+                {
+                    var currDialog = _gameSession.currentPos.Dialogs[0];
+                    DialogAddAsync(currDialog.Text);
+                    currDialog.WasRead = true;
+                    NameForDialog = currDialog.Name;
+                }
+                else
+                    DialogAddAsync(_gameSession.currentPos.Description);
+            }
         }
         #endregion
 
-        public void OnTeleportToHome()
-        {
-            Move(0, 0);
-        }
+        public void OnTeleportToHome() => Move(0, 0);
         public void OnSkipDialog()
         {
-            DialogAddAll(_gameSession.currentPos.Description);
+            if (!MoveButton)
+                DialogAddAll(_gameSession.currentPos.Description);
+            else if(_gameSession.currentPos.Dialogs != null)
+            {
+                var currDialog = _gameSession.currentPos.Dialogs.First(x => x.WasRead == false);
+                currDialog.WasRead = true;
+                DialogAddAsync(currDialog.Text);
+                NameForDialog = currDialog.Name;
+            }
         }
         public void Logging(string type, string[] _desc)
         {

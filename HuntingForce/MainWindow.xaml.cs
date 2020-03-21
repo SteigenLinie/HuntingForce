@@ -5,6 +5,7 @@ using HuntingForce.DialogWindows;
 using System;
 using System.Collections.Generic;
 using System.Data.Linq;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,21 +30,30 @@ namespace HuntingForce
         private List<InfoForItemInInventory> _inventoryItems = new List<InfoForItemInInventory>();
         private Border _lastBorder;
         private Border _lastBorderInAmmo;
+
         #endregion
+
+
+
+
 
         private bool _skillSelected;
         private Button lastButton;
         private static readonly GameSession _gameSession = new GameSession();
         private List<TextBlock> arrayOfTextBlock = new List<TextBlock>();
         private List<Border> arrayOfBorder = new List<Border>();
-
         private List<TextBlock> _arrayOfTextBlock = new List<TextBlock>();
+        private Dictionary<TextBlock, string> _arrayOfTextBlockhelp = new Dictionary<TextBlock, string>();
+
         private List<TextBlock> _arrayOfSkillTextBlock = new List<TextBlock>();
         private List<Border> _arrayOfBorder = new List<Border>();
 
         private TextBlock[] _arrayOfTextBlock1 = new TextBlock[_gameSession._standartSkills.Count];
         private TextBlock[] _arrayOfSkillTextBlock1 = new TextBlock[_gameSession._standartSkills.Count];
         private Border[] _arrayOfBorder1 = new Border[_gameSession._standartSkills.Count];
+
+        private Border _lastMapBorder;
+        public Dictionary<Location, Border> _map = new Dictionary<Location, Border>();
 
         MainWindowViewModel _mainWindowViewModel;
         public MainWindow()
@@ -56,8 +66,8 @@ namespace HuntingForce
             AddingInventory();
         }
         #region - Inventory -
-        #region DopMethod
-        private Border GenerateInventoryItem(string name, string imageName, string text, int gridRow, int gridColumn)
+        #region Constructors
+        private Border GenerateInventoryItem(string name, string imageName, string text, int gridRow, int gridColumn, GameItem gameItem = null)
         {
             Border border = new Border()
             {
@@ -71,10 +81,29 @@ namespace HuntingForce
             {
                 Name = name,
                 Margin = new Thickness(3),
-                Source = new BitmapImage(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\" + imageName.Remove(0,1)))
+                Source = new BitmapImage(new Uri(imageName.Remove(0,1), UriKind.Relative))
             };
             image.MouseLeftButtonDown += Image_MouseLeftButtonDown;
-
+            if (gameItem != null)
+            {
+                if (gameItem.Category.ToString() == "Miscellaneous")
+                {
+                    image.ToolTip = new ToolTip
+                    {
+                        Content = GenerateToolTipMiscellaneous(gameItem.Name, "Miscellaneous", gameItem.ImageName, gameItem.Descrtiption),
+                        Background = Brushes.Transparent
+                    };
+                }
+                else
+                {
+                    image.ToolTip = new ToolTip
+                    {
+                        Content = GenerateToolTip(gameItem),
+                        Background = Brushes.Transparent
+                    };
+                    image.ToolTipOpening += Image_ToolTipOpening;
+                }
+            }
             TextBlock textBlock = new TextBlock()
             {
                 Text = text,
@@ -90,6 +119,542 @@ namespace HuntingForce
             Grid.SetRow(border, gridRow);
             Grid.SetColumn(border, gridColumn);
             return border;
+        }
+
+        private void Image_ToolTipOpening(object sender, ToolTipEventArgs e)
+        {
+            var image = (Image)sender;
+            var newItem = _gameSession._standardGameItems.First(x => x.Name == image.Name);
+
+            var toolTip = (ToolTip)image.ToolTip;
+            var grid = (Grid)toolTip.Content;
+            var border = (Border)grid.Children[0];
+            var oneMoreGrid = (Grid)border.Child;
+            var andOneMoreGrid = (Grid)oneMoreGrid.Children[5];
+            var bonusHealth = (TextBlock)andOneMoreGrid.Children[3];
+            var bonusDamage = (TextBlock)andOneMoreGrid.Children[5];
+            var bonusArmor = (TextBlock)andOneMoreGrid.Children[7];
+            var category = newItem.Category.ToString();
+            switch(category)
+            {
+                case "Weapon":
+                    var averageDamageCurrWeapon = (_gameSession.mainStats.CurrentWeapon.Weapon.MinDamage + _gameSession.mainStats.CurrentWeapon.Weapon.MaxDamage) / 2.0;
+                    var averageDamageNewWeapon = (newItem.Weapon.MinDamage + newItem.Weapon.MaxDamage) / 2.0;
+                    var blablabla = (averageDamageNewWeapon - averageDamageCurrWeapon) / averageDamageCurrWeapon;
+                    var bonusDamegeInProc = Math.Round(blablabla, 2) * 100;
+
+                    if (bonusDamegeInProc > 0)
+                    {
+                        bonusDamage.Opacity = 1;
+                        bonusDamage.Text = "+" + bonusDamegeInProc + "%";
+                        bonusDamage.Foreground = new SolidColorBrush(Color.FromRgb(76, 187, 23));
+
+                    }
+                    else if (bonusDamegeInProc < 0)
+                    {
+                        bonusDamage.Opacity = 1;
+                        bonusDamage.Text = bonusDamegeInProc + "%";
+                        bonusDamage.Foreground = new SolidColorBrush(Color.FromRgb(248, 0, 0));
+                    }
+                    else
+                    {
+                        bonusDamage.Opacity = 0.8;
+                        bonusDamage.Text = "+" + bonusDamegeInProc + "%";
+                        bonusDamage.Foreground = Brushes.White;
+                    }
+                    break;
+                case "Armor":
+                    double armor = newItem.Armor.PlusArmor - _gameSession.mainStats.CurrentArmor.Armor.PlusArmor;
+                    if (_gameSession.mainStats.CurrentArmor.Armor.PlusArmor != 0)
+                        armor /= _gameSession.mainStats.CurrentArmor.Armor.PlusArmor;
+                    var bonusArmorIn = Math.Round(armor, 2) * 100;
+
+                    if (bonusArmorIn > 0)
+                    {
+                        bonusArmor.Opacity = 1;
+                        bonusArmor.Text = "+" + bonusArmorIn + "%";
+                        bonusArmor.Foreground = new SolidColorBrush(Color.FromRgb(76, 187, 23));
+
+                    }
+                    else if (bonusArmorIn < 0)
+                    {
+                        bonusArmor.Opacity = 1;
+                        bonusArmor.Text = bonusArmorIn + "%";
+                        bonusArmor.Foreground = new SolidColorBrush(Color.FromRgb(248, 0, 0));
+                    }
+                    else
+                    {
+                        bonusArmor.Opacity = 0.8;
+                        bonusArmor.Text = "+" + bonusArmorIn + "%";
+                        bonusArmor.Foreground = Brushes.White;
+                    }
+                    break;
+            }
+        }
+
+        private Grid GenerateToolTip(GameItem gameItem)
+        {
+            var mainborder = new Border
+            {
+                Background = Brushes.Black,
+                BorderBrush = Brushes.White,
+                BorderThickness = new Thickness(1)
+            };
+
+            var grid2 = new Grid
+            {
+                Margin = new Thickness(10)
+            };
+
+            var row0 = new RowDefinition { Height = new GridLength(1, GridUnitType.Star) };
+            var row1 = new RowDefinition { Height = new GridLength(4, GridUnitType.Star) };
+            var row2 = new RowDefinition { Height = new GridLength(2.5, GridUnitType.Star) };
+            var row3 = new RowDefinition { Height = new GridLength(0.5, GridUnitType.Star) };
+
+            var col0 = new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) };
+            var col1 = new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) };
+
+            grid2.RowDefinitions.Add(row0);
+            grid2.RowDefinitions.Add(row1);
+            grid2.RowDefinitions.Add(row2);
+            grid2.RowDefinitions.Add(row3);
+
+            grid2.ColumnDefinitions.Add(col0);
+            grid2.ColumnDefinitions.Add(col1);
+
+            var name = new TextBlock
+            {
+                Text = gameItem.Name,
+                Foreground = Brushes.White,
+                FontSize = 30,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2")
+            };
+            Grid.SetColumnSpan(name, 2);
+
+            var border = new Border
+            {
+                Background = Brushes.White,
+                Height = 2,
+                VerticalAlignment = VerticalAlignment.Bottom,
+            };
+
+            Grid.SetColumnSpan(border, 2);
+
+            var borderForImage = new Border
+            {
+                Background = Brushes.Black,
+                BorderBrush = Brushes.White,
+                BorderThickness = new Thickness(1),
+                Margin = new Thickness(0, 10, 5, 0)
+            };
+            Grid.SetRow(borderForImage, 1);
+
+            var Image = new Image
+            {
+                Source = new BitmapImage(new Uri(gameItem.ImageName.Remove(0, 1), UriKind.Relative)),
+                Margin = new Thickness(0, 10, 0, 0)
+            };
+            borderForImage.Child = Image;
+
+            var gridHar = new Grid
+            {
+                Margin = new Thickness(5, 0, 0, 0)
+            };
+            Grid.SetRow(gridHar, 1);
+            Grid.SetColumn(gridHar, 1);
+
+            var rowHar0 = new RowDefinition { Height = new GridLength(1, GridUnitType.Star) };
+            var rowHar1 = new RowDefinition { Height = new GridLength(1, GridUnitType.Star) };
+            var rowHar2 = new RowDefinition { Height = new GridLength(0.5, GridUnitType.Star) };
+            var rowHar3 = new RowDefinition { Height = new GridLength(1, GridUnitType.Star) };
+            
+            gridHar.RowDefinitions.Add(rowHar0);
+            gridHar.RowDefinitions.Add(rowHar1);
+            gridHar.RowDefinitions.Add(rowHar2);
+            gridHar.RowDefinitions.Add(rowHar3);
+
+
+
+
+            var myUnderline = new TextDecoration
+            {
+
+                // Create a solid color brush pen for the text decoration.
+                Pen = new Pen(Brushes.White, 1),
+                PenThicknessUnit = TextDecorationUnit.FontRecommended
+            };
+
+            // Set the underline decoration to a TextDecorationCollection and add it to the text block.
+            var myCollection = new TextDecorationCollection
+            {
+                myUnderline
+            };
+
+
+
+
+            var type = new TextBlock
+            {
+                Text = gameItem.Category.ToString(),
+                Foreground = Brushes.White,
+                FontSize = 30,
+                Margin = new Thickness(0, 10, 0, 0),
+                FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2"),
+                TextDecorations = myCollection
+            };
+            Grid.SetRow(type, 0);
+            gridHar.Children.Add(type);
+            var averageDamage = new TextBlock
+            {
+                Foreground = Brushes.White,
+                FontSize = 50,
+                FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2")
+            };
+            Grid.SetRow(averageDamage, 1);
+
+
+            var bonusHealth = new TextBlock
+            {
+                Text = "+0",
+                Foreground = Brushes.White,
+                Opacity = 0.8,
+                FontSize = 15,
+                FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2"),
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Bottom
+            };
+            Grid.SetColumn(bonusHealth, 1);
+            var bonusDamage = new TextBlock
+            {
+                Text = "+0",
+                Foreground = Brushes.White,
+                Opacity = 0.8,
+                FontSize = 15,
+                FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2"),
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            Grid.SetRow(bonusDamage, 1);
+            Grid.SetColumn(bonusDamage, 1);
+
+            var bonusArmor = new TextBlock
+            {
+                Text = "+0",
+                Foreground = Brushes.White,
+                Opacity = 0.8,
+                FontSize = 15,
+                FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2"),
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+            Grid.SetRow(bonusArmor, 2);
+            Grid.SetColumn(bonusArmor, 1);
+
+            var bonusHealthInfo = new TextBlock
+            {
+                Text = "к здоровью",
+                Foreground = Brushes.White,
+                FontSize = 15,
+                FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2"),
+                Margin = new Thickness(5, 0, 0, 0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Bottom
+            };
+            Grid.SetColumn(bonusHealthInfo, 2);
+
+            var bonusDamageInfo = new TextBlock
+            {
+                Text = "к урону",
+                Foreground = Brushes.White,
+                FontSize = 15,
+                FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2"),
+                Margin = new Thickness(5, 0, 0, 0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            Grid.SetRow(bonusDamageInfo, 1);
+            Grid.SetColumn(bonusDamageInfo, 2);
+
+            var bonusArmorInfo = new TextBlock
+            {
+                Text = "к защите",
+                Foreground = Brushes.White,
+                FontSize = 15,
+                FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2"),
+                Margin = new Thickness(5, 0, 0, 0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+            Grid.SetRow(bonusArmorInfo, 2);
+            Grid.SetColumn(bonusArmorInfo, 2);
+
+            if (gameItem.Weapon != null)
+            {
+                var averageDamageNewWeapon = (gameItem.Weapon.MinDamage + gameItem.Weapon.MaxDamage) / 2.0;
+                averageDamage.Text = String.Format("{0:0.0}", averageDamageNewWeapon);
+                var text = new TextBlock
+                {
+                    Text = "ед. урона в сек",
+                    Foreground = Brushes.Gray,
+                    FontSize = 15,
+                    FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2")
+                };
+                Grid.SetRow(text, 2);
+
+                gridHar.Children.Add(averageDamage);
+                gridHar.Children.Add(text);
+
+                var damage = new TextBlock
+                {
+                    Text = gameItem.Weapon.MinDamage + "-" + gameItem.Weapon.MaxDamage,
+                    Foreground = Brushes.White,
+                    FontSize = 25,
+                    FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2")
+                };
+                Grid.SetRow(damage, 3);
+                gridHar.Children.Add(damage);
+               
+            }
+            else if (gameItem.Armor != null)
+            {
+                averageDamage.Text = $"{gameItem.Armor.PlusArmor}";
+                gridHar.Children.Add(averageDamage);
+            }
+
+
+            var border2 = new Border
+            {
+                Background = Brushes.White,
+                Height = 2,
+                VerticalAlignment = VerticalAlignment.Bottom,
+            };
+            Grid.SetRow(border2, 2);
+            Grid.SetColumnSpan(border2, 2);
+
+            var gridBonus = new Grid();
+            Grid.SetRow(gridBonus, 2);
+            Grid.SetColumnSpan(gridBonus, 2);
+
+            var rowBonus0 = new RowDefinition { Height = new GridLength(1, GridUnitType.Star) };
+            var rowBonus1 = new RowDefinition { Height = new GridLength(1, GridUnitType.Star) };
+            var rowBonus2 = new RowDefinition { Height = new GridLength(1, GridUnitType.Star) };
+
+            var colBonus0 = new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) };
+            var colBonus1 = new ColumnDefinition { Width = new GridLength(0.6, GridUnitType.Star) };
+            var colBonus2 = new ColumnDefinition { Width = new GridLength(1.4, GridUnitType.Star) };
+
+            gridBonus.RowDefinitions.Add(rowBonus0);
+            gridBonus.RowDefinitions.Add(rowBonus1);
+            gridBonus.RowDefinitions.Add(rowBonus2);
+
+            gridBonus.ColumnDefinitions.Add(colBonus0);
+            gridBonus.ColumnDefinitions.Add(colBonus1);
+            gridBonus.ColumnDefinitions.Add(colBonus2);
+
+            var info1 = new TextBlock
+            {
+                Text = "Если вы экипируетесь",
+                Foreground = Brushes.White,
+                Opacity = 0.8,
+                FontSize = 12,
+                FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2"),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Bottom
+            };
+            var info2 = new TextBlock
+            {
+                Text = "этим предметом, то",
+                Foreground = Brushes.White,
+                Opacity = 0.8,
+                FontSize = 12,
+                FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2"),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            Grid.SetRow(info2, 1);
+            var info3 = new TextBlock
+            {
+                Text = "получите:",
+                Foreground = Brushes.White,
+                Opacity = 0.8,
+                FontSize = 12,
+                FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2"),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+            Grid.SetRow(info3, 2);
+
+
+            gridBonus.Children.Add(info1);
+            gridBonus.Children.Add(info2);
+            gridBonus.Children.Add(info3);
+            gridBonus.Children.Add(bonusHealth);
+            gridBonus.Children.Add(bonusHealthInfo);
+            gridBonus.Children.Add(bonusDamage);
+            gridBonus.Children.Add(bonusDamageInfo);
+            gridBonus.Children.Add(bonusArmor);
+            gridBonus.Children.Add(bonusArmorInfo);
+
+
+            grid2.Children.Add(name);
+            grid2.Children.Add(border);
+            grid2.Children.Add(borderForImage);
+            grid2.Children.Add(gridHar);
+            grid2.Children.Add(border2);
+            grid2.Children.Add(gridBonus);
+
+            mainborder.Child = grid2;
+
+            var grid1 = new Grid();
+            grid1.Width = 250;
+            grid1.Height = 300;
+            grid1.Children.Add(mainborder);
+
+            return grid1;
+        }
+
+        private Grid GenerateToolTipMiscellaneous(string _name, string type, string imageName, string description)
+        {
+            var mainborder = new Border
+            {
+                Background = Brushes.Black,
+                BorderBrush = Brushes.White,
+                BorderThickness = new Thickness(1)
+            };
+
+            var grid2 = new Grid
+            {
+                Margin = new Thickness(10)
+            };
+
+            var row0 = new RowDefinition { Height = new GridLength(1.5, GridUnitType.Star) };
+            var row1 = new RowDefinition { Height = new GridLength(5, GridUnitType.Star) };
+            var row2 = new RowDefinition { Height = new GridLength(0.5, GridUnitType.Star) };
+
+            var col0 = new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) };
+            var col1 = new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) };
+
+            grid2.RowDefinitions.Add(row0);
+            grid2.RowDefinitions.Add(row1);
+            grid2.RowDefinitions.Add(row2);
+
+            grid2.ColumnDefinitions.Add(col0);
+            grid2.ColumnDefinitions.Add(col1);
+
+            var name = new TextBlock
+            {
+                Text = _name,
+                Foreground = Brushes.White,
+                FontSize = 30,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2")
+            };
+            Grid.SetColumnSpan(name, 2);
+
+            var border = new Border
+            {
+                Background = Brushes.White,
+                Height = 2,
+                VerticalAlignment = VerticalAlignment.Bottom,
+            };
+
+            Grid.SetColumnSpan(border, 2);
+
+            var borderForImage = new Border
+            {
+                Background = Brushes.Black,
+                BorderBrush = Brushes.White,
+                BorderThickness = new Thickness(1),
+                Margin = new Thickness(0, 10, 5, 10)
+            };
+            Grid.SetRow(borderForImage, 1);
+
+            var Image = new Image
+            {
+                Source = new BitmapImage(new Uri(imageName.Remove(0, 1), UriKind.Relative)),
+                Margin = new Thickness(0, 5, 0, 0)
+            };
+            borderForImage.Child = Image;
+
+            var gridHar = new Grid
+            {
+                Margin = new Thickness(5, 0, 0, 0)
+            };
+            Grid.SetRow(gridHar, 1);
+            Grid.SetColumn(gridHar, 1);
+
+            var rowHar0 = new RowDefinition { Height = new GridLength(1, GridUnitType.Star) };
+            var rowHar1 = new RowDefinition { Height = new GridLength(1, GridUnitType.Star) };
+            var rowHar2 = new RowDefinition { Height = new GridLength(0.5, GridUnitType.Star) };
+            var rowHar3 = new RowDefinition { Height = new GridLength(1, GridUnitType.Star) };
+
+            gridHar.RowDefinitions.Add(rowHar0);
+            gridHar.RowDefinitions.Add(rowHar1);
+            gridHar.RowDefinitions.Add(rowHar2);
+            gridHar.RowDefinitions.Add(rowHar3);
+
+
+            var border2 = new Border
+            {
+                Background = Brushes.White,
+                Height = 2,
+                VerticalAlignment = VerticalAlignment.Bottom,
+            };
+            Grid.SetRow(border2, 1);
+            Grid.SetColumnSpan(border2, 2);
+            TextBlock text;
+            switch(type)
+            {
+                case "Miscellaneous":
+                    text = new TextBlock
+                    {
+                        Text = description,
+                        Foreground = Brushes.White,
+                        FontSize = 15,
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                        VerticalAlignment = VerticalAlignment.Top,
+                        TextWrapping = TextWrapping.Wrap,
+                        FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2"),
+                    };
+                    Grid.SetRowSpan(text, 4);
+                    gridHar.Children.Add(text);
+                    break;
+                case "Attack":
+                    text = new TextBlock
+                    {
+                        Text = description,
+                        Foreground = Brushes.White,
+                        FontSize = 15,
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                        VerticalAlignment = VerticalAlignment.Top,
+                        TextWrapping = TextWrapping.Wrap,
+                        FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2"),
+                    };
+                    Grid.SetRowSpan(text, 4);
+                    gridHar.Children.Add(text);
+                    break;
+                case "Passive":
+                    break;
+            }
+            
+
+            grid2.Children.Add(name);
+            grid2.Children.Add(border);
+            grid2.Children.Add(borderForImage);
+            grid2.Children.Add(gridHar);
+            grid2.Children.Add(border2);
+
+            mainborder.Child = grid2;
+
+            var grid1 = new Grid();
+            grid1.Width = 250;
+            grid1.Height = 175;
+            grid1.Children.Add(mainborder);
+
+            return grid1;
         }
         #endregion
 
@@ -132,14 +697,14 @@ namespace HuntingForce
                     var image = (Image)grid.Children[0];
 
                     if (_isSelectedInInventory && _inventoryItems.First(x => x.Name == image.Name).Category == "Weapon")
-                        SwapItemsInventoryToAmmo((Image)sender);
+                        SwapItemsInventoryToAmmo(imagee);
                 }
                 else if (imagee.Name != null)
                 {
                     var grid = (Grid)imagee.Parent;
                     var border = (Border)grid.Parent;
                     _lastBorderInAmmo = border;
-                    OnItemInAmmoSelecting((Image)sender);
+                    OnItemInAmmoSelecting(imagee);
                 }
             }
         }
@@ -183,16 +748,27 @@ namespace HuntingForce
             var Weaponborder = (Border)Weapon.Children[0];
             var Weapongrid = (Grid)Weaponborder.Child;
             var Weaponimage = (Image)Weapongrid.Children[0];
-            Weaponimage.Name = null;
-            Weaponimage.Source = new BitmapImage(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Black.png"));
+           
+            Weaponimage.ToolTip = new ToolTip
+            {
+                Background = Brushes.Transparent
+            };
+            if (firstWeapon.Name != "")
+                Weaponimage.Name = firstWeapon.Name;
+            else
+                Weaponimage.Name = null;
+            Weaponimage.Source = new BitmapImage(new Uri(firstWeapon.ImageName.Remove(0, 1), UriKind.Relative));
 
 
             var firstArmor = _gameSession.mainStats.CurrentArmor;
             var Armorborder = (Border)Armor.Children[0];
             var Armorgrid = (Grid)Armorborder.Child;
             var Armorimage = (Image)Armorgrid.Children[0];
-            Armorimage.Name = null;
-            Armorimage.Source = new BitmapImage(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Black.png"));
+            if (firstArmor.Name != "")
+                Armorimage.Name = firstArmor.Name;
+            else
+                Armorimage.Name = null;
+            Armorimage.Source = new BitmapImage(new Uri(firstArmor.ImageName.Remove(0, 1), UriKind.Relative));
 
         }
         public void AddNewItemInInventory(Drop drop)
@@ -214,7 +790,7 @@ namespace HuntingForce
                     var image = (Image)grid.Children[0];
                     image.MouseLeftButtonDown -= Image_MouseLeftButtonDown;
 
-                    var border = GenerateInventoryItem(newAddItem.Name ,newAddItem.ImageName, null, item.ItemInInventory.GridRow, item.ItemInInventory.GridColumn);
+                    var border = GenerateInventoryItem(newAddItem.Name ,newAddItem.ImageName, null, item.ItemInInventory.GridRow, item.ItemInInventory.GridColumn, newAddItem);
                     Inventory.Children.Remove(item.ItemInInventory.Item);
                     item.ItemInInventory.Item = border;
                     item.Name = $"{newAddItem.Name}";
@@ -222,6 +798,7 @@ namespace HuntingForce
                     item.ID = indnt + 1;
                     indnt++;
                     item.ItemInInventory.IsEmpty = false;
+                    
                     Inventory.Children.Add(item.ItemInInventory.Item);
                     dict.Add(item.ID, newAddItem.ItemID);
                     break;
@@ -286,6 +863,7 @@ namespace HuntingForce
 
             if (image.Name == null)
             {
+                imagelast.ToolTipOpening -= Image_ToolTipOpening;
                 temp.Category = null;
                 temp.ItemInInventory.IsEmpty = true;
             }
@@ -295,7 +873,9 @@ namespace HuntingForce
             temp.Name = image.Name;
             (image.Name, imagelast.Name) = (imagelast.Name, image.Name);
             (image.Source, imagelast.Source) = (imagelast.Source, image.Source);
-
+            (image.ToolTip, imagelast.ToolTip) = (imagelast.ToolTip, image.ToolTip);
+            image.ToolTipOpening += Image_ToolTipOpening;
+            
             _lastBorder = null;
             
         }
@@ -343,6 +923,10 @@ namespace HuntingForce
             temp.Name = newImage.Name;
             (image.Name, newImage.Name) = (newImage.Name, image.Name);
             (image.Source, newImage.Source) = (newImage.Source, image.Source);
+            (image.ToolTip, newImage.ToolTip) = (newImage.ToolTip, image.ToolTip);
+            if(newImage.Name == null)
+                newImage.ToolTipOpening -= Image_ToolTipOpening;
+            image.ToolTipOpening += Image_ToolTipOpening;
         }
         private void SwapItems(Image image)
         {
@@ -370,6 +954,35 @@ namespace HuntingForce
             _inventoryItems = _inventoryItems.OrderBy(x => x.ItemInInventory.GridRow).ThenBy(y => y.ItemInInventory.GridColumn).ToList();
             _lastBorder = null;
             _indexOfLastSelectedBorder = null;
+        }
+        #endregion
+
+        #region Trash Methods
+        private void Trash_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (_lastBorder != null)
+            {
+                _lastBorder.BorderThickness = new Thickness(1);
+                _isSelectedInInventory = false;
+                var clear = _inventoryItems.First(x => x.ItemInInventory.Item == _lastBorder);
+                int index = _inventoryItems.IndexOf(clear);
+                var grid = (Grid)_lastBorder.Child;
+                var image = (Image)grid.Children[0];
+                var textBlock = (TextBlock)grid.Children[1];
+
+                image.Source = new BitmapImage(new Uri(@"Resources\Black.png", UriKind.Relative));
+                image.Name = null;
+                textBlock.Text = null;
+
+                _inventoryItems.Remove(clear);
+                _inventoryItems.Insert(index, new InfoForItemInInventory(null, null, 1, clear.ID,
+                        new ItemInInventory(_lastBorder,
+                        clear.ItemInInventory.GridRow, clear.ItemInInventory.GridColumn)));
+
+                _lastBorder = null;
+                _inventoryItems = _inventoryItems.OrderBy(x => x.ItemInInventory.GridRow).ThenBy(y => y.ItemInInventory.GridColumn).ToList();
+                dict.Remove(clear.ID);
+            }
         }
         #endregion
         #endregion
@@ -421,10 +1034,14 @@ namespace HuntingForce
                 Image image = new Image
                 {
                     Name = skill.Name,
-                    Source = new BitmapImage(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\" + skill.ImageName.Remove(0, 1))),
+                    Source = new BitmapImage(new Uri(skill.ImageName.Remove(0, 1), UriKind.Relative)),
                     Margin = new Thickness(2)
                 };
-
+                image.ToolTip = new ToolTip
+                {
+                    Content = GenerateToolTipMiscellaneous(skill.Name, "Attack", skill.ImageName, "просто слова"),
+                    Background = Brushes.Transparent
+                };
 
                 button.Content = image;
                 border.Child = button;
@@ -433,11 +1050,11 @@ namespace HuntingForce
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Bottom,
-                    Text = "0/1",
+                    Text = $"0/{skill.CostSkillPoint}",
                     FontSize = 20,
                     Foreground = Brushes.White
                 };
-                textBlock.FontFamily = new FontFamily(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts\#Determination2");
+                textBlock.FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2");
                 Grid.SetRow(textBlock, skill.GridRow);
                 Grid.SetColumn(textBlock, skill.GridColumn);
                 if (skill.ID != 1)
@@ -476,29 +1093,34 @@ namespace HuntingForce
             var button = (Button)sender;
 
             var sr = Convert.ToInt32(button.Name.Split('_')[1]);
-            if (arrayOfTextBlock[sr - 1].Text != "1/1" && _gameSession.mainStats.TempSkillPoint > 0)
+            var skillNumber = arrayOfTextBlock[sr - 1].Text;
+            var arrForSkillNumber = skillNumber.Split('/');
+            if (skillNumber != $"{arrForSkillNumber[1]}/{arrForSkillNumber[1]}" && _gameSession.mainStats.TempSkillPoint > 0)
             {
                 Cancel.IsEnabled = true;
-                arrayOfTextBlock[sr - 1].Text = "1/1";
+                if(!_arrayOfTextBlockhelp.ContainsKey(arrayOfTextBlock[sr - 1]))
+                    _arrayOfTextBlockhelp.Add(arrayOfTextBlock[sr - 1], arrayOfTextBlock[sr - 1].Text);
+                arrayOfTextBlock[sr - 1].Text = $"{Convert.ToInt32(arrForSkillNumber[0]) + 1}/{arrForSkillNumber[1]}";
                 _gameSession.mainStats.TempSkillPoint--;
-                if (sr == 1)
+                if (sr == 1 && arrayOfTextBlock[sr - 1].Text == $"{arrForSkillNumber[1]}/{arrForSkillNumber[1]}")
                     for (int i = sr; i < sr + 2; i++)
                     {
                         DesignOfSkillUpdate(i);
                         _arrayOfBorder.Add(arrayOfBorder[i]);
                         _arrayOfSkillTextBlock.Add(arrayOfTextBlock[i]);
                     }
-                else if (sr + 1 < arrayOfBorder.Count())
+                else if (sr + 1 < arrayOfBorder.Count() && arrayOfTextBlock[sr - 1].Text == $"{arrForSkillNumber[1]}/{arrForSkillNumber[1]}")
                 {
                     DesignOfSkillUpdate(sr + 1);
                     _arrayOfBorder.Add(arrayOfBorder[sr + 1]);
                     _arrayOfSkillTextBlock.Add(arrayOfTextBlock[sr + 1]);
                 }
-                _arrayOfTextBlock.Add(arrayOfTextBlock[sr - 1]);
+                if(!_arrayOfTextBlock.Contains(arrayOfTextBlock[sr - 1]))
+                    _arrayOfTextBlock.Add(arrayOfTextBlock[sr - 1]);
             }
             else
             {
-                if (Keyboard.IsKeyDown(Key.LeftShift) && !Cancel.IsEnabled && arrayOfTextBlock[sr - 1].Text == "1/1")
+                if (Keyboard.IsKeyDown(Key.LeftShift) && !Cancel.IsEnabled && arrayOfTextBlock[sr - 1].Text == $"{arrForSkillNumber[1]}/{arrForSkillNumber[1]}")
                 {
                     var a = (Border)button.Parent;
                     if (lastButton == null)
@@ -528,10 +1150,10 @@ namespace HuntingForce
                 _arrayOfTextBlock.Remove(a);
 
             for (int i = 0; i < _arrayOfTextBlock.Count; i++)
-                _arrayOfTextBlock[i].Text = "0/1";
+                _arrayOfTextBlock[i].Text =  $"{_arrayOfTextBlockhelp.Values.ElementAt(i)}";
             for (int a = 0; a < _arrayOfBorder.Count; a++)
                 DesignOfSkillDegrade(a);
-
+            _arrayOfTextBlockhelp.Clear();
             _arrayOfBorder.Clear();
             _arrayOfSkillTextBlock.Clear();
             _arrayOfTextBlock.Clear();
@@ -542,6 +1164,7 @@ namespace HuntingForce
         private void Button_Save(object sender, RoutedEventArgs e)
         {
             _gameSession.mainStats.SkillPoint = _gameSession.mainStats.TempSkillPoint;
+            _arrayOfTextBlockhelp.Clear();
             _arrayOfBorder.CopyTo(_arrayOfBorder1);
             _arrayOfSkillTextBlock.CopyTo(_arrayOfSkillTextBlock1);
             _arrayOfTextBlock.CopyTo(_arrayOfTextBlock1);
@@ -549,8 +1172,7 @@ namespace HuntingForce
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            
+        {    
             if (_skillSelected)
             {
                 Image image = (Image)sender;
@@ -574,7 +1196,7 @@ namespace HuntingForce
                 var imagee = (Image)button.Content;
                 button.PreviewMouseDown -= SkillDetected;
                 button.Name = "";
-                imagee.Source = new BitmapImage(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Black.png"));
+                imagee.Source = new BitmapImage(new Uri(@"Resources\Black.png", UriKind.Relative));
                 return;
             }
             var _gm = (MainWindowViewModel)DataContext;
@@ -587,7 +1209,7 @@ namespace HuntingForce
                         if (_gameSession.currentPos.Monster != null)
                         {
                             _gm.Logging("useSkill", new string[] { _gameSession.mainStats.Name, skillUse.Name, _gameSession.currentPos.Monster.Name });
-                            _gm.Attacking(_gameSession.mainStats.CurrentWeapon.Weapon.MinDamage + skillUse.Attack.MinBonusDamage, _gameSession.mainStats.CurrentWeapon.Weapon.MaxDamage + skillUse.Attack.MaxBonusDamage, skillUse.Attack.CountOfSlash);
+                            _gm.Attacking(_gameSession.mainStats.CurrentWeapon.Weapon.MinDamage + skillUse.Attack.MinBonusDamage, _gameSession.mainStats.CurrentWeapon.Weapon.MaxDamage + skillUse.Attack.MaxBonusDamage, skillUse.Attack.CountOfSlash, skillUse.Name);
                         }
                         break;
                     case EngineHF.Model.Skills.TypeOfSkill.Heal:
@@ -597,55 +1219,15 @@ namespace HuntingForce
         }
         #endregion
 
-        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            MainWindowViewModel main = (MainWindowViewModel)DataContext;
-            main.DialogAddAll(_gameSession.currentPos.Description);
-        }
-
-        private void popup1_Opened(object sender, EventArgs e)
-        {
-            DispatcherTimer time = new DispatcherTimer();
-            time.Interval = TimeSpan.FromSeconds(10);
-            time.Start();
-            time.Tick += delegate
-            {
-                popup1.IsOpen = false;
-                time.Stop();
-            };
-        }
-
-        private void Trash_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (_lastBorder != null)
-            {
-                _lastBorder.BorderThickness = new Thickness(1);
-                _isSelectedInInventory = false;
-                var clear = _inventoryItems.First(x => x.ItemInInventory.Item == _lastBorder);
-                int index = _inventoryItems.IndexOf(clear);
-                var grid = (Grid)_lastBorder.Child;
-                var image = (Image)grid.Children[0];
-                var textBlock = (TextBlock)grid.Children[1];
-
-                image.Source = new BitmapImage(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Black.png"));
-                image.Name = null;
-                textBlock.Text = null;
-
-                _inventoryItems.Remove(clear);
-                _inventoryItems.Insert(index, new InfoForItemInInventory(null, null, 1, clear.ID,
-                        new ItemInInventory(_lastBorder,
-                        clear.ItemInInventory.GridRow, clear.ItemInInventory.GridColumn)));
-
-                _lastBorder = null;
-                _inventoryItems = _inventoryItems.OrderBy(x => x.ItemInInventory.GridRow).ThenBy(y => y.ItemInInventory.GridColumn).ToList();
-                dict.Remove(clear.ID);
-            }
-        }
+        #region Quest Methods
         public void AddNewQuest(Quest questItem)
         {
-            questItem.IsDone = true;
-            questsGrid.Items.Add(questItem);
-            _gameSession.mainStats.QuestOnPlayer.Add(_gameSession.currentPos.Quest);
+            if (!questItem.IsDone)
+            {
+                questItem.IsDone = true;
+                questsGrid.Items.Add(questItem);
+                _gameSession.mainStats.QuestOnPlayer.Add(questItem);
+            }
         }
 
         private void bToCorrect_Click(object sender, RoutedEventArgs e)
@@ -658,30 +1240,50 @@ namespace HuntingForce
                 _gameSession.mainStats.QuestOnPlayer.Remove(quest);
             }
         }
+        #endregion
 
+        #region Map Methods
         public void AddNewBorderForMap(Location location)
         {
+            if (_lastMapBorder != null)
+                _lastMapBorder.Opacity = 0.2;
             Border border = new Border
             {
                 Background = Brushes.Black,
                 BorderBrush = Brushes.White,
                 BorderThickness = new Thickness(1)
             };
-            Grid.SetColumn(border, 4 + location.CurrentX);
-            Grid.SetRow(border, 4 - location.CurrentY);
+            Grid.SetColumn(border, 4 + location.CurrentCoordinate.CurrentX);
+            Grid.SetRow(border, 4 - location.CurrentCoordinate.CurrentY);
             Image image = new Image();
-            if (location.Monster == null)
-                image.Source = new BitmapImage(new Uri($@"C:/Users/SteigenLinie/source/repos/HuntingForce/HuntingForce/{location.ImageName.Remove(0, 1)}"));
+            if (location.Monster != null)
+                image.Source = new BitmapImage(new Uri(location.Monster.ImageName.Remove(0, 1), UriKind.Relative));
+            else if (location.NPC != null)
+                image.Source = new BitmapImage(new Uri(location.NPC.ImageName.Remove(0, 1), UriKind.Relative));
             else
-                image.Source = new BitmapImage(new Uri($@"C:/Users/SteigenLinie/source/repos/HuntingForce/HuntingForce/{location.Monster.ImageName.Remove(0, 1)}"));
+                image.Source = new BitmapImage(new Uri(location.ImageName.Remove(0, 1), UriKind.Relative));
 
             border.Child = image;
-            Map.Children.Add(border);
+            if (!_map.ContainsKey(location))
+            {
+                _map.Add(location, border);
+                Map.Children.Add(border);
+                _lastMapBorder = border;
+            }
+            else
+            {
+                var currBorder = _map.First(x => x.Key == location).Value;
+                currBorder.Opacity = 1;
+                _lastMapBorder = currBorder;
+            }
+           
         }
+        #endregion
 
+        #region Window Methods
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            switch(e.Key)
+            switch (e.Key)
             {
                 case Key.Escape:
                     var mainWindow = (MainWindow)sender;
@@ -702,5 +1304,6 @@ namespace HuntingForce
                 if (elm != (Window)sender)
                     elm.Close();
         }
+        #endregion
     }
 }

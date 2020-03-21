@@ -5,6 +5,7 @@
          GridRow="1"
          GridColumn="2"
          Name="HeavySlash"
+         CostSkillPoint="2"
 	       ImageName="MagicGate.png">
     <Attack MinBonusDamage="10"
             MaxBonusDamage="10"
@@ -15,31 +16,35 @@
          GridRow="3"
          GridColumn="1"
          Name="Rat"
+         CostSkillPoint="3"
          ImageName="all-for-one.png">
     <Attack MinBonusDamage="3"
             MaxBonusDamage="3"
             CountOfSlash="3"/>
   </Skill>
   <Skill Type="Heal"
-           ID="3"
-           GridRow="3"
-           GridColumn="3"
-           Name="Rat"
-	         ImageName="anti-aircraft-gun.png">
+         ID="3"
+         GridRow="3"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="3"
+	       ImageName="anti-aircraft-gun.png">
     
   </Skill>
   <Skill Type="Heal"
-           ID="4"
-           GridRow="5"
-           GridColumn="1"
-           Name="Rat"
-	         ImageName="evil-love.png">
+         ID="4"
+         GridRow="5"
+         GridColumn="1"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="evil-love.png">
   </Skill>
   <Skill Type="Heal"
-           ID="5"
-           GridRow="5"
-           GridColumn="3"
-           Name="Rat"
-	         ImageName="guitar-bass-head.png">
+         ID="5"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
   </Skill>
 </Skills>

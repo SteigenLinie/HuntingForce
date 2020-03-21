@@ -37,5 +37,15 @@ namespace HuntingForce.DialogWindows
             foreach (Window window in Application.Current.Windows)
                 window.Close();
         }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Escape:
+                    this.Close();
+                    break;
+            }
+        }
     }
 }

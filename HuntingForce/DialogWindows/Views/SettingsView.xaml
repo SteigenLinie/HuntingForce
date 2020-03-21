@@ -9,7 +9,8 @@
         Background="Black"
         Height="450"
         Width="350"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+        KeyDown="Window_KeyDown">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AllDialogs>
+  <Dialogs X="1"
+           Y="1">
+    <Dialog ID="1"
+            Name="Ори"
+            Text="О нет, сенпай!"/>
+    <Dialog ID="2"
+            Name="Кирито"
+            Text="Давай быстрее, не кричи"/>
+    <Dialog ID="3"
+            Name="Ори"
+            Text="Я же ещё маленькая"/>
+    <Dialog ID="4"
+            Name="Ори"
+            Text="Мне даже не 15\r\nТы ведь мне поможешь?"/>
+    <Dialog ID="5"
+            Name="Ори"
+            Text="Ладно, вот тебе квест"
+            QuestID="2"/>
+  </Dialogs>
+  <Dialogs X="-1"
+           Y="0">
+    <Dialog ID="1"
+            Name="ff"
+            Text="fffffff"/>
+    <Dialog ID="2"
+            Name="dd"
+            Text="df быстрее, не кричи"/>
+    <Dialog ID="3"
+            Name="Ори"
+            Text="Я же ещё маленькая"/>
+    <Dialog ID="4"
+            Name="Ори"
+            Text="Мне даже не 15/r/nТы ведь мне поможешь?"/>
+  </Dialogs>
+</AllDialogs>
