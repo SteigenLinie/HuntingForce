@@ -47,6 +47,12 @@ namespace EngineHF.Factory
                                           node.AttributeAsString("Mission"),
                                           node.AttributeAsString("IsDone"));
 
+                if (node.Attributes["EnemyID"] != null)
+                    questItem.EnemyID = node.AttributeAsInt("EnemyID");
+
+                if (node.Attributes["ItemID"] != null)
+                    questItem.ItemID = node.AttributeAsInt("ItemID");
+
                 _allQuests.Add(questItem);
             }
         }

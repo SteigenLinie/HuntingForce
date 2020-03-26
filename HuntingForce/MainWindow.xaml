@@ -14,7 +14,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         IsEnabled="True"
         Title="MainWindow"
-        Width="1900"
+        Width="1920"
         Height="1080"
         Background="Black"
         ResizeMode="NoResize"
@@ -789,7 +789,7 @@
                                             <Image Source="Resources/Black.png"
                                                    Margin="7 25 7 7"/>
                                         </Grid>
-                                        
+
                                         <!-- Helmet -->
                                         <Grid Grid.Row="1"
                                               Grid.RowSpan="2"
@@ -807,7 +807,7 @@
                                             <Image Source="Resources/Black.png"
                                                    Margin="7 25 7 7"/>
                                         </Grid>
-                                        
+
                                         <!-- Ring2 -->
                                         <Grid Grid.Row="2"
                                               Grid.Column="5">
@@ -823,14 +823,14 @@
                                             <Image Source="Resources/Black.png"
                                                    Margin="7 25 7 7"/>
                                         </Grid>
-                                        
+
                                         <!-- Weapon -->
                                         <Grid Name="Weapon"
                                               Grid.Row="3"
                                               Grid.RowSpan="3"
                                               Grid.Column="1"
                                               Grid.ColumnSpan="2">
-                                            
+
                                             <Border BorderBrush="White"
                                                     BorderThickness="1"
                                                     Margin="3">
@@ -873,7 +873,7 @@
                                                 </Grid>
                                             </Border>
                                         </Grid>
-                                        
+
                                         <!-- Shield -->
                                         <Grid Grid.Row="3"
                                               Grid.RowSpan="3"
@@ -896,9 +896,9 @@
                                               Grid.Column="7">
                                             <Image MouseLeftButtonDown="Trash_MouseLeftButtonDown"
                                                    Source="Resources/Icons/trash-can.png"
-                                                   Margin="-5 -5 -5 0"/> 
+                                                   Margin="-5 -5 -5 0"/>
                                         </Grid>
-                                        
+
                                     </Grid>
                                     <Grid Name="Inventory" 
                                           Grid.Row="1"
@@ -1026,6 +1026,695 @@
                                 </Grid>
                             </TabItem.Content>
                         </TabItem>
+                        <TabItem Background="Black"
+                                 BorderBrush="Gray"
+                                 Margin="-2 0 0 0"
+                                 Selector.Selected="TabItemStory_Selected"
+                                 Selector.Unselected="TabItemStory_Unselected"
+                                 Selector.IsSelected="False">
+                            <TabItem.Header>
+                                <TextBlock Name="StoryTabItem"
+                                           Text="Story"
+                                           Padding="2 0 0 0"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           Foreground="LightGray"
+                                           Background="Black"
+                                           FontSize="30"
+                                           HorizontalAlignment="Center"/>
+                            </TabItem.Header>
+                            <!--<TabItem.Content>
+                                <Grid>
+                                    <TabControl TabStripPlacement="Left"
+                                        Background="Black" >
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="1"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                            <TabItem.Content>
+                                                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                              VerticalScrollBarVisibility="Auto">
+                                                    <TextBlock Text="Много слов было сказано, много действий проведено"
+                                                               Margin="5"
+                                                               TextWrapping="Wrap"
+                                                               FontFamily="./Resources/Fonts/#Determination2"
+                                                               Foreground="LightGray"
+                                                               Background="Black"
+                                                               FontSize="30"/>
+                                                </ScrollViewer>
+                                            </TabItem.Content>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                        <TabItem Background="Black"
+                                                 BorderBrush="Gray"
+                                                 Margin="-2 0 0 0"
+                                                 Selector.Selected="TabItemStory_Selected"
+                                                 Selector.Unselected="TabItemStory_Unselected"
+                                                 Selector.IsSelected="False">
+                                            <TabItem.Header>
+                                                <TextBlock Text="2"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                        </TabItem>
+                                    </TabControl>
+                                </Grid>
+                            </TabItem.Content>-->
+                            <TabItem.Content>
+                                <TabControl TabStripPlacement="Left"
+                                            Background="Black"
+                                            BorderBrush="Gray"
+                                            Margin="-2 0 0 0">
+                                    <TabItem Background="Black"
+                                             BorderBrush="Gray"
+                                             Margin="-2 0 0 0">
+                                        <TabItem.Header>
+                                            <TextBlock Text="Story"
+                                                       Padding="2 0 0 0"
+                                                       FontFamily="./Resources/Fonts/#Determination2"
+                                                       Foreground="LightGray"
+                                                       Background="Black"
+                                                       FontSize="30"
+                                                       HorizontalAlignment="Center"/>
+                                        </TabItem.Header>
+                                        <TabItem.Content>
+                                            <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                          VerticalScrollBarVisibility="Auto">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Grid>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="2*"/>
+                                                                    <RowDefinition Height="*"/>
+                                                                    <RowDefinition Height="2*"/>
+                                                                </Grid.RowDefinitions>
+                                                                <TextBlock Text="Error 404"
+                                                                           Foreground="Red"
+                                                                           VerticalAlignment="Bottom"
+                                                                           HorizontalAlignment="Center"
+                                                                           TextWrapping="Wrap"
+                                                                           FontSize="23"
+                                                                           FontFamily="./Resources/Fonts/#Determination2"/>
+                                                                <TextBlock Grid.Row="1"
+                                                                           Text="Book"
+                                                                           Foreground="White"
+                                                                           VerticalAlignment="Top"
+                                                                           HorizontalAlignment="Center"
+                                                                           TextWrapping="Wrap"
+                                                                           FontSize="23"
+                                                                           FontFamily="./Resources/Fonts/#Determination2"/>
+                                                                <TextBlock Grid.Row="2"
+                                                                           Text="Not Found"
+                                                                           Foreground="White"
+                                                                           VerticalAlignment="Top"
+                                                                           HorizontalAlignment="Center"
+                                                                           TextWrapping="Wrap"
+                                                                           FontSize="23"
+                                                                           FontFamily="./Resources/Fonts/#Determination2"/>
+                                                            </Grid>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="1">
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="2">
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="3">
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                        <Border BorderThickness="2"
+                                                                BorderBrush="White"
+                                                                Height="125"
+                                                                Width="100"
+                                                                Margin="5">
+                                                            <Image Opacity="0.25"
+                                                                   Source="/Resources/Sprites/Books/secret-book.png"/>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </ScrollViewer>
+                                        </TabItem.Content>
+                                    </TabItem>
+                                    <TabItem Background="Black"
+                                             BorderBrush="Gray"
+                                             Margin="-2 0 0 0">
+                                        <TabItem.Header>
+                                            <TextBlock></TextBlock>
+                                        </TabItem.Header>
+                                    </TabItem>
+                                </TabControl>
+                            </TabItem.Content>
+                        </TabItem>
                     </TabControl>
                 </Grid>
             </Grid>
@@ -1144,8 +1833,8 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Border BorderBrush="Gray"
-                                BorderThickness="1"
+                        <Border BorderBrush="White"
+                                BorderThickness="2"
                                 Margin="-1">
                             <Button Background="Black"
                                     BorderThickness="0"
@@ -1159,8 +1848,8 @@
                             </Button>
                             
                         </Border>
-                        <Border BorderBrush="Gray"
-                                BorderThickness="1"
+                        <Border BorderBrush="White"
+                                BorderThickness="2"
                                 Grid.Column="1"
                                 Margin="0 -1 -1 -1">
                             <Grid>
@@ -1185,8 +1874,8 @@
                                            HorizontalAlignment="Left"/>
                             </Grid>
                         </Border>
-                        <Border BorderBrush="Gray"
-                                BorderThickness="1"
+                        <Border BorderBrush="White"
+                                BorderThickness="2"
                                 Grid.Column="2"
                                 Margin="0 -1 -1 -1">
                             <Button Background="Black"
@@ -1200,8 +1889,8 @@
                                        Source="Resources\Black.png"/>
                             </Button>
                         </Border>
-                        <Border BorderBrush="Gray"
-                                BorderThickness="1"
+                        <Border BorderBrush="White"
+                                BorderThickness="2"
                                 Grid.Column="3"
                                 Margin="0 -1 -1 -1">
                             <Button Background="Black"
@@ -1215,8 +1904,8 @@
                                        Source="Resources\Black.png"/>
                             </Button>
                         </Border>
-                        <Border BorderBrush="Gray"
-                                BorderThickness="1"
+                        <Border BorderBrush="White"
+                                BorderThickness="2"
                                 Grid.Column="4"
                                 Margin="0 -1 -1 -1">
                             <Button Background="Black"
@@ -1230,8 +1919,8 @@
                                        Source="Resources\Black.png"/>
                             </Button>
                         </Border>
-                        <Border BorderBrush="Gray"
-                                BorderThickness="1"
+                        <Border BorderBrush="White"
+                                BorderThickness="2"
                                 Grid.Column="5"
                                 Margin="0 -1 -1 -1">
                             <Button Background="Black"
@@ -1245,8 +1934,8 @@
                                        Source="Resources\Black.png"/>
                             </Button>
                         </Border>
-                        <Border BorderBrush="Gray"
-                                BorderThickness="1"
+                        <Border BorderBrush="White"
+                                BorderThickness="2"
                                 Grid.Column="6"
                                 Margin="0 -1 -1 -1">
                             <Button Background="Black"
@@ -1260,8 +1949,8 @@
                                        Source="Resources\Black.png"/>
                             </Button>
                         </Border>
-                        <Border BorderBrush="Gray"
-                                BorderThickness="1"
+                        <Border BorderBrush="White"
+                                BorderThickness="2"
                                 Grid.Column="7"
                                 Margin="0 -1 -1 -1">
                             <Button Background="Black"
@@ -1275,8 +1964,8 @@
                                        Source="Resources\Black.png"/>
                             </Button>
                         </Border>
-                        <Border BorderBrush="Gray"
-                                BorderThickness="1"
+                        <Border BorderBrush="White"
+                                BorderThickness="2"
                                 Grid.Column="8"
                                 Margin="0 -1 -1 -1">
                             <Button Background="Black"
@@ -1290,8 +1979,8 @@
                                        Source="Resources\Black.png"/>
                             </Button>
                         </Border>
-                        <Border BorderBrush="Gray"
-                                BorderThickness="1"
+                        <Border BorderBrush="White"
+                                BorderThickness="2"
                                 Grid.Column="9"
                                 Margin="0 -1 -1 -1">
                             <Button Background="Black"
@@ -1433,7 +2122,7 @@
                     BorderBrush="White"
                     BorderThickness="1"
                     Margin="20 0 0 10">
-                <Grid>
+                <!--<Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -1443,7 +2132,7 @@
                            Source="{Binding MainPlayerPng}"
                            FlowDirection="RightToLeft"/>
 
-                    <!-- Enemy/builds -->
+                    --><!-- Enemy/builds --><!--
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0.3*"/>
@@ -1489,7 +2178,7 @@
                             </Grid>
                         </Border>
                     </Grid>
-                </Grid>
+                </Grid>-->
             </Border>
  
         </Grid>

@@ -11,8 +11,7 @@ namespace EngineHF.Model
         public enum TypeOfNPC
         {
             Trader,
-            Quest,
-            Story
+            Quest
         }
         public int NpcID { get; set; }
         public string Name { get; set; }
@@ -20,8 +19,7 @@ namespace EngineHF.Model
         public string ImageName { get; set; }
         public string Description { get; set; }
         public Quest Quest { get; set; }
-        public string Story { get; set; }
-        public NPC(int npcID, string name, TypeOfNPC typeOfNPC, string imageName, string description, Quest quest = null, string story = null)
+        public NPC(int npcID, string name, TypeOfNPC typeOfNPC, string imageName, string description, Quest quest = null)
         {
             NpcID = npcID;
             Name = name;
@@ -29,7 +27,6 @@ namespace EngineHF.Model
             ImageName = imageName;
             Description = description;
             Quest = quest;
-            Story = story;
         }
     }
 }

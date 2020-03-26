@@ -17,6 +17,9 @@ namespace EngineHF.Model
         public string Mission { get; set; }
         public bool IsDone { get; set; } 
 
+        public int EnemyID { get; set; }
+        public int ItemID { get; set; }
+
         private string _progress;
         public string Progress
         {

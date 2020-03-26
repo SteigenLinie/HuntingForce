@@ -47,6 +47,10 @@ namespace EngineHF.Factory
                     dialog = new Dialog(xmlNode.AttributeAsInt("ID"),
                                         xmlNode.AttributeAsString("Name"),
                                         xmlNode.AttributeAsString("Text"));
+                    //TODO
+                    if (xmlNode.Attributes["QuestID"] != null)
+                        dialog.QuestID = xmlNode.AttributeAsInt("QuestID");
+
                     dialogList.Add(dialog);
                 }
                 dialogDict.Add(currentPos, dialogList);

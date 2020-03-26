@@ -83,7 +83,7 @@ namespace HuntingForce
                     if (MoveButton)
                         return;
                     Dialog += _char;
-                    await Task.Delay(30);
+                    await Task.Delay(25);
                 }
                 MoveButton = true;
             //}
@@ -100,7 +100,7 @@ namespace HuntingForce
                     if (MoveButton)
                         return;
                     Dialog += _char;
-                    await Task.Delay(30);
+                    await Task.Delay(25);
                 }
                 MoveButton = true;
             }
@@ -119,7 +119,7 @@ namespace HuntingForce
                     foreach (var Png in arrOfPng)
                     {
                         MainPlayerPng = Png;
-                        await Task.Delay(50);
+                        await Task.Delay(35);
                     }
                     _animationIsPlaying = false;
                 }
@@ -397,25 +397,26 @@ namespace HuntingForce
         {
             //await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
             //{
-                Logging("dead", new string[] { _gameSession.currentPos.Monster.Name });
-                await DialogAdd($"\r\n   \"{_gameSession.currentPos.Monster.Name}\" is deadinside\"", true);
-                foreach (Drop drop in _gameSession.currentPos.Monster.DropList)
-                    if (new Random().Next(0, 100) <= drop.Chance)
-                        _mainWindow.AddNewItemInInventory(drop);
+            Logging("dead", new string[] { _gameSession.currentPos.Monster.Name });
+            await DialogAdd($"\r\n   \"{_gameSession.currentPos.Monster.Name}\" is deadinside\"", true);
+            foreach (Drop drop in _gameSession.currentPos.Monster.DropList)
+                if (new Random().Next(0, 100) <= drop.Chance)
+                    _mainWindow.AddNewItemInInventory(drop);
+            var checkQuestsForNull = _gameSession.mainStats.QuestOnPlayer.Where(x => x.EnemyID == _gameSession.currentPos.Monster.ID).ToList();
+            if (checkQuestsForNull.Count != 0)
+            {
+                foreach (var elm in checkQuestsForNull)
+                    elm.Progress = $"{Convert.ToInt32(elm.Progress.Split('/')[0]) + 1}/{elm.Progress.Split('/')[1]}"; 
+            }
+            var giveGold = _gameSession.currentPos.Monster.Gold + 5 * (_gameSession.currentPos.Monster.Level - _gameSession.mainStats.CurrentLevel);
+            if (giveGold > 0)
+                CurrentGoldTextBlock = Convert.ToString(giveGold + Convert.ToInt32(CurrentGoldTextBlock));
 
-                var giveGold = _gameSession.currentPos.Monster.Gold + 5 * (_gameSession.currentPos.Monster.Level - _gameSession.mainStats.CurrentLevel);
-                if (giveGold > 0)
-                    CurrentGoldTextBlock = Convert.ToString(giveGold + Convert.ToInt32(CurrentGoldTextBlock));
+            _gameSession.currentPos.Monster.CurrentHP = _gameSession.currentPos.Monster.MaxHP;
 
-                _gameSession.currentPos.Monster.CurrentHP = _gameSession.currentPos.Monster.MaxHP;
+            XPPlus();
 
-                XPPlus();
-
-                foreach (var quest in _gameSession.mainStats.QuestOnPlayer)
-                    if (_gameSession.currentPos.Monster.QuestProgress.Contains(quest.ID) && quest.Progress != "done")
-                        quest.Progress = $"{Convert.ToInt32(quest.Progress.Split('/')[0]) + 1}/{quest.Progress.Split('/')[1]}";
-
-                inFight = false;
+            inFight = false;
             //}));
         }
         private async void MonsterAttacks()
@@ -594,7 +595,7 @@ namespace HuntingForce
             {
                 if (_gameSession.currentPos.Dialogs != null)
                 {
-                    var currDialog = _gameSession.currentPos.Dialogs[0];
+                    var currDialog = _gameSession.currentPos.Dialogs.LastOrDefault(x => x.WasRead == true);
                     DialogAddAll(currDialog.Text);
                     currDialog.WasRead = true;
                     NameForDialog = currDialog.Name;
@@ -606,7 +607,9 @@ namespace HuntingForce
             {
                 if (_gameSession.currentPos.Dialogs != null)
                 {
-                    var currDialog = _gameSession.currentPos.Dialogs[0];
+                    var currDialog = _gameSession.currentPos.Dialogs.LastOrDefault(x => x.WasRead == true);
+                    if(currDialog == null)
+                        currDialog = _gameSession.currentPos.Dialogs.First(x => x.WasRead == false);
                     DialogAddAsync(currDialog.Text);
                     currDialog.WasRead = true;
                     NameForDialog = currDialog.Name;
@@ -624,10 +627,15 @@ namespace HuntingForce
                 DialogAddAll(_gameSession.currentPos.Description);
             else if(_gameSession.currentPos.Dialogs != null)
             {
-                var currDialog = _gameSession.currentPos.Dialogs.First(x => x.WasRead == false);
-                currDialog.WasRead = true;
-                DialogAddAsync(currDialog.Text);
-                NameForDialog = currDialog.Name;
+                var currDialog = _gameSession.currentPos.Dialogs.FirstOrDefault(x => x.WasRead == false);
+                if (currDialog != null)
+                {
+                    if(currDialog.QuestID > 0)
+                        _mainWindow.AddNewQuest(_gameSession._allQuest.FirstOrDefault(x => x.ID == currDialog.QuestID));
+                    currDialog.WasRead = true;
+                    DialogAddAsync(currDialog.Text);
+                    NameForDialog = currDialog.Name;
+                }
             }
         }
         public void Logging(string type, string[] _desc)

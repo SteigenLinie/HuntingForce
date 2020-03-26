@@ -4,7 +4,8 @@
          Name="Adventure of Jo-Jo"
          Description="So-so-so, you need take the money and give the fucking shirt"
          Mission="Kill the 5 enemy"
-         IsDone="0/5"/>
+         IsDone="0/5"
+         EnemyID="1"/>
   <Quest ID="2"
          Name="Ratatata"
          Description="So given ratatata"
@@ -14,5 +15,6 @@
          Name="More like that have a money shiiiit"
          Description="Gripodripo op ca ca"
          Mission="Give me the 10 operation"
-         IsDone="0/10"/>
+         IsDone="0/10"
+         ItemID="5"/>
 </Quests>

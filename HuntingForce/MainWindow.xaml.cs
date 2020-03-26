@@ -64,6 +64,7 @@ namespace HuntingForce
             AddingNewSkills();
             AddFirstWeapon();
             AddingInventory();
+
         }
         #region - Inventory -
         #region Constructors
@@ -1001,6 +1002,8 @@ namespace HuntingForce
         private void TabItemStats_Unselected(object sender, RoutedEventArgs e) => StatsTabItem.Foreground = Brushes.LightGray;
         private void TabItemLog_Selected(object sender, RoutedEventArgs e) => LogTabItem.Foreground = Brushes.White;
         private void TabItemLog_Unselected(object sender, RoutedEventArgs e) => LogTabItem.Foreground = Brushes.LightGray;
+        private void TabItemStory_Selected(object sender, RoutedEventArgs e) => StoryTabItem.Foreground = Brushes.White;
+        private void TabItemStory_Unselected(object sender, RoutedEventArgs e) => StoryTabItem.Foreground = Brushes.LightGray;
         #endregion
 
         #region - Skills -

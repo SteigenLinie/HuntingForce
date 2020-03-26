@@ -61,22 +61,13 @@ namespace EngineHF.Factory
                                       node.AttributeAsString("Description"),
                                       quest);
                         break;
-                    case NPC.TypeOfNPC.Story:
-                        NPC = new NPC(node.AttributeAsInt("ID"),
-                                      node.AttributeAsString("Name"),
-                                      typeOfNPC,
-                                      $".{rootImagePath}{node.AttributeAsString("ImageName")}",
-                                      node.AttributeAsString("Description"),
-                                      null,
-                                      node.SelectSingleNode("./Storys/Story").AttributeAsString("Story"));
-                        break;
+
                     case NPC.TypeOfNPC.Trader:
                         NPC = new NPC(node.AttributeAsInt("ID"),
                                       node.AttributeAsString("Name"),
                                       typeOfNPC,
                                       $".{rootImagePath}{node.AttributeAsString("ImageName")}",
                                       node.AttributeAsString("Description"),
-                                      null,
                                       null);
                         break;
                 }
@@ -92,9 +83,8 @@ namespace EngineHF.Factory
             return itemType switch
             {
                 "Quest" => NPC.TypeOfNPC.Quest,
-                "Story" => NPC.TypeOfNPC.Story,
                 "Trader" => NPC.TypeOfNPC.Trader,
-                _ => NPC.TypeOfNPC.Story,
+                _ => NPC.TypeOfNPC.Quest
             };
         }
     }
