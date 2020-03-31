@@ -20,6 +20,7 @@ namespace EngineHF.Model
         public ItemCategory Category { get; set; }
         public int ItemID { get; set; }
         public string Name { get; set; }
+        public int Count { get; set; } = 1;
         public string ImageName { get; set; }
         public string Descrtiption { get; set; }
         public Weapon Weapon { get; set; }

@@ -5,20 +5,32 @@
            Y="1">
     <Dialog ID="1"
             Name="Ори"
-            Text="О нет, сенпай!"/>
+            Text="- Stas, do you like studying at this school?"/>
     <Dialog ID="2"
             Name="Кирито"
-            Text="Давай быстрее, не кричи"/>
+            Text="- Yeah."/>
     <Dialog ID="3"
             Name="Ори"
-            Text="Я же ещё маленькая"/>
+            Text="- What subjects do you like?"/>
     <Dialog ID="4"
             Name="Ори"
-            Text="Мне даже не 15
-Ты ведь мне поможешь?"/>
+            Text="- The Russian language and literature."/>
     <Dialog ID="5"
             Name="Ори"
-            Text="Ладно, вот тебе квест"
+            Text="- I am interested in studying the structure of words, sentences and like to read books."
+            QuestID="2"/>
+    <Dialog ID="6"
+            Name="Ори"
+            Text="- I support you, you must have excellent marks for these subjects."
+            QuestID="2"/>
+    <Dialog ID="7"
+            Name="Ори"
+            Text="- Yes, I have.
+I wish you to understand well all the other subjects too."
+            QuestID="2"/>
+    <Dialog ID="8"
+            Name="Кирито"
+            Text="- Thanks, bye."
             QuestID="2"/>
   </Dialogs>
   <Dialogs X="-1"

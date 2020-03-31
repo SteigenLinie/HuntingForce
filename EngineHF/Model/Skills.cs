@@ -22,6 +22,7 @@ namespace EngineHF.Model
         public string Name { get; set; }
         public int CostSkillPoint { get; set; }
         public string ImageName { get; set; }
+        public bool IsActive { get; set; }
         public Attack Attack { get; set; }
         public Heal Heal { get; set; }
         public Passiv Passiv { get; set; }

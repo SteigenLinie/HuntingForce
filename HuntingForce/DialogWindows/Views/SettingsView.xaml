@@ -49,6 +49,24 @@
                   Grid.Column="1"
                   VerticalAlignment="Stretch"
                   Foreground="Black"/>
+        <TextBlock Grid.Row="2"
+                   Text="Volume"
+                   Foreground="White"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                   Margin="10 0 0 0"
+                   FontFamily="/Resources/Fonts/#Determination2"
+                   FontSize="30"/>
+        <Slider Grid.Row="2"
+                Grid.Column="2"
+                Name="Volume"
+                Minimum="0"
+                Maximum="100"
+                Style="{StaticResource MaterialDesignDiscreteSlider}"
+                ToolTip="MaterialDesignDiscreteSlider"
+                Value="100"
+                Width="Auto"/>
+        
         <Button Grid.Row="6"
                 Grid.Column="1"
                 Background="Black"

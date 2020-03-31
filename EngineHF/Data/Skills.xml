@@ -47,4 +47,220 @@
          CostSkillPoint="1"
 	       ImageName="guitar-bass-head.png">
   </Skill>
+  <Skill Type="Heal"
+         ID="6"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="7"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="8"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="9"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="10"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="11"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="12"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="13"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="14"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="15"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="16"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="17"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="18"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="19"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="20"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="21"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="22"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="23"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="24"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="25"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="26"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="27"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="28"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="29"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="30"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="31"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
+  <Skill Type="Heal"
+         ID="32"
+         GridRow="5"
+         GridColumn="3"
+         Name="Rat"
+         CostSkillPoint="1"
+	       ImageName="guitar-bass-head.png">
+  </Skill>
 </Skills>

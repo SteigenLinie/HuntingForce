@@ -23,5 +23,17 @@ namespace EngineHF.Shared
 
             return attribute.Value;
         }
+        public static bool AttributeAsBool(this XmlNode node, string attributeName)
+        {
+            switch(attributeName)
+            {
+                case "true":
+                    return true;
+                case "false":
+                    return false;
+                default:
+                    return false;
+            }
+        }
     }
 }

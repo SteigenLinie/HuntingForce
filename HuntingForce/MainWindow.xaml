@@ -130,7 +130,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
+
             <!-- Stats -->
             <Grid Grid.Row="0"
                   Grid.Column="0">
@@ -172,11 +172,11 @@
                            FontFamily="./Resources/Fonts/#Determination2"
                            Foreground="#383AFF"
                            FontSize="30"/>
-                    <TextBlock Text="SP"
+                    <!--<TextBlock Text="SP"
                            Grid.Row="2"
                            FontFamily="./Resources/Fonts/#Determination2"
                            Foreground="Yellow"
-                           FontSize="30"/>
+                           FontSize="30"/>-->
                 </Grid>
 
                 <Grid Grid.Row="1"
@@ -187,26 +187,71 @@
                         <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="{Binding HPbar}"
-                               Grid.Row="0"
-                               Margin="5 0 0 0"                              
+                    <ProgressBar Grid.Row="0"
+                                 Margin="5 0 10 0" 
+                                 Foreground="Red"
+                                 Background="Black"
+                                 BorderBrush="Black"
+                                 Height="20"
+                                 Value="{Binding HPbarValue}"
+                                 Maximum="{Binding HPbarMax}"
+                                 MouseEnter="HP_ProgressBar_MouseEnter"
+                                 MouseLeave="HP_ProgressBar_MouseLeave"/>
+                    <TextBlock Name="HPBar"
+                               Text="{Binding HPbar}"
+                               Grid.Row="0"  
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
                                FontFamily="./Resources/Fonts/#Determination2"
-                               Foreground="Red"
-                               FontSize="30"/>
-                    <TextBlock Text="{Binding MPbar}"
+                               Foreground="White"
+                               FontSize="20"
+                               Visibility="Hidden"
+                               MouseEnter="HP_ProgressBar_MouseEnter"
+                               MouseLeave="HP_ProgressBar_MouseLeave"/>
+                    
+                    <ProgressBar Grid.Row="1"
+                                 Margin="5 0 10 0" 
+                                 Background="Black"
+                                 Foreground="#383AFF"
+                                 BorderBrush="Black"
+                                 Height="20"
+                                 Value="{Binding MPbarValue}"
+                                 Maximum="{Binding MPbarMax}"
+                                 MouseEnter="MP_ProgressBar_MouseEnter"
+                                 MouseLeave="MP_ProgressBar_MouseLeave"/>
+                    <TextBlock Name="MPBar"
+                               Text="{Binding MPbar}"
                                Grid.Row="1"
-                               Margin="5 0 0 0"
-                               VerticalAlignment="Top"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
                                FontFamily="./Resources/Fonts/#Determination2"
-                               Foreground="#383AFF"
-                               FontSize="30"/>
-                    <TextBlock Text="{Binding SPbar}"
+                               Foreground="White"
+                               FontSize="20"
+                               Visibility="Hidden"
+                               MouseEnter="MP_ProgressBar_MouseEnter"
+                               MouseLeave="MP_ProgressBar_MouseLeave"/>
+                    
+                    <!--<ProgressBar Grid.Row="2"
+                                 Margin="5 0 10 0" 
+                                 Background="Black"
+                                 Foreground="Yellow"
+                                 BorderBrush="Black"
+                                 Height="20"
+                                 Value="{Binding SPbarValue}"
+                                 Maximum="{Binding SPbarMax}"
+                                 MouseEnter="SP_ProgressBar_MouseEnter"
+                                 MouseLeave="SP_ProgressBar_MouseLeave"/>
+                    <TextBlock Name="SPBar"
+                               Text="{Binding SPbar}"
                                Grid.Row="2"
-                               Margin="5 0 0 0"
-                               VerticalAlignment="Top"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
                                FontFamily="./Resources/Fonts/#Determination2"
-                               Foreground="Yellow"
-                               FontSize="30"/>
+                               Foreground="DarkGray"
+                               FontSize="20"
+                               Visibility="Hidden"
+                               MouseEnter="SP_ProgressBar_MouseEnter"
+                               MouseLeave="SP_ProgressBar_MouseLeave"/>-->
                 </Grid>
             </Grid>
             <Grid Grid.Row="0"
@@ -214,8 +259,8 @@
                   Grid.ColumnSpan="2">
                 <TabControl Background="Black"   
                             BorderBrush="White"
-                            BorderThickness="1"
-                            Margin="5 0 0 50">
+                            BorderThickness="2"
+                            Margin="5 0 0 10">
                     <TabItem Background="Black"
                                  BorderBrush="Gray"
                                  Margin="-2 0 0 0"
@@ -235,7 +280,7 @@
                             <Grid Grid.Row="5"
                                               Grid.Column="7"
                                               Margin="5 0 0 0">
-                                
+
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="1*"/>
@@ -312,7 +357,7 @@
                                            HorizontalAlignment="Right"
                                            Foreground="White"/>
                                 </Grid>
-                                
+
                                 <Grid Grid.Column="1"
                                       Margin="7 0 0 0">
                                     <Grid.RowDefinitions>
@@ -325,7 +370,7 @@
                                         <RowDefinition Height="1*"/>
                                         <RowDefinition Height="1*"/>
                                     </Grid.RowDefinitions>
-                                    
+
                                     <TextBlock Grid.Column="0"
                                            Grid.Row="1"
                                            Text="Attack:"
@@ -434,7 +479,7 @@
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Right"
                                            Foreground="Yellow"/>
-                                    
+
                                 </Grid>
                             </Grid >
                         </TabItem.Content>
@@ -493,50 +538,20 @@
                                             Margin="5"
                                             Content="Clear"
                                             Padding="0"
-                                            FontSize="12"
+                                            FontSize="10"
                                             Foreground="Gray"
                                             Command="{Binding ClearTheLog}"
                                             FontFamily="./Resources/Fonts/#Determination2"/>
-                                    
+
                                 </Grid>
-                                
+
                             </Grid>
                         </TabItem.Content>
                     </TabItem>
                 </TabControl>
             </Grid>
             <!-- XP bar -->
-            <Grid Grid.Row="0"
-                  Grid.Column="0"
-                  Grid.ColumnSpan="3">
-                
-                <Border Height="28"
-                        Margin="0 0 0 5"
-                        VerticalAlignment="Bottom"
-                        Background="Black"
-                        BorderBrush="LimeGreen"
-                        BorderThickness="4"
-                        Width="425">
-
-                    <ProgressBar Background="Black"
-                                 BorderThickness="0"
-                                 Foreground="LimeGreen"
-                                 HorizontalAlignment="Stretch"
-                                 Height="Auto"
-                                 Minimum="0"
-                                 VerticalAlignment="Stretch"
-                                 Value="{Binding XPbarValue}"
-                                 Maximum="{Binding XPbarMax}"/>
-
-                </Border>
-                <TextBlock Foreground="White"
-                           Text="{Binding CountOfXPbar}"
-                           VerticalAlignment="Bottom"
-                           Margin="0 0 0 7.5"
-                           HorizontalAlignment="Center"
-                           FontSize="20"
-                           FontFamily="./Resources/Fonts/#Determination2"/>
-            </Grid>
+            
 
             <!-- Main -->
             <Grid Grid.Row="1"
@@ -552,15 +567,15 @@
                     </Grid.ColumnDefinitions>
 
                     <TabControl Grid.Row="1"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="4"
-                                    Background="Black"
-                                    BorderBrush="Gray"
-                                    BorderThickness="1">
+                                Grid.Column="0"
+                                Grid.ColumnSpan="4"
+                                Background="Black"
+                                BorderBrush="Gray"
+                                BorderThickness="2">
 
                         <TabItem Background="Black"
-                                     BorderBrush="Gray"
-                                     Margin="-2 0 0 0"
+                                 BorderBrush="Gray"
+                                 Margin="-2 0 0 0"
                                  Selector.Selected="TabItemQuestBook_Selected"
                                  Selector.Unselected="TabItemQuestBook_Unselected">
                             <TabItem.Header>
@@ -633,8 +648,8 @@
                                             </DataGridTextColumn>
                                             <DataGridTextColumn Header="Name"
                                                                 Binding="{Binding Path=Name}"
-                                                                Width="140"
-                                                                MinWidth="140"
+                                                                Width="135"
+                                                                MinWidth="135"
                                                                 IsReadOnly="True"
                                                                 CanUserReorder="False"
                                                                 CanUserSort="False">
@@ -983,46 +998,1677 @@
                             </TabItem.Header>
                             <TabItem.Content>
                                 <Grid Name="SkillsGrid">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="0.7*"/>
-                                        <RowDefinition Height="1.5*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1.5*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1.5*"/>
-                                        <RowDefinition Height="1.2*"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1.5*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1.5*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Button Grid.Column="3"
-                                            Grid.Row="6"
-                                            Width="70"
-                                            Background="Black"
-                                            BorderBrush="White"
-                                            BorderThickness="1"
-                                            Content="Save"
-                                            FontSize="22"
-                                            Padding="0"
-                                            FontFamily="./Resources/Fonts/#Determination2"
-                                            Click="Button_Save"/>
-                                    <Button Name="Cancel"
-                                            Grid.Column="4"
-                                            Grid.Row="6"
-                                            Width="70"
-                                            Background="Black"
-                                            BorderBrush="White"
-                                            BorderThickness="1"
-                                            Content="Cancel"
-                                            FontSize="22"
-                                            Padding="0"
-                                            IsEnabled="False"
-                                            FontFamily="./Resources/Fonts/#Determination2"
-                                            Click="Button_Cancel"/>
+                                    <Grid VerticalAlignment="Bottom"
+                                          HorizontalAlignment="Left"
+                                          Width="100"
+                                          Height="100"
+                                          Margin="0 0 0 40">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="0.5*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1.5*"/>
+                                        </Grid.RowDefinitions>
+                                        <Border BorderBrush="White"
+                                                BorderThickness="2"
+                                                Grid.RowSpan="5"
+                                                Margin="5 0 5 0"
+                                                Opacity="0.8"/>
+                                        <TextBlock Grid.Row="1"
+                                                   Text="Очков"
+                                                   FontFamily="./Resources/Fonts/#Determination2"
+                                                   Foreground="White"
+                                                   FontSize="18"
+                                                   VerticalAlignment="Bottom"
+                                                   HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Row="2"
+                                                   Text="навыков"
+                                                   FontFamily="./Resources/Fonts/#Determination2"
+                                                   Foreground="White"
+                                                   FontSize="20"
+                                                   HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Row="3"
+                                                   Text="осталось"
+                                                   FontFamily="./Resources/Fonts/#Determination2"
+                                                   Foreground="White"
+                                                   FontSize="20"
+                                                   VerticalAlignment="Top"
+                                                   HorizontalAlignment="Center"/>
+                                        <Border Grid.Row="4"
+                                                BorderBrush="White"
+                                                BorderThickness="2"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Width="30"
+                                                Margin="4">
+                                            <TextBlock Text="{Binding CountOfSkillPoint}"
+                                                       FontFamily="./Resources/Fonts/#Determination2"
+                                                       Foreground="White"
+                                                       FontSize="22"
+                                                       Margin="1 1 0 0"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+                                    </Grid>
+
+                                    <TabControl TabStripPlacement="Left"
+                                                Background="Black">
+                                        <TabItem Width="100">
+                                            <TabItem.Header>
+                                                <TextBlock Name="Attack"
+                                                           Text="Attack"
+                                                           Padding="2 0 0 0"
+                                                           FontFamily="./Resources/Fonts/#Determination2"
+                                                           Foreground="LightGray"
+                                                           Background="Black"
+                                                           FontSize="30"
+                                                           HorizontalAlignment="Center"/>
+                                            </TabItem.Header>
+                                            <TabItem.Content>
+                                                <Grid Name="Skills">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="0.5*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="0.5*"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="0.5*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="0.5*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Name="Skill_1"
+                                                            Grid.Row="1"
+                                                            Grid.Column="6"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="1"
+                                                          Grid.Column="5"
+                                                          Name="Arrow_1_2">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6">
+                                                        </Rectangle>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="1"
+                                                          Grid.Column="7"
+                                                          Name="Arrow_1_3">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Name="Skill_2"
+                                                            Grid.Row="2"
+                                                            Grid.Column="5"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="2"
+                                                          Grid.Column="4"
+                                                          Name="Arrow_2_4">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="2"
+                                                          Grid.Column="6"
+                                                          Name="Arrow_2_5">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    
+                                                    <Border Name="Skill_3"
+                                                            Grid.Row="2"
+                                                            Grid.Column="7"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="2"
+                                                          Grid.Column="8"
+                                                          Name="Arrow_3_6">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="2"
+                                                          Grid.Column="6"
+                                                          Name="Arrow_3_5">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Name="Skill_4"
+                                                            Grid.Row="3"
+                                                            Grid.Column="4"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Border Name="Skill_5"
+                                                            Grid.Row="3"
+                                                            Grid.Column="6"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="3"
+                                                          Grid.Column="7"
+                                                          Name="Arrow_5_8">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 0 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 0 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="3"
+                                                          Grid.Column="7"
+                                                          Name="Arrow_6_8">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 0 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 0 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Name="Skill_6"
+                                                            Grid.Row="3"
+                                                            Grid.Column="8"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="3"
+                                                          Grid.Column="5"
+                                                          Name="Arrow_4_7">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="3"
+                                                          Grid.Column="5"
+                                                          Name="Arrow_5_7">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="4"
+                                                            Grid.Column="5"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_7"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="4"
+                                                          Grid.RowSpan="2"
+                                                          Grid.Column="4"
+                                                          Name="Arrow_7_9">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="2"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 0 0 1"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="2"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Bottom"
+                                                                   Height="2"
+                                                                   Margin="1 0 0 1"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="2"
+                                                          Grid.RowSpan="4"
+                                                          Grid.Column="6"
+                                                          Grid.ColumnSpan="2"
+                                                          Name="Arrow_7_10">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.RowSpan="2"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Stretch"
+                                                                   Width="2"
+                                                                   Margin="14"
+                                                                   RenderTransformOrigin="0.5 0.5"
+                                                                   Opacity="0.6">
+                                                            <Rectangle.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <RotateTransform Angle="-45"/>
+                                                                </TransformGroup>
+                                                            </Rectangle.RenderTransform>
+                                                        </Rectangle>
+                                                    </Grid>
+
+                                                    <Grid Grid.Row="2"
+                                                          Grid.RowSpan="4"
+                                                          Grid.Column="6"
+                                                          Grid.ColumnSpan="2"
+                                                          Name="Arrow_8_9">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.RowSpan="2"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Stretch"
+                                                                   Width="2"
+                                                                   Margin="14"
+                                                                   RenderTransformOrigin="0.5 0.5"
+                                                                   Opacity="0.6">
+                                                            <Rectangle.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <RotateTransform Angle="45"/>
+                                                                </TransformGroup>
+                                                            </Rectangle.RenderTransform>
+                                                        </Rectangle>
+                                                    </Grid>
+
+                                                    <Border Grid.Row="4"
+                                                            Grid.Column="7"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_8"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="4"
+                                                          Grid.RowSpan="2"
+                                                          Grid.Column="8"
+                                                          Name="Arrow_8_10">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="2"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 0 1 1"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="2"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Bottom"
+                                                                   Height="2"
+                                                                   Margin="0 0 1 1"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="5"
+                                                            Grid.Column="5"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_9"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Border Grid.Row="5"
+                                                            Grid.Column="7"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_10"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Border Grid.Row="6"
+                                                            Grid.Column="6"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_11"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="6"
+                                                          Grid.Column="5"
+                                                          Name="Arrow_9_11">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 0 0 1"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Bottom"
+                                                                   Height="2"
+                                                                   Margin="1 0 0 1"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="6"
+                                                          Grid.Column="5"
+                                                          Name="Arrow_11_12">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="6"
+                                                          Grid.Column="7"
+                                                          Name="Arrow_10_11">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 0 1 1"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Bottom"
+                                                                   Height="2"
+                                                                   Margin="0 0 1 1"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="6"
+                                                          Grid.Column="7"
+                                                          Name="Arrow_11_13">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="7"
+                                                            Grid.Column="5"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_12"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="7"
+                                                          Grid.Column="6"
+                                                          Name="Arrow_12_15">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="7"
+                                                          Grid.Column="6"
+                                                          Name="Arrow_13_15">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="7"
+                                                          Grid.Column="4"
+                                                          Name="Arrow_12_14">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="7"
+                                                            Grid.Column="7"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_13"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="7"
+                                                          Grid.Column="8"
+                                                          Name="Arrow_13_16">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="8"
+                                                            Grid.Column="4"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_14"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="8"
+                                                          Grid.Column="5"
+                                                          Name="Arrow_14_18">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="8"
+                                                          Grid.Column="5"
+                                                          Name="Arrow_15_18">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="8"
+                                                          Grid.Column="3"
+                                                          Name="Arrow_14_17">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="8"
+                                                            Grid.Column="6"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_15"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="8"
+                                                          Grid.Column="7"
+                                                          Name="Arrow_15_19">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="8"
+                                                          Grid.Column="7"
+                                                          Name="Arrow_16_19">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="8"
+                                                            Grid.Column="8"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_16"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="8"
+                                                          Grid.Column="9"
+                                                          Name="Arrow_16_20">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="9"
+                                                            Grid.Column="3"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_17"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+
+                                                    <Grid Grid.Row="9"
+                                                          Grid.Column="4"
+                                                          Name="Arrow_18_21">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="9"
+                                                            Grid.Column="5"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_18"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="9"
+                                                          Grid.Column="6"
+                                                          Name="Arrow_18_22">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="9"
+                                                          Grid.Column="6"
+                                                          Name="Arrow_19_22">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="9"
+                                                            Grid.Column="7"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_19"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="9"
+                                                          Grid.Column="8"
+                                                          Name="Arrow_19_23">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="9"
+                                                            Grid.Column="9"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_20"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Border Grid.Row="10"
+                                                            Grid.Column="4"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_21"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="10"
+                                                          Grid.Column="5"
+                                                          Name="Arrow_22_24">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="10"
+                                                          Grid.Column="3"
+                                                          Name="Arrow_17_21">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 0 0 1"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Bottom"
+                                                                   Height="2"
+                                                                   Margin="1 0 0 1"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="10"
+                                                            Grid.Column="6"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_22"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="10"
+                                                          Grid.Column="7"
+                                                          Name="Arrow_22_25">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="10"
+                                                            Grid.Column="8"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_23"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="10"
+                                                          Grid.Column="9"
+                                                          Name="Arrow_20_23">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 0 1 1"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Bottom"
+                                                                   Height="2"
+                                                                   Margin="0 0 1 1"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="11"
+                                                            Grid.Column="5"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_24"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="11"
+                                                          Grid.Column="6"
+                                                          Name="Arrow_24_26">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="11"
+                                                          Grid.Column="6"
+                                                          Name="Arrow_25_26">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="11"
+                                                          Grid.Column="4"
+                                                          Name="Arrow_21_24">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 0 0 1"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Bottom"
+                                                                   Height="2"
+                                                                   Margin="1 0 0 1"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="11"
+                                                            Grid.Column="7"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_25"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="11"
+                                                          Grid.Column="8"
+                                                          Name="Arrow_23_25">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 0 1 1"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Bottom"
+                                                                   Height="2"
+                                                                   Margin="0 0 1 1"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="12"
+                                                            Grid.Column="6"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_26"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="12"
+                                                          Grid.Column="5"
+                                                          Name="Arrow_26_27">
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Center"
+                                                                   Height="2"
+                                                                   Margin="0 0 1 1"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="12"
+                                                            Grid.Column="4"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_27"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="12"
+                                                          Grid.Column="3"
+                                                          Name="Arrow_27_29">
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Center"
+                                                                   Height="2"
+                                                                   Margin="0 0 1 1"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="12"
+                                                          Grid.Column="7"
+                                                          Name="Arrow_26_28">
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Center"
+                                                                   Height="2"
+                                                                   Margin="0 0 1 1"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="12"
+                                                            Grid.Column="8"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_28"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="12"
+                                                          Grid.Column="9"
+                                                          Name="Arrow_28_30">
+                                                        <Rectangle Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Center"
+                                                                   Height="2"
+                                                                   Margin="0 0 1 1"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="12"
+                                                            Grid.Column="2"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_29"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Border Grid.Row="12"
+                                                            Grid.Column="10"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_30"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Border Grid.Row="11"
+                                                            Grid.Column="1"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_31"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="11"
+                                                          Grid.Column="2"
+                                                          Name="Arrow_29_31">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Right"
+                                                                   Width="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="0 1 1 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="11"
+                                                            Grid.Column="11"
+                                                            BorderBrush="White"
+                                                            BorderThickness="1.5"
+                                                            Margin="2"
+                                                            Name="Skill_32"
+                                                            Opacity="0.5">
+                                                        <Image Source="Resources/test"
+                                                               MouseLeftButtonDown="SkillInTree_MouseLeftButtonDown"
+                                                               MouseEnter="Skill_MouseEnter"
+                                                               MouseLeave="Skill_MouseLeave"/>
+                                                    </Border>
+                                                    <Grid Grid.Row="11"
+                                                          Grid.Column="10"
+                                                          Name="Arrow_30_32">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   HorizontalAlignment="Left"
+                                                                   Width="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                        <Rectangle Grid.Row="1"
+                                                                   Grid.Column="1"
+                                                                   Fill="White"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="2"
+                                                                   Margin="1 1 0 0"
+                                                                   Opacity="0.6"/>
+                                                    </Grid>
+                                                </Grid>
+                                            </TabItem.Content>
+                                        </TabItem>
+
+                                    </TabControl>
+
                                 </Grid>
                             </TabItem.Content>
                         </TabItem>
@@ -1738,8 +3384,8 @@
                     <Border Width="175"
                             Height="30"
                             Margin="50 0 0 0"
-                            BorderBrush="White"
-                            BorderThickness="1 1 1 0"
+                            BorderBrush="Gray"
+                            BorderThickness="2 2 2 0"
                             HorizontalAlignment="Left">
                         <TextBlock Text="{Binding NameForDialog}"
                                    Foreground="White"
@@ -1749,8 +3395,8 @@
                                    FontFamily="./Resources/Fonts/#Determination2"/>
                     </Border>
                     <Border Background="Black"
-                            BorderBrush="White"
-                            BorderThickness="1"
+                            BorderBrush="Gray"
+                            BorderThickness="2"
                             Grid.Row="1"
                             Grid.RowSpan="2"
                             Margin="20 0 80 5">
@@ -1779,13 +3425,14 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Button Grid.Row="1"
-                                            Content="History"
-                                            Height="Auto"
-                                            VerticalContentAlignment="Bottom"
-                                            HorizontalAlignment="Center"
-                                            Padding="0"
-                                            FontFamily="./Resources/Fonts/#Determination2"
-                                            Style="{StaticResource MaterialDesignFlatButton}"/>
+                                        Content="History"
+                                        Height="Auto"
+                                        VerticalContentAlignment="Bottom"
+                                        HorizontalAlignment="Center"
+                                        Padding="0"
+                                        FontFamily="./Resources/Fonts/#Determination2"
+                                        Click="History_Click"
+                                        Style="{StaticResource MaterialDesignFlatButton}"/>
 
                                 <Button Grid.Column="2" 
                                         Grid.RowSpan="2"
@@ -1813,14 +3460,14 @@
                         Height="Auto"
                         Visibility="Hidden"
                         Command="{Binding SkipDialog}"/>-->
-                
+
                 <Border Background="Black"
                         BorderBrush="Gray"
                         BorderThickness="1"
                         Margin="20 5 80 0"
                         Grid.Row="2"
                         VerticalAlignment="Stretch">
-                    <Grid Name="Skills">
+                    <Grid Name="SkillsPanel">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -1836,32 +3483,38 @@
                         <Border BorderBrush="White"
                                 BorderThickness="2"
                                 Margin="-1">
-                            <Button Background="Black"
-                                    BorderThickness="0"
-                                    Padding="0"
-                                    Height="Auto"
-                                    Margin="1"
-                                    Command="{Binding Attack}">
-                                <Image Source="Resources/Icons/SaberSlash.png"
-                                       Margin="2">
-                                </Image>
-                            </Button>
-                            
+                            <Grid>
+                                <Button Background="Black"
+                                        BorderThickness="0"
+                                        Padding="0"
+                                        Height="Auto"
+                                        Margin="1"
+                                        Command="{Binding Attack}">
+                                    <Image Source="Resources/Icons/SaberSlash.png"
+                                           Margin="2"/>
+                                </Button>
+                                <TextBlock Text="1"
+                                           Foreground="White"
+                                           Opacity="0.8"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           FontSize="15"
+                                           Margin="2 0 0 0"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"/>
+                            </Grid>
                         </Border>
                         <Border BorderBrush="White"
                                 BorderThickness="2"
                                 Grid.Column="1"
                                 Margin="0 -1 -1 -1">
                             <Grid>
-                                
                                 <Button Background="Black"
                                         Width="Auto"
                                         Height="Auto"
                                         BorderThickness="0"
                                         Padding="0"
                                         Margin="1">
-                                    <Image MouseDown="Border_MouseDown"
-                                            Margin="2"
+                                    <Image Margin="2"
                                             Source="Resources\Black.png"/>
                                 </Button>
                                 <TextBlock Text="2"
@@ -1878,149 +3531,237 @@
                                 BorderThickness="2"
                                 Grid.Column="2"
                                 Margin="0 -1 -1 -1">
-                            <Button Background="Black"
+                            <Grid>
+                                <Button Background="Black"
                                     Width="Auto"
                                     Height="Auto"
                                     BorderThickness="0"
                                     Padding="0"
                                     Margin="1">
-                                <Image MouseDown="Border_MouseDown"
-                                       Margin="2"
-                                       Source="Resources\Black.png"/>
-                            </Button>
+                                    <Image Margin="2"
+                                           Source="Resources\Black.png"/>
+                                </Button>
+                                <TextBlock Text="3"
+                                           Foreground="White"
+                                           Opacity="0.8"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           FontSize="15"
+                                           Margin="2 0 0 0"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"/>
+                            </Grid>
                         </Border>
                         <Border BorderBrush="White"
                                 BorderThickness="2"
                                 Grid.Column="3"
                                 Margin="0 -1 -1 -1">
-                            <Button Background="Black"
+                            <Grid>
+                                <Button Background="Black"
                                     Width="Auto"
                                     Height="Auto"
                                     BorderThickness="0"
                                     Padding="0"
                                     Margin="1">
-                                <Image MouseDown="Border_MouseDown"
-                                       Margin="2"
-                                       Source="Resources\Black.png"/>
-                            </Button>
+                                    <Image Margin="2"
+                                           Source="Resources\Black.png"/>
+                                </Button>
+                                <TextBlock Text="4"
+                                           Foreground="White"
+                                           Opacity="0.8"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           FontSize="15"
+                                           Margin="2 0 0 0"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"/>
+                            </Grid>
                         </Border>
                         <Border BorderBrush="White"
                                 BorderThickness="2"
                                 Grid.Column="4"
                                 Margin="0 -1 -1 -1">
-                            <Button Background="Black"
+                            <Grid>
+                                <Button Background="Black"
                                     Width="Auto"
                                     Height="Auto"
                                     BorderThickness="0"
                                     Padding="0"
                                     Margin="1">
-                                <Image MouseDown="Border_MouseDown"
-                                       Margin="2"
-                                       Source="Resources\Black.png"/>
-                            </Button>
+                                    <Image Margin="2"
+                                           Source="Resources\Black.png"/>
+                                </Button>
+                                <TextBlock Text="5"
+                                           Foreground="White"
+                                           Opacity="0.8"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           FontSize="15"
+                                           Margin="2 0 0 0"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"/>
+                            </Grid>
                         </Border>
                         <Border BorderBrush="White"
                                 BorderThickness="2"
                                 Grid.Column="5"
                                 Margin="0 -1 -1 -1">
-                            <Button Background="Black"
+                            <Grid>
+                                <Button Background="Black"
                                     Width="Auto"
                                     Height="Auto"
                                     BorderThickness="0"
                                     Padding="0"
                                     Margin="1">
-                                <Image MouseDown="Border_MouseDown"
-                                       Margin="2"
-                                       Source="Resources\Black.png"/>
-                            </Button>
+                                    <Image Margin="2"
+                                           Source="Resources\Black.png"/>
+                                </Button>
+                                <TextBlock Text="6"
+                                           Foreground="White"
+                                           Opacity="0.8"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           FontSize="15"
+                                           Margin="2 0 0 0"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"/>
+                            </Grid>
                         </Border>
                         <Border BorderBrush="White"
                                 BorderThickness="2"
                                 Grid.Column="6"
                                 Margin="0 -1 -1 -1">
-                            <Button Background="Black"
-                                    Width="Auto"
-                                    Height="Auto"
-                                    BorderThickness="0"
-                                    Padding="0"
-                                    Margin="1">
-                                <Image MouseDown="Border_MouseDown"
-                                       Margin="2"
-                                       Source="Resources\Black.png"/>
-                            </Button>
+                            <Grid>
+                                <Button Background="Black"
+                                        Width="Auto"
+                                        Height="Auto"
+                                        BorderThickness="0"
+                                        Padding="0"
+                                        Margin="1">
+                                    <Image Margin="2"
+                                           Source="Resources\Black.png"/>
+                                </Button>
+                                <TextBlock Text="7"
+                                           Foreground="White"
+                                           Opacity="0.8"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           FontSize="15"
+                                           Margin="2 0 0 0"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"/>
+                            </Grid>
                         </Border>
                         <Border BorderBrush="White"
                                 BorderThickness="2"
                                 Grid.Column="7"
                                 Margin="0 -1 -1 -1">
-                            <Button Background="Black"
-                                    Width="Auto"
-                                    Height="Auto"
-                                    BorderThickness="0"
-                                    Padding="0"
-                                    Margin="1">
-                                <Image MouseDown="Border_MouseDown"
-                                       Margin="2"
-                                       Source="Resources\Black.png"/>
-                            </Button>
+                            <Grid>
+                                <Button Background="Black"
+                                        Width="Auto"
+                                        Height="Auto"
+                                        BorderThickness="0"
+                                        Padding="0"
+                                        Margin="1">
+                                    <Image Margin="2"
+                                           Source="Resources\Black.png"/>
+                                </Button>
+                                <TextBlock Text="8"
+                                           Foreground="White"
+                                           Opacity="0.8"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           FontSize="15"
+                                           Margin="2 0 0 0"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"/>
+                            </Grid>
                         </Border>
                         <Border BorderBrush="White"
                                 BorderThickness="2"
                                 Grid.Column="8"
                                 Margin="0 -1 -1 -1">
-                            <Button Background="Black"
-                                    Width="Auto"
-                                    Height="Auto"
-                                    BorderThickness="0"
-                                    Padding="0"
-                                    Margin="1">
-                                <Image MouseDown="Border_MouseDown"
-                                       Margin="2"
-                                       Source="Resources\Black.png"/>
-                            </Button>
+                            <Grid>
+                                <Button Background="Black"
+                                        Width="Auto"
+                                        Height="Auto"
+                                        BorderThickness="0"
+                                        Padding="0"
+                                        Margin="1">
+                                    <Image Margin="2"
+                                           Source="Resources\Black.png"/>
+                                </Button>
+                                <TextBlock Text="9"
+                                           Foreground="White"
+                                           Opacity="0.8"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           FontSize="15"
+                                           Margin="2 0 0 0"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"/>
+                            </Grid>
                         </Border>
                         <Border BorderBrush="White"
                                 BorderThickness="2"
                                 Grid.Column="9"
                                 Margin="0 -1 -1 -1">
-                            <Button Background="Black"
-                                    Width="Auto"
-                                    Height="Auto"
-                                    BorderThickness="0"
-                                    Padding="0"
-                                    Margin="1">
-                                <Image MouseDown="Border_MouseDown"
-                                       Margin="2"
-                                       Source="Resources\Black.png"/>
-                            </Button>
+                            <Grid>
+                                <Button Background="Black"
+                                        Width="Auto"
+                                        Height="Auto"
+                                        BorderThickness="0"
+                                        Padding="0"
+                                        Margin="1">
+                                    <Image Margin="2"
+                                           Source="Resources\Black.png"/>
+                                </Button>
+                                <TextBlock Text="0"
+                                           Foreground="White"
+                                           Opacity="0.8"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           FontSize="15"
+                                           Margin="2 0 0 0"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Left"/>
+                            </Grid>
                         </Border>
                     </Grid>
                 </Border>
-                <Border Background="Black"
-                        BorderBrush="White"
-                        BorderThickness="1"
-                        Margin="20 5 80 0"
-                        Grid.Row="3"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Right">
+                
+                <Grid Grid.Row="3"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="3">
 
-                    <Button Name="Test"
-                            Command="{Binding TeleportToHome}"
+                    <Border Height="28"
+                            Margin="20 0 80 0"
+                            VerticalAlignment="Bottom"
                             Background="Black"
-                            BorderBrush="White"
-                            BorderThickness="1"
-                            Width="48"
-                            Height="48"
-                            Padding="0">
-                        <Image Name="penis"
-                            Source="Resources/Icons/teleport.png"
-                           Height="48"
-                           Width="48">
+                            BorderBrush="LimeGreen"
+                            BorderThickness="4"
+                            Width="Auto"
+                            Opacity="0.6">
 
-                        </Image>
-                    </Button>
+                        <ProgressBar Background="Black"
+                                     BorderThickness="0"
+                                     Foreground="LimeGreen"
+                                     HorizontalAlignment="Stretch"
+                                     Height="Auto"
+                                     Minimum="0"
+                                     VerticalAlignment="Stretch"
+                                     Value="{Binding XPbarValue}"
+                                     Maximum="{Binding XPbarMax}"
+                                     Opacity="0.6"
+                                     MouseEnter="XP_ProgressBar_MouseEnter"
+                                     MouseLeave="XP_ProgressBar_MouseLeave"/>
 
-                </Border>
+                    </Border>
+                    <TextBlock Foreground="White"
+                               Name="XPBar"
+                               Text="{Binding CountOfXPbar}"
+                               VerticalAlignment="Bottom"
+                               Margin="0 0 60 3"
+                               HorizontalAlignment="Center"
+                               FontSize="20"
+                               FontFamily="./Resources/Fonts/#Determination2"
+                               Visibility="Hidden"
+                               Opacity="0.6"
+                               MouseEnter="XP_ProgressBar_MouseEnter"
+                               MouseLeave="XP_ProgressBar_MouseLeave"/>
+                </Grid>
             </Grid>
 
             <!-- Control Panel -->
@@ -2111,10 +3852,26 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
+                <Border Background="Black"
+                        BorderBrush="White"
+                        BorderThickness="2"
+                        Grid.Row="5"
+                        Grid.Column="3">
+                    <Button Name="Test"
+                            Command="{Binding TeleportToHome}"
+                            Background="Black"
+                            BorderBrush="White"
+                            BorderThickness="0"
+                            Height="Auto"
+                            Padding="2">
+                        <Image Name="penis"
+                               Source="Resources/Icons/teleport.png">
+                        </Image>
+                    </Button>
+                </Border>
 
-               
-            </Grid> 
-            
+            </Grid>
+
             <!-- Character -->
             <Border Grid.RowSpan="2"
                     Grid.Column="3"
@@ -2122,17 +3879,21 @@
                     BorderBrush="White"
                     BorderThickness="1"
                     Margin="20 0 0 10">
-                <!--<Grid>
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
+                    <Image Source="/Resources/Background/Les.jpg"
+                           Grid.ColumnSpan="2"
+                           VerticalAlignment="Bottom"/>
+
                     <Image Name="Player"
                            Source="{Binding MainPlayerPng}"
                            FlowDirection="RightToLeft"/>
 
-                    --><!-- Enemy/builds --><!--
+                    <!--Enemy/builds-->
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0.3*"/>
@@ -2178,9 +3939,9 @@
                             </Grid>
                         </Border>
                     </Grid>
-                </Grid>-->
+                </Grid>
             </Border>
- 
+
         </Grid>
     </Grid>
 </Window>

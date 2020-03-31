@@ -3,9 +3,9 @@
   <Monster ID="1"
            Name="Rat"
            ImageName="RatEnemy.png"
-           MaxHP="10"
-           AttackMax="50"
-           AttackMin="50"
+           MaxHP="100"
+           AttackMax="15"
+           AttackMin="10"
            Level="1">
     <Drops Gold="10">
       <Drop ID="2"

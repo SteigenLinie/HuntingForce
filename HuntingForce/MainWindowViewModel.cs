@@ -7,17 +7,24 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace HuntingForce
 {
     public class MainWindowViewModel: BindableBase
     {
+
+       
+
+
         private bool _animationIsPlaying;
         public readonly GameSession _gameSession;
         readonly MainWindow _mainWindow;
@@ -47,12 +54,20 @@ namespace HuntingForce
             SkipDialog = new DelegateCommand(OnSkipDialog, () => true);
             ClearTheLog = new DelegateCommand(OnClearTheLog, () => true);
             TypeOfLogsMenu = new DelegateCommand(OnTypeOfLogsMenu, () => true);
-
+            if (Directory.Exists("./Saves"))
+            {
+                new ParcerSaves(gameSession, mainWindow, this);
+            }
+            else
+                _gameSession.mainStats = new MainStats("3,14door", 100, 100, 100, 100, 100, 100, Convert.ToInt32(50 * Math.Pow(1.337, 2)), 1, 0, 22, 5, 0, _gameSession._standardGameItems[0], _gameSession._standardGameItems[1]);
             SetVisibilityForMovement();
             HPbar = $"{_gameSession.mainStats.CurrentHP}/{_gameSession.mainStats.MaxHP}";
+            HPbarMax = _gameSession.mainStats.MaxHP;
+            HPbarValue = _gameSession.mainStats.CurrentHP;
             MPbar = $"{_gameSession.mainStats.CurrentMP}/{_gameSession.mainStats.MaxMP}";
             SPbar = $"{_gameSession.mainStats.CurrentSP}/{_gameSession.mainStats.MaxSP}";
             NickName = _gameSession.mainStats.Name;
+            CountOfSkillPoint = $"{_gameSession.mainStats.SkillPoint}";
             XPbarMax = _gameSession.mainStats.MaxXP;
             XPbarValue = _gameSession.mainStats.CurrentXP;
             CountOfXPbar = $"{XPbarValue}/{XPbarMax}";
@@ -70,6 +85,12 @@ namespace HuntingForce
                 else
                     str[i - 1] = $"Resources/Sprites/Enemy/Wolf/darksaber_attack00{i}.png";
             }
+            
+           
+            //SoundPlayer sp = new SoundPlayer();
+            //sp.SoundLocation = @"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\DokiDoki-SayoNara.wav";
+            //sp.Load();
+            //sp.PlayLooping();
         }
         public async Task DialogAdd(string text, bool isSkill = false)
         {
@@ -224,6 +245,8 @@ namespace HuntingForce
             get => _nickName;
             set => SetProperty(ref _nickName, value);
         }
+
+        #region HP_BAR
         private string _hPbar;
         public string HPbar
         {
@@ -231,20 +254,63 @@ namespace HuntingForce
             set => SetProperty(ref _hPbar, value);
         }
 
+        private double _hPbarValue;
+        public double HPbarValue
+        {
+            get => _hPbarValue;
+            set => SetProperty(ref _hPbarValue, value);
+        }
+
+        private double _hPbarMax;
+        public double HPbarMax
+        {
+            get => _hPbarMax;
+            set => SetProperty(ref _hPbarMax, value);
+        }
+        #endregion
+        #region MP_BAR
         private string _mPbar;
         public string MPbar
         {
             get => _mPbar;
             set => SetProperty(ref _mPbar, value);
         }
+        private double _mPbarValue;
+        public double MPbarValue
+        {
+            get => _mPbarValue;
+            set => SetProperty(ref _mPbarValue, value);
+        }
+        private double _mPbarMax;
 
+        public double MPbarMax
+        {
+            get => _mPbarMax;
+            set => SetProperty(ref _mPbarMax, value);
+        }
+        #endregion
+        #region SP_BAR
         private string _sPbar;
         public string SPbar
         {
             get => _sPbar;
             set => SetProperty(ref _sPbar, value);
         }
+        private double _sPbarValue;
+        public double SPbarValue
+        {
+            get => _sPbarValue;
+            set => SetProperty(ref _sPbarValue, value);
+        }
+        private double _sPbarMax;
 
+        public double SPbarMax
+        {
+            get => _sPbarMax;
+            set => SetProperty(ref _sPbarMax, value);
+        }
+        #endregion
+        #region XP_BAR
         private double _xPbarValue;
         public double XPbarValue
         {
@@ -265,6 +331,7 @@ namespace HuntingForce
             get => _countOfXPbar;
             set => SetProperty(ref _countOfXPbar, value);
         }
+        #endregion
         #endregion
 
         #region Location information
@@ -308,7 +375,14 @@ namespace HuntingForce
             set => SetProperty(ref _log, value);
         }
         #endregion
-
+        #region Skills
+        private string _countOfSkillPoint;
+        public string CountOfSkillPoint
+        {
+            get => _countOfSkillPoint;
+            set => SetProperty(ref _countOfSkillPoint, value);
+        }
+        #endregion
         #region - Stats -
         private string _currentGoldTextBlock = "0";
         public string CurrentGoldTextBlock
@@ -373,7 +447,7 @@ namespace HuntingForce
                 await DialogAdd($"\"{_gameSession.mainStats.Name}\" use {nameOfSkill} and made a combo of {countOfSlash} attacks\r\n");
 
             await PlayAnimation(arrOfPng);
-            var damage = new Random().Next(minDamage, maxDamage);
+            int damage = new Random().Next(minDamage, maxDamage);
             _gameSession.currentPos.Monster.CurrentHP -= damage;
             inFight = true;
             Logging("giveDamage", new string[] { _gameSession.currentPos.Monster.Name, Convert.ToString(damage), _gameSession.mainStats.Name });
@@ -401,8 +475,8 @@ namespace HuntingForce
             await DialogAdd($"\r\n   \"{_gameSession.currentPos.Monster.Name}\" is deadinside\"", true);
             foreach (Drop drop in _gameSession.currentPos.Monster.DropList)
                 if (new Random().Next(0, 100) <= drop.Chance)
-                    _mainWindow.AddNewItemInInventory(drop);
-            var checkQuestsForNull = _gameSession.mainStats.QuestOnPlayer.Where(x => x.EnemyID == _gameSession.currentPos.Monster.ID).ToList();
+                    _mainWindow.AddNewItemInInventory(drop.DropID);
+            var checkQuestsForNull = _gameSession._questOnPlayer.Where(x => x.EnemyID == _gameSession.currentPos.Monster.ID).ToList();
             if (checkQuestsForNull.Count != 0)
             {
                 foreach (var elm in checkQuestsForNull)
@@ -436,6 +510,7 @@ namespace HuntingForce
                 if (_gameSession.mainStats.CurrentHP <= 0)
                     await PlayerDead();
                 HPbar = $"{_gameSession.mainStats.CurrentHP}/{_gameSession.mainStats.MaxHP}";
+                HPbarValue = _gameSession.mainStats.CurrentHP;
             }
         }
         private async Task PlayerDead()
@@ -542,7 +617,7 @@ namespace HuntingForce
                 }   
             }
         }
-        private void Move(int X, int Y)
+        public void Move(int X, int Y)
         {
             _gameSession.currentPos = _gameSession.CurrentWorld.LocationAt(X, Y);
                 
@@ -589,7 +664,7 @@ namespace HuntingForce
                 NameOfLocationVerticalAlignment = "Center";
                 NameOfLocationRowSpan = 2;
         }
-        private void AddingTextToDialogTextBlock(Location currentPos)
+        public void AddingTextToDialogTextBlock(Location currentPos)
         {
             if (_mainWindow._map.ContainsKey(_gameSession.currentPos))
             {
@@ -624,18 +699,39 @@ namespace HuntingForce
         public void OnSkipDialog()
         {
             if (!MoveButton)
-                DialogAddAll(_gameSession.currentPos.Description);
-            else if(_gameSession.currentPos.Dialogs != null)
+            {
+                if (_gameSession.currentPos.Dialogs != null)
+                {
+                    var currDialog = _gameSession.currentPos.Dialogs.LastOrDefault(x => x.WasRead == true);
+                    if (currDialog != null)
+                        DialogAddAll(currDialog.Text);
+                }
+                else
+                    DialogAddAll(_gameSession.currentPos.Description);
+            }
+            else if (_gameSession.currentPos.Dialogs != null)
             {
                 var currDialog = _gameSession.currentPos.Dialogs.FirstOrDefault(x => x.WasRead == false);
                 if (currDialog != null)
                 {
-                    if(currDialog.QuestID > 0)
+                    if (currDialog.QuestID > 0)
                         _mainWindow.AddNewQuest(_gameSession._allQuest.FirstOrDefault(x => x.ID == currDialog.QuestID));
                     currDialog.WasRead = true;
                     DialogAddAsync(currDialog.Text);
                     NameForDialog = currDialog.Name;
                 }
+            }
+        }
+        private void SkipDialogInTalk()
+        {
+            var currDialog = _gameSession.currentPos.Dialogs.FirstOrDefault(x => x.WasRead == false);
+            if (currDialog != null)
+            {
+                if (currDialog.QuestID > 0)
+                    _mainWindow.AddNewQuest(_gameSession._allQuest.FirstOrDefault(x => x.ID == currDialog.QuestID));
+                currDialog.WasRead = true;
+                DialogAddAsync(currDialog.Text);
+                NameForDialog = currDialog.Name;
             }
         }
         public void Logging(string type, string[] _desc)

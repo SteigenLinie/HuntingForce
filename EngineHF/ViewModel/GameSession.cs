@@ -19,6 +19,12 @@ namespace EngineHF
         public List<GameItem> _standardGameItems = ItemFactory._standardGameItems;
         public List<Quest> _allQuest = QuestFactory._allQuests;
         public Dictionary<CurrentPos, List<Dialog>> _dialogDict = DialogFactory.dialogDict;
+
+
+        public List<Quest> _questOnPlayer = new List<Quest>();
+        public List<Skills> _skillsOnPlayer = new List<Skills>();
+        public List<GameItem> _itemInInventory = new List<GameItem>();
+
         public World CurrentWorld { get; }
 
         public bool HasLocationToNorth =>
@@ -40,8 +46,6 @@ namespace EngineHF
             new QuestFactory();
             new NPCFactory();
             new DialogFactory();
-            //TODO parce xml to mainstats
-            mainStats = new MainStats("3,14door", 100, 100, 100, 100, 100, 100, Convert.ToInt32(50 * Math.Pow(1.337, 2)), 1, 0, 5, 5, 0, _standardGameItems[0], _standardGameItems[1]);
             new SkillsFactory();
             CurrentWorld = WorldFactory.CreateWorld(); 
             currentPos = CurrentWorld.LocationAt(0,0);

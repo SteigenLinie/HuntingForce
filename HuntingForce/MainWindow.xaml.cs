@@ -2,16 +2,19 @@
 using EngineHF.Model;
 using EngineHF.Model.Inventory;
 using HuntingForce.DialogWindows;
+using HuntingForce.DialogWindows.Views;
 using System;
 using System.Collections.Generic;
 using System.Data.Linq;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace HuntingForce
@@ -21,6 +24,11 @@ namespace HuntingForce
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        public MediaPlayer player = new MediaPlayer();
+
+
+
         #region Inventory fields
         private int? _indexOfLastSelectedBorder = null;
         private int indnt = 0;
@@ -33,24 +41,7 @@ namespace HuntingForce
 
         #endregion
 
-
-
-
-
-        private bool _skillSelected;
-        private Button lastButton;
-        private static readonly GameSession _gameSession = new GameSession();
-        private List<TextBlock> arrayOfTextBlock = new List<TextBlock>();
-        private List<Border> arrayOfBorder = new List<Border>();
-        private List<TextBlock> _arrayOfTextBlock = new List<TextBlock>();
-        private Dictionary<TextBlock, string> _arrayOfTextBlockhelp = new Dictionary<TextBlock, string>();
-
-        private List<TextBlock> _arrayOfSkillTextBlock = new List<TextBlock>();
-        private List<Border> _arrayOfBorder = new List<Border>();
-
-        private TextBlock[] _arrayOfTextBlock1 = new TextBlock[_gameSession._standartSkills.Count];
-        private TextBlock[] _arrayOfSkillTextBlock1 = new TextBlock[_gameSession._standartSkills.Count];
-        private Border[] _arrayOfBorder1 = new Border[_gameSession._standartSkills.Count];
+        public static readonly GameSession _gameSession = new GameSession();
 
         private Border _lastMapBorder;
         public Dictionary<Location, Border> _map = new Dictionary<Location, Border>();
@@ -59,12 +50,14 @@ namespace HuntingForce
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel(_gameSession, this);
             AddNewBorderForMap(_gameSession.currentPos);
-            AddingNewSkills();
-            AddFirstWeapon();
+            FillingSkills();
             AddingInventory();
-
+            DataContext = new MainWindowViewModel(_gameSession, this);
+            AddFirstWeapon();
+            player.MediaFailed += (s, e) => MessageBox.Show("Error");
+            player.Open(new Uri("../../DokiDoki-SayoNara.wav", UriKind.RelativeOrAbsolute));
+            player.Play();
         }
         #region - Inventory -
         #region Constructors
@@ -772,21 +765,24 @@ namespace HuntingForce
             Armorimage.Source = new BitmapImage(new Uri(firstArmor.ImageName.Remove(0, 1), UriKind.Relative));
 
         }
-        public void AddNewItemInInventory(Drop drop)
+        public void AddNewItemInInventory(int dropId)
         {
-            var newAddItem = _gameSession._standardGameItems.First(x => x.ItemID == drop.DropID);
-            if(newAddItem.Category == GameItem.ItemCategory.Miscellaneous && dict.ContainsValue(newAddItem.ItemID))
+            var newAddItem = _gameSession._standardGameItems.First(x => x.ItemID == dropId);
+            if (newAddItem.Category == GameItem.ItemCategory.Miscellaneous && dict.ContainsValue(newAddItem.ItemID))
             {
                 var item = _inventoryItems.First(x => x.ID == dict.First(x => x.Value == newAddItem.ItemID).Key);
                 var grid = (Grid)item.ItemInInventory.Item.Child;
                 var textBlock = (TextBlock)grid.Children[1];
-                textBlock.Text = Convert.ToString(++item.Count);
+                newAddItem.Count = (int)++item.Count;
+                textBlock.Text = Convert.ToString(newAddItem.Count);
                 return;
             }
             foreach(var item in _inventoryItems)
             {
                 if(item.ItemInInventory.IsEmpty)
                 {
+                    _gameSession._itemInInventory.Add(newAddItem);
+
                     var grid = (Grid)item.ItemInInventory.Item.Child;
                     var image = (Image)grid.Children[0];
                     image.MouseLeftButtonDown -= Image_MouseLeftButtonDown;
@@ -843,7 +839,10 @@ namespace HuntingForce
 
                 case "Weapon":
                     if (temp.Name != null)
+                    {
                         _gameSession.mainStats.CurrentWeapon = _gameSession._standardGameItems.First(x => x.ItemID == dict.First(x => x.Key == temp.ID).Value);
+                        _gameSession._itemInInventory.Remove(_gameSession._standardGameItems.First(x => x.ItemID == dict.First(x => x.Key == temp.ID).Value));
+                    }
                     else
                         _gameSession.mainStats.CurrentWeapon = _gameSession._standardGameItems[0];
                     if (image.Name == null)
@@ -852,7 +851,10 @@ namespace HuntingForce
                     break;
                 case "Armor":
                     if (temp.Name != null)
+                    {
                         _gameSession.mainStats.CurrentArmor = _gameSession._standardGameItems.First(x => x.ItemID == dict.First(x => x.Key == temp.ID).Value);
+                        _gameSession._itemInInventory.Remove(_gameSession._standardGameItems.First(x => x.ItemID == dict.First(x => x.Key == temp.ID).Value));
+                    }
                     else
                         _gameSession.mainStats.CurrentArmor = _gameSession._standardGameItems[1];
                     if (image.Name == null)
@@ -1007,216 +1009,31 @@ namespace HuntingForce
         #endregion
 
         #region - Skills -
-        public void AddingNewSkills()
+        public Dictionary<Border, Skills> border_Skills = new Dictionary<Border, Skills>();
+        public void FillingSkills()
         {
-            foreach (var skill in _gameSession._standartSkills)
+            foreach(var elm in Skills.Children)
             {
-                Border border = new Border
+                if(elm is Border)
                 {
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    BorderBrush = Brushes.White,
-                    BorderThickness = new Thickness(1),
-                    Padding = new Thickness(0),
-                    Width = 60
-                };
-                Grid.SetRow(border, skill.GridRow);
-                Grid.SetColumn(border, skill.GridColumn);
-
-                Button button = new Button
-                {
-                    Name = "Skill" + "_" + skill.ID,
-                    Background = Brushes.Black,
-                    VerticalAlignment = VerticalAlignment.Top,
-                    BorderThickness = new Thickness(0),
-                    Padding = new Thickness(0),
-                    Margin = new Thickness(1),
-                    Height = 60
-                };
-                button.Click += SkillButtonOnClick;
-
-                Image image = new Image
-                {
-                    Name = skill.Name,
-                    Source = new BitmapImage(new Uri(skill.ImageName.Remove(0, 1), UriKind.Relative)),
-                    Margin = new Thickness(2)
-                };
-                image.ToolTip = new ToolTip
-                {
-                    Content = GenerateToolTipMiscellaneous(skill.Name, "Attack", skill.ImageName, "просто слова"),
-                    Background = Brushes.Transparent
-                };
-
-                button.Content = image;
-                border.Child = button;
-
-                TextBlock textBlock = new TextBlock
-                {
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Bottom,
-                    Text = $"0/{skill.CostSkillPoint}",
-                    FontSize = 20,
-                    Foreground = Brushes.White
-                };
-                textBlock.FontFamily = new FontFamily(new Uri(@"C:\Users\SteigenLinie\source\repos\HuntingForce\HuntingForce\Resources\Fonts"), "#Determination2");
-                Grid.SetRow(textBlock, skill.GridRow);
-                Grid.SetColumn(textBlock, skill.GridColumn);
-                if (skill.ID != 1)
-                {
-                    button.IsEnabled = false;
-                    border.BorderBrush = Brushes.Gray;
-                    image.Opacity = 0.7;
-                    textBlock.Opacity = 0.5;
-                }
-                arrayOfTextBlock.Add(textBlock);
-                arrayOfBorder.Add(border);
-                SkillsGrid.Children.Add(border);
-                SkillsGrid.Children.Add(textBlock);
-            }
-        }
-        private void DesignOfSkillUpdate(int i)
-        {
-            arrayOfBorder[i].BorderBrush = Brushes.White;
-            arrayOfBorder[i].Child.IsEnabled = true;
-            Button buttonSkill = (Button)arrayOfBorder[i].Child;
-            Image image = (Image)buttonSkill.Content;
-            image.Opacity = 1;
-            arrayOfTextBlock[i].Opacity = 1;
-        }
-        private void DesignOfSkillDegrade(int i)
-        {
-            _arrayOfBorder[i].BorderBrush = Brushes.Gray;
-            _arrayOfBorder[i].Child.IsEnabled = false;
-            Button buttonSkill = (Button)_arrayOfBorder[i].Child;
-            Image image = (Image)buttonSkill.Content;
-            image.Opacity = 0.7;
-            _arrayOfSkillTextBlock[i].Opacity = 0.5;
-        }
-        public void SkillButtonOnClick(object sender, EventArgs eventArgs)
-        {
-            var button = (Button)sender;
-
-            var sr = Convert.ToInt32(button.Name.Split('_')[1]);
-            var skillNumber = arrayOfTextBlock[sr - 1].Text;
-            var arrForSkillNumber = skillNumber.Split('/');
-            if (skillNumber != $"{arrForSkillNumber[1]}/{arrForSkillNumber[1]}" && _gameSession.mainStats.TempSkillPoint > 0)
-            {
-                Cancel.IsEnabled = true;
-                if(!_arrayOfTextBlockhelp.ContainsKey(arrayOfTextBlock[sr - 1]))
-                    _arrayOfTextBlockhelp.Add(arrayOfTextBlock[sr - 1], arrayOfTextBlock[sr - 1].Text);
-                arrayOfTextBlock[sr - 1].Text = $"{Convert.ToInt32(arrForSkillNumber[0]) + 1}/{arrForSkillNumber[1]}";
-                _gameSession.mainStats.TempSkillPoint--;
-                if (sr == 1 && arrayOfTextBlock[sr - 1].Text == $"{arrForSkillNumber[1]}/{arrForSkillNumber[1]}")
-                    for (int i = sr; i < sr + 2; i++)
+                    var border = (Border)elm;
+                    if (border.Name != "")
                     {
-                        DesignOfSkillUpdate(i);
-                        _arrayOfBorder.Add(arrayOfBorder[i]);
-                        _arrayOfSkillTextBlock.Add(arrayOfTextBlock[i]);
-                    }
-                else if (sr + 1 < arrayOfBorder.Count() && arrayOfTextBlock[sr - 1].Text == $"{arrForSkillNumber[1]}/{arrForSkillNumber[1]}")
-                {
-                    DesignOfSkillUpdate(sr + 1);
-                    _arrayOfBorder.Add(arrayOfBorder[sr + 1]);
-                    _arrayOfSkillTextBlock.Add(arrayOfTextBlock[sr + 1]);
-                }
-                if(!_arrayOfTextBlock.Contains(arrayOfTextBlock[sr - 1]))
-                    _arrayOfTextBlock.Add(arrayOfTextBlock[sr - 1]);
-            }
-            else
-            {
-                if (Keyboard.IsKeyDown(Key.LeftShift) && !Cancel.IsEnabled && arrayOfTextBlock[sr - 1].Text == $"{arrForSkillNumber[1]}/{arrForSkillNumber[1]}")
-                {
-                    var a = (Border)button.Parent;
-                    if (lastButton == null)
-                    {
-                        a.BorderThickness = new Thickness(3);
-                        _skillSelected = true;
-                        lastButton = button;
-                    }
-                    else
-                    {
-                        
-                        a.BorderThickness = new Thickness(1);
-                        _skillSelected = false;
-                        lastButton = null;
-                    }
-                }
-            }
-        }
-
-        private void Button_Cancel(object sender, RoutedEventArgs e)
-        {
-            foreach (var a in _arrayOfBorder1)
-                _arrayOfBorder.Remove(a);
-            foreach (var a in _arrayOfSkillTextBlock1)
-                _arrayOfSkillTextBlock.Remove(a);
-            foreach (var a in _arrayOfTextBlock1)
-                _arrayOfTextBlock.Remove(a);
-
-            for (int i = 0; i < _arrayOfTextBlock.Count; i++)
-                _arrayOfTextBlock[i].Text =  $"{_arrayOfTextBlockhelp.Values.ElementAt(i)}";
-            for (int a = 0; a < _arrayOfBorder.Count; a++)
-                DesignOfSkillDegrade(a);
-            _arrayOfTextBlockhelp.Clear();
-            _arrayOfBorder.Clear();
-            _arrayOfSkillTextBlock.Clear();
-            _arrayOfTextBlock.Clear();
-            Cancel.IsEnabled = false;
-            _gameSession.mainStats.TempSkillPoint = _gameSession.mainStats.SkillPoint;
-        }
-
-        private void Button_Save(object sender, RoutedEventArgs e)
-        {
-            _gameSession.mainStats.SkillPoint = _gameSession.mainStats.TempSkillPoint;
-            _arrayOfTextBlockhelp.Clear();
-            _arrayOfBorder.CopyTo(_arrayOfBorder1);
-            _arrayOfSkillTextBlock.CopyTo(_arrayOfSkillTextBlock1);
-            _arrayOfTextBlock.CopyTo(_arrayOfTextBlock1);
-            Cancel.IsEnabled = false;
-        }
-
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
-        {    
-            if (_skillSelected)
-            {
-                Image image = (Image)sender;
-                Button button = (Button)image.Parent;
-                button.PreviewMouseDown += SkillDetected;
-                Image bimage = (Image)lastButton.Content;
-                button.Name = _gameSession._standartSkills.First(x => x.Name == bimage.Name).Name;
-                image.Source = bimage.Source;
-                Border border = (Border)lastButton.Parent;
-                border.BorderThickness = new Thickness(1);
-                lastButton = null;
-                _skillSelected = false;
-            }
-        }
-
-        public void SkillDetected(object sender, MouseButtonEventArgs e)
-        {
-            var button = (Button)sender;
-            if (Keyboard.IsKeyDown(Key.LeftShift) && button.Name != "")
-            {
-                var imagee = (Image)button.Content;
-                button.PreviewMouseDown -= SkillDetected;
-                button.Name = "";
-                imagee.Source = new BitmapImage(new Uri(@"Resources\Black.png", UriKind.Relative));
-                return;
-            }
-            var _gm = (MainWindowViewModel)DataContext;
-            if (_gm.MoveButton)
-            {
-                var skillUse = _gameSession._standartSkills.First(x => x.Name == button.Name);
-                switch (skillUse.Type)
-                {
-                    case EngineHF.Model.Skills.TypeOfSkill.Attack:
-                        if (_gameSession.currentPos.Monster != null)
+                        if (border.Name == "Skill_1")
+                            CanUpgrade.Add(border);
+                        var newSkill = _gameSession._standartSkills.FirstOrDefault(x => x.ID == Convert.ToInt32(border.Name.Split('_')[1]));
+                        if (newSkill != null)
                         {
-                            _gm.Logging("useSkill", new string[] { _gameSession.mainStats.Name, skillUse.Name, _gameSession.currentPos.Monster.Name });
-                            _gm.Attacking(_gameSession.mainStats.CurrentWeapon.Weapon.MinDamage + skillUse.Attack.MinBonusDamage, _gameSession.mainStats.CurrentWeapon.Weapon.MaxDamage + skillUse.Attack.MaxBonusDamage, skillUse.Attack.CountOfSlash, skillUse.Name);
+                            var image = (Image)border.Child;
+                            image.Source = new BitmapImage(new Uri(newSkill.ImageName.Remove(0, 1), UriKind.Relative));
+                            border_Skills.Add(border, newSkill);
+                            ListOfSkillBorder.Add(border);
                         }
-                        break;
-                    case EngineHF.Model.Skills.TypeOfSkill.Heal:
-                        break;
+                    }
+                }
+                else if(elm is Grid)
+                {
+                    GridsRectangle.Add((Grid)elm);
                 }
             }
         }
@@ -1229,7 +1046,7 @@ namespace HuntingForce
             {
                 questItem.IsDone = true;
                 questsGrid.Items.Add(questItem);
-                _gameSession.mainStats.QuestOnPlayer.Add(questItem);
+                _gameSession._questOnPlayer.Add(questItem);
             }
         }
 
@@ -1240,7 +1057,7 @@ namespace HuntingForce
             if (quest.Progress == "done")
             {
                 questsGrid.Items.Remove(quest);
-                _gameSession.mainStats.QuestOnPlayer.Remove(quest);
+                _gameSession._questOnPlayer.Remove(quest);
             }
         }
         #endregion
@@ -1290,7 +1107,7 @@ namespace HuntingForce
             {
                 case Key.Escape:
                     var mainWindow = (MainWindow)sender;
-                    EscMenu escMenu = new EscMenu(mainWindow);
+                    EscMenu escMenu = new EscMenu(mainWindow, _gameSession);
                     mainWindow.IsEnabled = false;
                     escMenu.Show();
                     break;
@@ -1308,5 +1125,124 @@ namespace HuntingForce
                     elm.Close();
         }
         #endregion
+
+        #region ProgressBars
+        private void XP_ProgressBar_MouseEnter(object sender, MouseEventArgs e) => XPBar.Visibility = Visibility.Visible;
+
+        private void XP_ProgressBar_MouseLeave(object sender, MouseEventArgs e) => XPBar.Visibility = Visibility.Hidden;
+
+        private void HP_ProgressBar_MouseEnter(object sender, MouseEventArgs e) => HPBar.Visibility = Visibility.Visible;
+
+        private void HP_ProgressBar_MouseLeave(object sender, MouseEventArgs e) => HPBar.Visibility = Visibility.Hidden;
+
+        private void MP_ProgressBar_MouseEnter(object sender, MouseEventArgs e) => MPBar.Visibility = Visibility.Visible;
+
+        private void MP_ProgressBar_MouseLeave(object sender, MouseEventArgs e) => MPBar.Visibility = Visibility.Hidden;
+
+        //private void SP_ProgressBar_MouseEnter(object sender, MouseEventArgs e) => SPBar.Visibility = Visibility.Visible;
+
+        //private void SP_ProgressBar_MouseLeave(object sender, MouseEventArgs e) => SPBar.Visibility = Visibility.Hidden;
+        #endregion
+
+        Skills _lastSkill;
+        List<Border> ListOfSkillBorder = new List<Border>();
+        List<Border> SelectedSkillList = new List<Border>();
+        List<Grid> GridsRectangle = new List<Grid>();
+        List<Border> CanUpgrade = new List<Border>();
+
+        private void SkillInTree_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var image = (Image)sender;
+            var border = (Border)image.Parent;
+            if (!SelectedSkillList.Contains(border) && CanUpgrade.Contains(border) && _gameSession.mainStats.SkillPoint > 0)
+            {
+                _gameSession.mainStats.SkillPoint--;
+                _mainWindowViewModel = (MainWindowViewModel)DataContext;
+                _mainWindowViewModel.CountOfSkillPoint = $"{_gameSession.mainStats.SkillPoint}";
+                SelectedSkillList.Add(border);
+                CanUpgrade.Clear();
+                var a = GridsRectangle.FindAll(x => x.Name.Split('_')[1] == border.Name.Split('_')[1]);
+                foreach (var b in a)
+                {
+                    var c = ListOfSkillBorder.FirstOrDefault(x => x.Name.Split('_')[1] == b.Name.Split('_')[2]);
+                    if(c != null)
+                        CanUpgrade.Add(c);
+                }
+                if (_lastSkill != null)
+                {
+                    foreach (Rectangle rect in GridsRectangle.First(x => (x.Name.Split('_')[1] + x.Name.Split('_')[2]) == (_lastSkill.ID + border.Name.Split('_')[1])).Children)
+                    {
+                        rect.Fill = new SolidColorBrush(Color.FromRgb(22, 204, 0));
+                        rect.Opacity = 1;
+                    }
+                }
+                _lastSkill = border_Skills.First(x => x.Key == border).Value;
+                border.Opacity = 1;
+            }
+        }
+        //private async void AnimationForRectangle(Rectangle rectangle)
+        //{
+        //    await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
+        //    {
+        //        while (_isActiveLeft)
+        //        {
+        //            for (short i = 0; i <= 255; i += 3)
+        //            {
+        //                if (!_isActiveLeft && !_isActiveRight)
+        //                    return;
+
+        //                rectangle.Fill = new SolidColorBrush(Color.FromRgb(Convert.ToByte(i), 255, Convert.ToByte(i)));
+        //                await Task.Delay(1);
+        //            }
+        //            for (short i = 255; i >= 0; i -= 3)
+        //            {
+        //                if (!_isActiveLeft && !_isActiveRight)
+        //                    return;
+        //                rectangle.Fill = new SolidColorBrush(Color.FromRgb(Convert.ToByte(i), 255, Convert.ToByte(i)));
+        //                await Task.Delay(1);
+        //            }
+        //        }
+                
+        //    }));
+        //}
+        //List<Grid> gridsList = new List<Grid>();
+        //List<Grid> gridsList2 = new List<Grid>();
+        //private async void AnimationForArrow(List<Grid> gridList)
+        //{
+        //    _isActiveLeft = true;
+        //    _isActiveRight = true;
+        //    await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
+        //    {
+        //        foreach (Grid grid in gridsList)
+        //            foreach (Rectangle rectangle in grid.Children)
+        //                AnimationForRectangle(rectangle);
+
+        //        await Task.Delay(3);
+        //    }
+        //    ));
+        //}
+
+
+        private void Skill_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var image = (Image)sender;
+            var border = (Border)image.Parent;
+            if(CanUpgrade.Contains(border) && !SelectedSkillList.Contains(border))
+                border.Opacity = 1;
+        }
+
+        private void Skill_MouseLeave(object sender, MouseEventArgs e)
+        {
+            var image = (Image)sender;
+            var border = (Border)image.Parent;
+            if (CanUpgrade.Contains(border) && !SelectedSkillList.Contains(border))
+                border.Opacity = 0.5;
+        }
+
+        private void History_Click(object sender, RoutedEventArgs e)
+        {
+            _mainWindowViewModel = (MainWindowViewModel)DataContext;
+            new HistoryOfDialog(this, _gameSession, _mainWindowViewModel).Show();
+        }
     }
 }

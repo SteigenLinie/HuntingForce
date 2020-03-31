@@ -5,8 +5,10 @@
             Name=""
             ImageName="Black.png"
             Description="ыasd">
-    <Weapon MinDamage="0"
-            MaxDamage="3"/>
+    <Weapon MinDamage="1"
+            MinMinDamage="1"
+            MaxDamage="3"
+            MaxMaxDamage="3"/>
   </GameItem>
   <GameItem ID="-2"
             Type="Armor"
@@ -21,7 +23,9 @@
             ImageName="woodStick.png"
             Description="a">
     <Weapon MinDamage="5"
-            MaxDamage="10"/>
+            MinMinDamage="5"
+            MaxDamage="10"
+            MaxMaxDamage="10"/>
   </GameItem>
   
   <GameItem ID="3"
@@ -37,8 +41,10 @@
             Name="katana"
             ImageName="katana.png"
             Description="a">
-    <Weapon MinDamage="1"
-            MaxDamage="12"/>
+    <Weapon MinDamage="5"
+            MinMinDamage="1"
+            MaxDamage="12"
+            MaxMaxDamage="17"/>
   </GameItem>
   <GameItem ID="5"
             Type="Miscellaneous"

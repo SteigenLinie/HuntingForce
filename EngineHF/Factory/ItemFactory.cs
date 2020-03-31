@@ -119,7 +119,9 @@ namespace EngineHF.Factory
             }
         }
         public static Weapon Weapon(XmlNode node) => new Weapon(node.AttributeAsInt("MinDamage"),
-                                                                node.AttributeAsInt("MaxDamage"));
+                                                                node.AttributeAsInt("MaxDamage"),
+                                                                node.AttributeAsInt("MinMinDamage"),
+                                                                node.AttributeAsInt("MaxMaxDamage"));
         public static Armor Armor(XmlNode node) => new Armor(node.AttributeAsInt("PlusArmor"));
         public static Potion Potion(XmlNode node) => new Potion(node.AttributeAsInt("HitPointsToHealHP"),
                                                                 node.AttributeAsInt("HitPointsToHealMP"));

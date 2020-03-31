@@ -53,6 +53,17 @@
                    Opacity="0.5"
                    VerticalAlignment="Bottom"
                    Height="1"/>
+        <Button Grid.Row="2"
+                Content="Save"
+                FontFamily="/Resources/Fonts/#Determination2"
+                Padding="0"
+                FontSize="30"
+                Width="Auto"
+                Margin="5 0 5 0"
+                Foreground="White"
+                Background="Black"
+                BorderThickness="0"
+                Command="{Binding SaveViewCommand}"/>
         <Rectangle Grid.Row="2"
                    Fill="White"
                    Opacity="0.5"

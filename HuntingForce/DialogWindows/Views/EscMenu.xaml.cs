@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EngineHF;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,10 +21,10 @@ namespace HuntingForce.DialogWindows
     public partial class EscMenu : Window
     {
         MainWindow _mainWindow;
-        public EscMenu(MainWindow mainWindow)
+        public EscMenu(MainWindow mainWindow, GameSession gameSession)
         {
             InitializeComponent();
-            DataContext = new EscMenuViewModel(mainWindow, this);
+            DataContext = new EscMenuViewModel(mainWindow, this, gameSession);
             _mainWindow = mainWindow;
         }
 

@@ -29,6 +29,7 @@ namespace HuntingForce.DialogWindows.Views
             InitializeComponent();
             _mainWindow.IsEnabled = false;
             fullScreen.IsChecked = Settings.IsFullScreen;
+            Volume.Value = _mainWindow.player.Volume * 100;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -47,6 +48,7 @@ namespace HuntingForce.DialogWindows.Views
                 Settings.IsFullScreen = false;
                 _mainWindow.WindowStyle = WindowStyle.SingleBorderWindow;
             }
+            _mainWindow.player.Volume = Volume.Value / 100; 
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
