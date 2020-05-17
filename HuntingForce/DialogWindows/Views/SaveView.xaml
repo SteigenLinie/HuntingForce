@@ -5,11 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HuntingForce.DialogWindows.Views"
         mc:Ignorable="d"
+        AllowsTransparency="True"
+        WindowStyle="None"
         Title="SaveView" Height="400" Width="600"
         Background="Transparent">
     <Grid>
         <Border Background="Black"
-                Opacity="0.5"/>
+                Opacity="0.9"/>
         <Grid Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>

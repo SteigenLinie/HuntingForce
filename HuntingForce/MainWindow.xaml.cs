@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data.Linq;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,9 +39,15 @@ namespace HuntingForce
         private List<InfoForItemInInventory> _inventoryItems = new List<InfoForItemInInventory>();
         private Border _lastBorder;
         private Border _lastBorderInAmmo;
-
         #endregion
 
+        #region Skill fields
+        Skills _lastSkill;
+        List<Border> ListOfSkillBorder = new List<Border>();
+        List<Border> SelectedSkillList = new List<Border>();
+        List<Grid> GridsRectangle = new List<Grid>();
+        List<Border> CanUpgrade = new List<Border>();
+        #endregion
         public static readonly GameSession _gameSession = new GameSession();
 
         private Border _lastMapBorder;
@@ -55,9 +62,7 @@ namespace HuntingForce
             AddingInventory();
             DataContext = new MainWindowViewModel(_gameSession, this);
             AddFirstWeapon();
-            player.MediaFailed += (s, e) => MessageBox.Show("Error");
-            player.Open(new Uri("../../DokiDoki-SayoNara.wav", UriKind.RelativeOrAbsolute));
-            player.Play();
+            
         }
         #region - Inventory -
         #region Constructors
@@ -1076,12 +1081,7 @@ namespace HuntingForce
             Grid.SetColumn(border, 4 + location.CurrentCoordinate.CurrentX);
             Grid.SetRow(border, 4 - location.CurrentCoordinate.CurrentY);
             Image image = new Image();
-            if (location.Monster != null)
-                image.Source = new BitmapImage(new Uri(location.Monster.ImageName.Remove(0, 1), UriKind.Relative));
-            else if (location.NPC != null)
-                image.Source = new BitmapImage(new Uri(location.NPC.ImageName.Remove(0, 1), UriKind.Relative));
-            else
-                image.Source = new BitmapImage(new Uri(location.ImageName.Remove(0, 1), UriKind.Relative));
+            image.Source = new BitmapImage(new Uri(location.ImageName.Remove(0, 1), UriKind.Relative));
 
             border.Child = image;
             if (!_map.ContainsKey(location))
@@ -1108,6 +1108,7 @@ namespace HuntingForce
                 case Key.Escape:
                     var mainWindow = (MainWindow)sender;
                     EscMenu escMenu = new EscMenu(mainWindow, _gameSession);
+                    escMenu.Owner = this;
                     mainWindow.IsEnabled = false;
                     escMenu.Show();
                     break;
@@ -1144,11 +1145,7 @@ namespace HuntingForce
         //private void SP_ProgressBar_MouseLeave(object sender, MouseEventArgs e) => SPBar.Visibility = Visibility.Hidden;
         #endregion
 
-        Skills _lastSkill;
-        List<Border> ListOfSkillBorder = new List<Border>();
-        List<Border> SelectedSkillList = new List<Border>();
-        List<Grid> GridsRectangle = new List<Grid>();
-        List<Border> CanUpgrade = new List<Border>();
+        
 
         private void SkillInTree_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -1242,7 +1239,227 @@ namespace HuntingForce
         private void History_Click(object sender, RoutedEventArgs e)
         {
             _mainWindowViewModel = (MainWindowViewModel)DataContext;
-            new HistoryOfDialog(this, _gameSession, _mainWindowViewModel).Show();
+            if (_gameSession.currentPos.Dialogs != null)
+            {
+                this.IsEnabled = false;
+                var HistoryOfDialog = new HistoryOfDialog(this, _gameSession.currentPos, _mainWindowViewModel);
+                HistoryOfDialog.Owner = this;
+                HistoryOfDialog.Show();
+            }
         }
+
+        //#region StartUp
+
+        //private void Image_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    Image image;
+        //    TextBlock textBlock;
+        //    Grid grid;
+        //    if (sender is Image)
+        //    {
+        //        image = (Image)sender;
+        //        grid = (Grid)image.Parent;
+        //        textBlock = (TextBlock)grid.Children[1];
+        //    }
+        //    else
+        //    {
+        //        textBlock = (TextBlock)sender;
+        //        grid = (Grid)textBlock.Parent;
+        //        image = (Image)grid.Children[0];
+
+        //    }
+        //    image.Source = new BitmapImage(new Uri(@"\Resources\StartUp\Buttons\new_button_white.png", UriKind.Relative));
+        //    textBlock.Opacity = 1;
+        //}
+
+        //private void Image_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    Image image;
+        //    TextBlock textBlock;
+        //    Grid grid;
+        //    if (sender is Image)
+        //    {
+        //        image = (Image)sender;
+        //        grid = (Grid)image.Parent;
+        //        textBlock = (TextBlock)grid.Children[1];
+        //    }
+        //    else
+        //    {
+        //        textBlock = (TextBlock)sender;
+        //        grid = (Grid)textBlock.Parent;
+        //        image = (Image)grid.Children[0];
+
+        //    }
+        //    image.Source = new BitmapImage(new Uri(@"\Resources\StartUp\Buttons\new_button_black.png", UriKind.Relative));
+        //    textBlock.Opacity = 0.8;
+        //}
+        //private void Image2_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    Image image;
+        //    TextBlock textBlock;
+        //    Grid grid;
+        //    if (sender is Image)
+        //    {
+        //        image = (Image)sender;
+        //        grid = (Grid)image.Parent;
+        //        textBlock = (TextBlock)grid.Children[1];
+        //    }
+        //    else
+        //    {
+        //        textBlock = (TextBlock)sender;
+        //        grid = (Grid)textBlock.Parent;
+        //        image = (Image)grid.Children[0];
+
+        //    }
+        //    image.Source = new BitmapImage(new Uri(@"\Resources\StartUp\Buttons\new_button2_white.png", UriKind.Relative));
+        //    textBlock.Opacity = 1;
+        //}
+
+        //private void Image2_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    Image image;
+        //    TextBlock textBlock;
+        //    Grid grid;
+        //    if (sender is Image)
+        //    {
+        //        image = (Image)sender;
+        //        grid = (Grid)image.Parent;
+        //        textBlock = (TextBlock)grid.Children[1];
+        //    }
+        //    else
+        //    {
+        //        textBlock = (TextBlock)sender;
+        //        grid = (Grid)textBlock.Parent;
+        //        image = (Image)grid.Children[0];
+
+        //    }
+        //    image.Source = new BitmapImage(new Uri(@"\Resources\StartUp\Buttons\new_button2_black.png", UriKind.Relative));
+        //    textBlock.Opacity = 0.8;
+        //}
+        //private void Image3_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    Image image;
+        //    TextBlock textBlock;
+        //    Grid grid;
+        //    if (sender is Image)
+        //    {
+        //        image = (Image)sender;
+        //        grid = (Grid)image.Parent;
+        //        textBlock = (TextBlock)grid.Children[1];
+        //    }
+        //    else
+        //    {
+        //        textBlock = (TextBlock)sender;
+        //        grid = (Grid)textBlock.Parent;
+        //        image = (Image)grid.Children[0];
+
+        //    }
+        //    image.Source = new BitmapImage(new Uri(@"\Resources\StartUp\Buttons\new_button3_white.png", UriKind.Relative));
+        //    textBlock.Opacity = 1;
+        //}
+
+        //private void Image3_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    Image image;
+        //    TextBlock textBlock;
+        //    Grid grid;
+        //    if (sender is Image)
+        //    {
+        //        image = (Image)sender;
+        //        grid = (Grid)image.Parent;
+        //        textBlock = (TextBlock)grid.Children[1];
+        //    }
+        //    else
+        //    {
+        //        textBlock = (TextBlock)sender;
+        //        grid = (Grid)textBlock.Parent;
+        //        image = (Image)grid.Children[0];
+
+        //    }
+        //    image.Source = new BitmapImage(new Uri(@"\Resources\StartUp\Buttons\new_button3_black.png", UriKind.Relative));
+        //    textBlock.Opacity = 0.8;
+        //}
+
+        //private void Image_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    this.Close();
+        //}
+
+        //private async void Play_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    player.MediaFailed += (s, e) => MessageBox.Show("Error");
+        //    player.Open(new Uri("../../DokiDoki-SayoNara.wav", UriKind.RelativeOrAbsolute));
+        //    player.Volume = 0.05;
+        //    player.Play();
+        //    //MainWindowGrid.Visibility = Visibility.Visible;
+        //    await OpacityForStartUpWindow();
+        //    Thread.Sleep(10);
+        //    foreach(var elm in Captions.Children)
+        //    {
+        //        if (elm is TextBlock)
+        //            await AsyncUp((TextBlock)elm);
+        //    }
+        //    await AsyncUp(GifOnStartUp);
+        //    GifOnStartUp.Visibility = Visibility.Collapsed;
+            
+            
+        //}
+
+        //private async Task AsyncUp(TextBlock textBlock)
+        //{
+        //    textBlock.Visibility = Visibility.Visible;
+        //    while (textBlock.Opacity < 1)
+        //    {
+        //        textBlock.Opacity += 0.0055;
+        //        await Task.Delay(1);
+        //    }
+        //    while (textBlock.Opacity > 0)
+        //    {
+        //        textBlock.Opacity -= 0.0055;
+        //        await Task.Delay(1);
+        //    }
+        //    textBlock.Visibility = Visibility.Collapsed;
+        //}
+        //private async Task AsyncUp(Image image)
+        //{
+        //    image.Visibility = Visibility.Visible;
+        //    while (image.Opacity < 1)
+        //    {
+        //        image.Opacity += 0.015;
+        //        await Task.Delay(1);
+        //    }
+        //    await Task.Delay(3000);
+        //    MainWindowGrid.Visibility = Visibility.Visible;
+        //    await OpacityForMainWindow();
+        //    while (image.Opacity > 0)
+        //    {
+        //        image.Opacity -= 0.025;
+        //        await Task.Delay(1);
+        //    }
+        //}
+
+        //private async Task OpacityForStartUpWindow()
+        //{
+        //    await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
+        //    {
+        //        while (StartUp.Opacity != 0)
+        //        {
+        //            StartUp.Opacity -= 0.015;
+        //            await Task.Delay(1);
+        //        }
+        //    }));
+        //}
+        //private async Task OpacityForMainWindow()
+        //{
+        //    await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
+        //    {
+        //        while (MainWindowGrid.Opacity < 1)
+        //        {
+        //            MainWindowGrid.Opacity += 0.005;
+        //            await Task.Delay(1);
+        //        }
+        //    }));
+        //}
+        //#endregion
     }
 }

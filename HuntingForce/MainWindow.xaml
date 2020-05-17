@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EngineHF.Model;assembly=EngineHF"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -14,11 +15,13 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         IsEnabled="True"
         Title="MainWindow"
-        Width="1920"
-        Height="1080"
+        Width="1536"
+        Height="864"
         Background="Black"
         ResizeMode="NoResize"
         WindowState="Maximized"
+        WindowStyle="None"
+        AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         Closing="Window_Closing"
         KeyDown="Window_KeyDown">
@@ -113,8 +116,206 @@
         <RotateTransform x:Key="Rotate270" CenterX="24" CenterY="24" Angle="270"/>
     </Window.Resources>
     <Grid>
+        <Border BorderBrush="White"
+                BorderThickness="2"
+                Background="Black"
+                Opacity="0.5"/>
+        <!--<Grid Name="StartUp">
+            <Image gif:ImageBehavior.AnimatedSource="C:\Users\SteigenLinie\Downloads\Новая папка\dd\Shaman-King-Anime-Asakura-Yoh-amidamaru-4319938.gif"
+               FlowDirection="RightToLeft"
+               Margin="-8"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Image Source="C:\Users\SteigenLinie\Downloads\logo\testLogo.png" Height="415"
+                        Opacity="0.9"
+                        Width="350"/>
+                    <Image Source="C:\Users\SteigenLinie\Downloads\logo\sakura.png"
+                       Margin="10 20 10 10"
+                       Width="400"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="0.5*"/>
+                    </Grid.RowDefinitions>
 
-        <Grid Margin="15">
+                    <Grid Grid.Row="1">
+                        <Image Grid.Row="1"
+                           Source="C:\Users\SteigenLinie\Downloads\logo\new_button2_black.png"
+                           MouseMove="Image2_MouseMove"
+                           MouseLeave="Image2_MouseLeave"
+                           MouseLeftButtonUp="Play_MouseLeftButtonUp"/>
+                        <TextBlock Text="Play"
+                               Grid.Row="1"
+                               Foreground="White"
+                               Opacity="0.8"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontFamily="/Resources/Fonts/#Determination2"
+                               FontSize="55"
+                               MouseMove="Image2_MouseMove"
+                               MouseLeave="Image2_MouseLeave"
+                               MouseLeftButtonUp="Play_MouseLeftButtonUp"/>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Image Grid.Row="2"
+                           Source="C:\Users\SteigenLinie\Downloads\logo\new_button_black.png"
+                           MouseMove="Image_MouseMove"
+                           MouseLeave="Image_MouseLeave"/>
+                        <TextBlock Text="Settings"
+                               Grid.Row="2"
+                               Foreground="White"
+                               Opacity="0.8"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontFamily="/Resources/Fonts/#Determination2"
+                               FontSize="55"
+                               MouseMove="Image_MouseMove"
+                               MouseLeave="Image_MouseLeave"/>
+                    </Grid>
+                    <Grid Grid.Row="3">
+                        <Image Source="C:\Users\SteigenLinie\Downloads\logo\new_button_black.png"
+                           MouseMove="Image_MouseMove"
+                           MouseLeave="Image_MouseLeave"/>
+                        <TextBlock Text="Load"
+                               Foreground="White"
+                               Opacity="0.8"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontFamily="/Resources/Fonts/#Determination2"
+                               FontSize="55"
+                               MouseMove="Image_MouseMove"
+                               MouseLeave="Image_MouseLeave"/>
+                    </Grid>
+                    <Grid Grid.Row="4">
+                        <Image Source="C:\Users\SteigenLinie\Downloads\logo\new_button_black.png"
+                           MouseMove="Image_MouseMove"
+                           MouseLeave="Image_MouseLeave"/>
+                        <TextBlock Text="Psychological help"
+                               Foreground="White"
+                               Opacity="0.8"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontFamily="/Resources/Fonts/#Determination2"
+                               FontSize="35"
+                               MouseMove="Image_MouseMove"
+                               MouseLeave="Image_MouseLeave"/>
+                    </Grid>
+                    <Grid Grid.Row="5">
+                        <Image Source="C:\Users\SteigenLinie\Downloads\logo\new_button3_black.png"
+                           MouseMove="Image3_MouseMove"
+                           MouseLeave="Image3_MouseLeave"
+                           MouseLeftButtonUp="Image_MouseLeftButtonUp"/>
+                        <TextBlock Text="Exit"
+                               Foreground="White"
+                               Opacity="0.8"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontFamily="/Resources/Fonts/#Determination2"
+                               FontSize="55"
+                               MouseMove="Image3_MouseMove"
+                               MouseLeave="Image3_MouseLeave"
+                               MouseLeftButtonUp="Image_MouseLeftButtonUp"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid Name="Captions">
+            <TextBlock Visibility="Collapsed"
+                       Margin="15" 
+                       Opacity="0"
+                       Text="Маленькая инди компания"
+                       Foreground="White"
+                       FontSize="65"
+                       FontFamily="./Resources/Fonts/#Determination2"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Visibility="Collapsed"
+                       Margin="15" 
+                       Opacity="0"
+                       Text="Представляет игру"
+                       Foreground="White"
+                       FontSize="65"
+                       FontFamily="./Resources/Fonts/#Determination2"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Visibility="Collapsed"
+                       Margin="15" 
+                       Opacity="0"
+                       Text="Typical Life"
+                       Foreground="White"
+                       FontSize="65"
+                       FontFamily="./Resources/Fonts/#Determination2"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+        </Grid>-->
+        
+        <!--<Image Name="GifOnStartUp"
+               Visibility="Collapsed"
+               Opacity="0"
+               gif:ImageBehavior.AnimatedSource="C:\Users\SteigenLinie\Downloads\Эпизод 01_2.gif"
+               Height="550"
+               Margin="-8"/>
+        <Image Name="rain1"
+                    Visibility="Collapsed"
+                    Opacity="0.35"
+                    gif:ImageBehavior.AnimatedSource="C:\Users\SteigenLinie\Downloads\Новая папка\dd\new mods\782188_ebbab2dde53b46a89324842c9fe5a087_mv2.gif"
+                    Margin="-50"/>-->
+       
+        <!--<Image Name="Sayori"
+               Visibility="Collapsed"
+               Opacity="0"
+               gif:ImageBehavior.AnimatedSource="C:\Users\SteigenLinie\Downloads\Новая папка\dd\new mods\8143d944346ec974bfdfb9cd3209365f.gif"
+               HorizontalAlignment="Stretch"
+               FlowDirection="RightToLeft"
+               Margin="-100"/>
+        <Grid Name="Fourth"
+              Opacity="0"
+              Margin="40 40 0 0" 
+              Visibility="Collapsed"
+              VerticalAlignment="Top"
+                   HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        <TextBlock Text="Сценаристы"
+                   Foreground="White"
+                   FontSize="65"
+                   FontFamily="./Resources/Fonts/#Determination2"
+                   HorizontalAlignment="Center"/>
+            <TextBlock Text="Ondak"
+                       Grid.Row="1"
+                   Foreground="White"
+                   FontSize="50"
+                   FontFamily="./Resources/Fonts/#Determination2"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="SteigenXyi"
+                       Grid.Row="2"
+                       Foreground="White"
+                       FontSize="50"
+                       FontFamily="./Resources/Fonts/#Determination2"
+                       HorizontalAlignment="Center"/>
+        </Grid>-->
+        <Grid Name="MainWindowGrid"
+              Margin="15"
+              Opacity="1"
+              Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -148,11 +349,11 @@
                       Grid.ColumnSpan="2">
                     <TextBlock VerticalAlignment="Top"
                                HorizontalAlignment="Center"
-                       FontFamily="./Resources/Fonts/#Determination2"
-                       Foreground="White"
-                       FontSize="35"
-                       Margin="5 0 0 -5"
-                       Text="{Binding NickName}"/>
+                               FontFamily="./Resources/Fonts/#Determination2"
+                               Foreground="White"
+                               FontSize="35"
+                               Margin="5 0 0 -5"
+                               Text="{Binding NickName}"/>
                 </Grid>
 
                 <Grid Grid.Row="1">
@@ -178,7 +379,7 @@
                            Foreground="Yellow"
                            FontSize="30"/>-->
                 </Grid>
-
+                
                 <Grid Grid.Row="1"
                       Grid.Column="1">
                     <Grid.RowDefinitions>
@@ -254,6 +455,44 @@
                                MouseLeave="SP_ProgressBar_MouseLeave"/>-->
                 </Grid>
             </Grid>
+            <Grid Grid.Column="0"
+                  Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1">
+                    
+                
+                <Border VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                BorderBrush="Gray"
+                                BorderThickness="3"
+                                Width="150"
+                                Height="100">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{Binding NameOfLocation}"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           Grid.RowSpan="{Binding NameOfLocationRowSpan}"
+                                           VerticalAlignment="{Binding NameOfLocationVerticalAlignment}"
+                                           FontSize="35"
+                                           Grid.Row="0"
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding HPBarOfMonster}"
+                                           Grid.Row="1"
+                                           FontFamily="./Resources/Fonts/#Determination2"
+                                           Foreground="Red"
+                                           FontSize="35"
+                                           VerticalAlignment="Stretch"
+                                           HorizontalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                </Grid>
+            </Grid>
             <Grid Grid.Row="0"
                   Grid.Column="1"
                   Grid.ColumnSpan="2">
@@ -285,12 +524,7 @@
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="1*"/>
                                 </Grid.ColumnDefinitions>
-                                <Border Width="2"
-                                        Background="White"
-                                        VerticalAlignment="Stretch"
-                                        BorderBrush="White"
-                                        BorderThickness="2"
-                                        HorizontalAlignment="Right"/>
+
                                 <Grid Margin="0 0 5 0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -356,9 +590,18 @@
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Right"
                                            Foreground="White"/>
+                                    <TextBlock Grid.Column="0"
+                                               Grid.Row="7"
+                                               Text="Gold:"
+                                               Padding="0"
+                                               FontSize="20"
+                                               FontFamily="./Resources/Fonts/#Determination2"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               Foreground="Yellow"/>
                                 </Grid>
 
-                                <Grid Grid.Column="1"
+                                <!--<Grid Grid.Column="1"
                                       Margin="7 0 0 0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -480,7 +723,7 @@
                                            HorizontalAlignment="Right"
                                            Foreground="Yellow"/>
 
-                                </Grid>
+                                </Grid>-->
                             </Grid >
                         </TabItem.Content>
                     </TabItem>
@@ -3873,75 +4116,37 @@
             </Grid>
 
             <!-- Character -->
-            <Border Grid.RowSpan="2"
+            <!--<Border Grid.RowSpan="2"
                     Grid.Column="3"
                     Grid.ColumnSpan="5"
                     BorderBrush="White"
                     BorderThickness="1"
-                    Margin="20 0 0 10">
-                <Grid>
+                    Margin="20 40 0 10">-->
+            <Grid Grid.RowSpan="2"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="5"
+                  Margin=" 20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Image Source="/Resources/Background/Les.jpg"
+                <Image Source="{Binding BackGround}"
                            Grid.ColumnSpan="2"
                            VerticalAlignment="Bottom"/>
 
-                    <Image Name="Player"
-                           Source="{Binding MainPlayerPng}"
-                           FlowDirection="RightToLeft"/>
+                <Image Name="Player"
+                        Source="{Binding MainPlayerPng}"
+                        FlowDirection="RightToLeft"
+                       VerticalAlignment="Bottom"/>
 
                     <!--Enemy/builds-->
-                    <Grid Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="0.3*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Image Source="{Binding Enemy}"
-                               VerticalAlignment="Bottom"
-                               Grid.Row="1"
-                               Margin="35 0"/>
-                    </Grid>
-                    <Grid Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="2*"/>
-                        </Grid.RowDefinitions>
+                <Image Source="{Binding Enemy}"
+                       Grid.Column="1"
+                       VerticalAlignment="Bottom"/>
 
-                        <Border VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                BorderBrush="White"
-                                BorderThickness="3"
-                                Width="150"
-                                Height="100">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Text="{Binding NameOfLocation}"
-                                           FontFamily="./Resources/Fonts/#Determination2"
-                                           Grid.RowSpan="{Binding NameOfLocationRowSpan}"
-                                           VerticalAlignment="{Binding NameOfLocationVerticalAlignment}"
-                                           FontSize="35"
-                                           Grid.Row="0"
-                                           HorizontalAlignment="Center"/>
-                                <TextBlock Text="{Binding HPBarOfMonster}"
-                                           Grid.Row="1"
-                                           FontFamily="./Resources/Fonts/#Determination2"
-                                           Foreground="Red"
-                                           FontSize="35"
-                                           VerticalAlignment="Stretch"
-                                           HorizontalAlignment="Center"/>
-                            </Grid>
-                        </Border>
-                    </Grid>
-                </Grid>
-            </Border>
-
+            </Grid>
+            <!--</Border>-->
         </Grid>
     </Grid>
 </Window>

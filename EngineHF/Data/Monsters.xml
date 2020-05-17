@@ -3,7 +3,7 @@
   <Monster ID="1"
            Name="Rat"
            ImageName="RatEnemy.png"
-           MaxHP="100"
+           MaxHP="10"
            AttackMax="15"
            AttackMin="10"
            Level="1">

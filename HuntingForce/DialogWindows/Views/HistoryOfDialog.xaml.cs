@@ -23,18 +23,16 @@ namespace HuntingForce.DialogWindows.Views
     {
         MainWindowViewModel _mainWindowViewModel;
         MainWindow _mainWindow;
-        GameSession _gameSession;
-        string isGay = "";
+        Location _location;
         string lastName;
-        int i = 0;
-        bool _animationIsPlaying;
-        public HistoryOfDialog(MainWindow mainWindow, GameSession gameSession, MainWindowViewModel mainWindowViewModel)
+        public HistoryOfDialog(MainWindow mainWindow, Location location, MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
-            _gameSession = gameSession;
-            _mainWindow = mainWindow;
             _mainWindowViewModel = mainWindowViewModel;
-            var dialog = _gameSession.currentPos.Dialogs.FindAll(x => x.WasRead == true);
+            _location = location;
+            _mainWindow = mainWindow;
+
+            var dialog = _location.Dialogs.FindAll(x => x.WasRead == true);
             
             foreach (var elm in dialog)
             {
@@ -74,11 +72,6 @@ namespace HuntingForce.DialogWindows.Views
                 grid.Children.Add(name);
                 grid.Children.Add(text);
                 NameAndDialog.Children.Add(grid);
-                //History.Text += elm.Text + "\r\n";
-                //if (elm.Name != Name.Text && elm.Name != "")
-                //    Name.Text += elm.Name + "\r\n";
-                //else
-                //    Name.Text += "\r\n";
             }
         }
 
@@ -87,10 +80,16 @@ namespace HuntingForce.DialogWindows.Views
             switch (e.Key)
             {
                 case Key.Escape:
-                    _mainWindowViewModel.AddingTextToDialogTextBlock(_gameSession.currentPos);
+                    _mainWindow.IsEnabled = true;
+                    _mainWindowViewModel.AddingTextToDialogTextBlock(_location);
                     this.Close();
                     break;
             }
+        }
+
+        private void Window_FocusableChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+
         }
     }
 }

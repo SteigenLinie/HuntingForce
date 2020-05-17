@@ -67,6 +67,7 @@ namespace HuntingForce
             MPbar = $"{_gameSession.mainStats.CurrentMP}/{_gameSession.mainStats.MaxMP}";
             SPbar = $"{_gameSession.mainStats.CurrentSP}/{_gameSession.mainStats.MaxSP}";
             NickName = _gameSession.mainStats.Name;
+            BackGround = _gameSession.currentPos.ImageName.Remove(0, 1);
             CountOfSkillPoint = $"{_gameSession.mainStats.SkillPoint}";
             XPbarMax = _gameSession.mainStats.MaxXP;
             XPbarValue = _gameSession.mainStats.CurrentXP;
@@ -76,15 +77,8 @@ namespace HuntingForce
             CurrentArmor = Convert.ToString(Convert.ToInt32(CurrentArmor) + _gameSession.mainStats.CurrentArmor.Armor.PlusArmor);
             CurrentLvl = $"{_gameSession.mainStats.CurrentLevel}";
 
-            Enemy = _gameSession.CurrentWorld.LocationAt(0, 0).ImageName.Remove(0, 1);
             ToCommonLocation();
-            for (int i = 1; i <= 22; i++)
-            {
-                if (i < 10)
-                    str[i - 1] = $"Resources/Sprites/Enemy/Wolf/darksaber_attack000{i}.png";
-                else
-                    str[i - 1] = $"Resources/Sprites/Enemy/Wolf/darksaber_attack00{i}.png";
-            }
+
             
            
             //SoundPlayer sp = new SoundPlayer();
@@ -97,18 +91,14 @@ namespace HuntingForce
             MoveButton = false;
             if(!isSkill)
                 Dialog = "";
-            //await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
-            //{
-                foreach (var _char in text)
-                {
-                    if (MoveButton)
-                        return;
-                    Dialog += _char;
-                    await Task.Delay(25);
-                }
-                MoveButton = true;
-            //}
-            //));
+            foreach (var _char in text)
+            {
+                if (MoveButton)
+                    return;
+                Dialog += _char;
+                await Task.Delay(25);
+            }
+            MoveButton = true;
         }
         public async void DialogAddAsync(string text, bool isSkill = false)
         {
@@ -127,46 +117,7 @@ namespace HuntingForce
             }
             ));
         }
-        public async Task PlayAnimation(string[] arrOfPng)
-        {
-            await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
-            {
-                while (_animationIsPlaying)
-                    await Task.Delay(100);
-            
-                if (!_animationIsPlaying)
-                {
-                    _animationIsPlaying = true;
-                    foreach (var Png in arrOfPng)
-                    {
-                        MainPlayerPng = Png;
-                        await Task.Delay(35);
-                    }
-                    _animationIsPlaying = false;
-                }
-            }
-            ));
-        }
-        public async Task PlayAnimationForEnemy(string[] arrOfPng)
-        {
-            await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
-            {
-                while (_animationIsPlaying)
-                    await Task.Delay(100);
-
-                if (!_animationIsPlaying)
-                {
-                    _animationIsPlaying = true;
-                    foreach (var Png in arrOfPng)
-                    {
-                        Enemy = Png;
-                        await Task.Delay(50);
-                    }
-                    _animationIsPlaying = false;
-                }
-            }
-            ));
-        }
+       
         public void DialogAddAll(string text)
         {
             if (!inFight)
@@ -414,11 +365,17 @@ namespace HuntingForce
             set => SetProperty(ref _currentLvl, value);
         }
         #endregion
-        private string _mainPlayerPng = $"Resources/Sprites/Player/attack (1).png";
+        private string _mainPlayerPng;
         public string MainPlayerPng
         {
             get => _mainPlayerPng;
             set => SetProperty(ref _mainPlayerPng, value);
+        }
+        private string _backGround;
+        public string BackGround
+        {
+            get => _backGround;
+            set => SetProperty(ref _backGround, value);
         }
         #region Attack Methods
         public void OnAttack()
@@ -446,7 +403,6 @@ namespace HuntingForce
             if (countOfUseSlash == 0 && countOfSlash > 1)
                 await DialogAdd($"\"{_gameSession.mainStats.Name}\" use {nameOfSkill} and made a combo of {countOfSlash} attacks\r\n");
 
-            await PlayAnimation(arrOfPng);
             int damage = new Random().Next(minDamage, maxDamage);
             _gameSession.currentPos.Monster.CurrentHP -= damage;
             inFight = true;
@@ -469,8 +425,6 @@ namespace HuntingForce
         }
         private async Task MonsterDead()
         {
-            //await Application.Current.Dispatcher.BeginInvoke(new Action(async () =>
-            //{
             Logging("dead", new string[] { _gameSession.currentPos.Monster.Name });
             await DialogAdd($"\r\n   \"{_gameSession.currentPos.Monster.Name}\" is deadinside\"", true);
             foreach (Drop drop in _gameSession.currentPos.Monster.DropList)
@@ -491,14 +445,11 @@ namespace HuntingForce
             XPPlus();
 
             inFight = false;
-            //}));
         }
         private async void MonsterAttacks()
         {
             if (inFight)
             {
-                await PlayAnimationForEnemy(str);
-
                 var damage = new Random().Next(_gameSession.currentPos.Monster.AttackMin, _gameSession.currentPos.Monster.AttackMax);
                 var a = (0.06 * _gameSession.mainStats.CurrentArmor.Armor.PlusArmor) / (1 + 0.06 * _gameSession.mainStats.CurrentArmor.Armor.PlusArmor);
                 if (a == 0) a = 1;
@@ -649,7 +600,8 @@ namespace HuntingForce
         {
             if (_gameSession.currentPos.NPC != null)
             {
-                _mainWindow.AddNewQuest(_gameSession.currentPos.NPC.Quest);
+                if(_gameSession.currentPos.NPC.Quest != null)
+                    _mainWindow.AddNewQuest(_gameSession.currentPos.NPC.Quest);
                 Enemy = _gameSession.currentPos.NPC.ImageName.Remove(0, 1);
                 NameOfLocation = _gameSession.currentPos.NPC.Name;
                 AddingTextToDialogTextBlock(_gameSession.currentPos);

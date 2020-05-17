@@ -12,7 +12,7 @@
   <NPC ID="2"
        Name="Вояка"
        Type="Story"
-       ImageName="RatEnemy.png"
+       ImageName="yliana.png"
        Description="Крым наш!">
     <Storys>
       <Story Story="Blablakar"/>

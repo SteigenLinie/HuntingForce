@@ -6,12 +6,15 @@
         xmlns:local="clr-namespace:HuntingForce.DialogWindows.Views"
         mc:Ignorable="d"
         Title="Settings"
-        Background="Black"
+        Background="Transparent"
         Height="450"
         Width="350"
         Closing="Window_Closing"
+        AllowsTransparency="True"
+        WindowStyle="None"
         KeyDown="Window_KeyDown">
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
@@ -25,6 +28,12 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Border Grid.ColumnSpan="2"
+                Grid.RowSpan="7"
+                Background="Black"
+                Opacity="0.9"
+                BorderThickness="2"
+                BorderBrush="White"/>
         <TextBlock Text="Menu"
                    Grid.ColumnSpan="2"
                    Foreground="White"
@@ -62,8 +71,8 @@
                 Name="Volume"
                 Minimum="0"
                 Maximum="100"
-                Style="{StaticResource MaterialDesignDiscreteSlider}"
-                ToolTip="MaterialDesignDiscreteSlider"
+                VerticalAlignment="Center"
+                Margin="5 0 5 0"
                 Value="100"
                 Width="Auto"/>
         

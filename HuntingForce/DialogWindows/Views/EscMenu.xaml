@@ -6,10 +6,12 @@
         xmlns:local="clr-namespace:HuntingForce.DialogWindows"
         mc:Ignorable="d"
         Title="EscMenu"
-        Background="Black"
+        Background="Transparent"
         Closing="Window_Closing"
         Height="450"
         Width="300"
+        AllowsTransparency="True"
+        WindowStyle="None"
         KeyDown="Window_KeyDown">
     <Grid>
         
@@ -25,6 +27,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Border Background="Black"
+                Opacity="0.9"
                 Grid.RowSpan="9"
                 BorderThickness="2"
                 BorderBrush="White"/>

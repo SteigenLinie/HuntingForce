@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Locations RootImagePath="Resources/Sprites/Location/">
+<Locations RootImagePath="Resources/Background/">
   <Location X="0" Y="0"
-            Name="Home"
-	          ImageName="Home.png">
+            Name="Столовая"
+	          ImageName="stolovaya.jpg">
     <Description><![CDATA[This is your house. And them all has been defeated]]></Description>
+    <NPC ID="2"/>
   </Location>
   <Location X="0" Y="1"
             Name="Поле"

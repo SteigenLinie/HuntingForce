@@ -34,6 +34,7 @@ namespace HuntingForce.DialogWindows
         public void OnSaveViewCommand()
         {
             SaveView save = new SaveView(_gameSession);
+            save.Owner = _mainWindow;
             save.Show();
             _escMenu.Visibility = System.Windows.Visibility.Collapsed;
         }

@@ -12,12 +12,16 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
-        Background="Black"
-        KeyDown="Window_KeyDown">
+        AllowsTransparency="True"
+        Background="Transparent"
+        KeyDown="Window_KeyDown"
+        FocusableChanged="Window_FocusableChanged">
     <Grid>
         <Border Grid.ColumnSpan="2"
                 BorderThickness="2"
-                BorderBrush="White"/>
+                BorderBrush="White"
+                Background="Black"
+                 Opacity="0.9"/>
         <StackPanel Name="NameAndDialog"
                     Margin="10">
         </StackPanel>
